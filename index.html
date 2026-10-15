@@ -807,7 +807,6 @@
         if (!res.ok) throw new Error("HTTP " + res.status);
         const csvText = await res.text();
         
-        // Validação estrita: se a planilha estiver privada, o Google retorna página de login HTML
         const firstLine = (csvText.split(/\r?\n/)[0] || "").toLowerCase();
         if (!firstLine.includes("codigo") || !firstLine.includes("titulo") || csvText.trim().startsWith("<")) {
           throw new Error("Planilha privada ou requer login. Mantendo base de 13 imóveis locais.");
@@ -958,14 +957,12 @@
         });
         mapInstance.on("movestart", () => { window.__userInteractedMap = true; });
 
-        // Use official OpenStreetMap tiles with universal CORS and iframe support
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
           maxZoom: 19,
           crossOrigin: true
         }).addTo(mapInstance);
 
-        // 15-minute approximate driving radius visual guide around Edf. Etevaldo Nogueira Business
         L.circle([WORKPLACE.lat, WORKPLACE.lng], {
           color: "#f59e0b",
           fillColor: "#fbbf24",
@@ -996,16 +993,13 @@
 
         markerGroup = L.layerGroup().addTo(mapInstance);
 
-        // Hide loading notice once map renders
         const notice = document.getElementById("mapLoadingNotice");
         if (notice) notice.style.display = "none";
 
-        // Sempre desenha os pinos dos imóveis assim que o mapa e o markerGroup estiverem prontos!
         if (typeof applyFiltersAndRender === "function") {
           applyFiltersAndRender();
         }
 
-        // Invalidate size on multiple ticks to guarantee correct sizing in flex/iframe layouts
         [100, 300, 600, 1200].forEach((delay) => {
           setTimeout(() => {
             if (mapInstance) mapInstance.invalidateSize();
@@ -1088,7 +1082,6 @@
         markersById[item.id] = marker;
       });
 
-      // Ajusta o zoom e enquadramento automaticamente para exibir o trabalho e todos os imóveis
       if (mapInstance && filteredList.length > 0 && !window.__userInteractedMap) {
         try {
           const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
@@ -1252,7 +1245,6 @@
         return;
       }
 
-      // Group by presentationDateGroup preserving order
       const groups = [
         {
           key: "2026-10-15-RECENT",
@@ -1560,9 +1552,6 @@
       const modal = document.getElementById("scheduleModal");
       const openModal = () => {
         modal.classList.remove("hidden");
-        modal.classList.add("flex");
-      };
-              modal.classList.remove("hidden");
         modal.classList.add("flex");
       };
       const closeModal = () => {
