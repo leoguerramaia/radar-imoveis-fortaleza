@@ -69,8 +69,8 @@
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               Monitoramento Diário Ativo • Execução às 06:00 BRT
             </div>
-            <div id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-sky-400"></span> Conectado ao Google Sheets
+            <div id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Base Ativa (13 Imóveis)
             </div>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
@@ -1049,7 +1049,7 @@
         const bgColor = isHouse ? "#0284c7" : "#059669";
         const pinIcon = L.divIcon({
           className: "custom-prop-pin",
-          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;cursor:pointer;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
+          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
           iconSize: [120, 24],
           iconAnchor: [60, 12]
         });
@@ -1479,7 +1479,6 @@
       loadFavorites();
       initMap();
       applyFiltersAndRender();
-      syncFromGoogleSheets();
 
       const btnSync = document.getElementById("btnSyncSheet");
       if (btnSync) {
@@ -1561,6 +1560,9 @@
       const modal = document.getElementById("scheduleModal");
       const openModal = () => {
         modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+              modal.classList.remove("hidden");
         modal.classList.add("flex");
       };
       const closeModal = () => {
