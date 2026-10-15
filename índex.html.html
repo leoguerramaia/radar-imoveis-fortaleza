@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radar Imóveis Fortaleza — Dashboard & Mapa (Até 15 min do Edf. Etevaldo Nogueira Business)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    if (typeof L === 'undefined') {
+      document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />');
+      document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    #map {
+      height: 480px;
+      min-height: 480px;
+      width: 100%;
+      border-radius: 0.75rem;
+      z-index: 1;
+      position: relative;
+      background-color: #f1f5f9;
+    }
+    .leaflet-div-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation & Hero Banner -->
+  <header class="relative bg-slate-900 text-white overflow-hidden border-b border-slate-800">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold mb-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Monitoramento Diário Ativo • Execução às 06:00 BRT (15/10/2026 a 14/11/2026)
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            Radar Imóveis Fortaleza • Aluguel Residencial
+          </h1>
+          <p class="mt-1 text-sm sm:text-base text-slate-300 max-w-3xl">
+            Curadoria diária de <strong>Apartamentos</strong> e <strong>Casas em Condomínio</strong> com <strong>mín. 3 quartos</strong>, <strong>mín. 70 m²</strong>, pacote total até <strong>R$ 3.500/mês</strong> (aluguel + condomínio + IPTU) e a até <strong>15 min de carro</strong> do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807 - Meireles).
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btnCenterWork" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs sm:text-sm transition shadow">
+            <span>📍</span> Focar no Trabalho (Av. Dom Luís, 807)
+          </button>
+          <button id="btnFitAll" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
+            <span>🗺️</span> Ver Todos no Mapa
+          </button>
+          <button id="btnOpenScheduleModal" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition shadow">
+            <span>⏰</span> Status do Agendamento (06:00)
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+        <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
+          <p class="text-xs text-slate-400 font-medium">Imóveis Qualificados Hoje</p>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiCount" class="text-2xl font-extrabold text-white">9</span>
+            <span class="text-xs text-emerald-400 font-medium">7 Aptos • 2 Casas Cond.</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
+          <p class="text-xs text-slate-400 font-medium">Menor Pacote Mensal</p>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">R$ 2.500</span>
+            <span class="text-xs text-slate-400">Teto: R$ 3.500</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
+          <p class="text-xs text-slate-400 font-medium">Menor Tempo até o Trabalho</p>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiMinDrive" class="text-2xl font-extrabold text-amber-400">3 min</span>
+            <span class="text-xs text-slate-400">Máx: 15 min</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
+          <p class="text-xs text-slate-400 font-medium">Área Útil / Construída Média</p>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiAvgArea" class="text-2xl font-extrabold text-sky-400">118 m²</span>
+            <span class="text-xs text-slate-400">Mín: 70 m²</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Filter & Control Bar -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
+        <div>
+          <label for="filterDateGroup" class="block text-xs font-semibold text-slate-600 mb-1">Data de Apresentação</label>
+          <select id="filterDateGroup" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option value="ALL">Todas as Datas (9)</option>
+            <option value="2026-10-15-RECENT">15/10/2026 • Captação Recente (Últimas 72h)</option>
+            <option value="2026-10-15-ACTIVE">15/10/2026 • Base Ativa Verificada (Out/2026)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="filterType" class="block text-xs font-semibold text-slate-600 mb-1">Tipo de Imóvel</label>
+          <select id="filterType" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option value="ALL">Todos (Apto + Casa Cond.)</option>
+            <option value="Apartamento">Apenas Apartamentos</option>
+            <option value="Casa em Condomínio">Apenas Casas em Condomínio</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="filterNeighborhood" class="block text-xs font-semibold text-slate-600 mb-1">Bairro (Fortaleza/CE)</label>
+          <select id="filterNeighborhood" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option value="ALL">Todos os Bairros</option>
+            <option value="Aldeota">Aldeota</option>
+            <option value="Dionísio Torres">Dionísio Torres</option>
+            <option value="Papicu">Papicu</option>
+            <option value="Fátima">Fátima</option>
+            <option value="Sapiranga">Sapiranga</option>
+            <option value="José de Alencar">José de Alencar</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+            <label for="filterMaxPrice">Pacote Máximo</label>
+            <span id="labelMaxPrice" class="text-emerald-700 font-bold">R$ 3.500</span>
+          </div>
+          <input id="filterMaxPrice" type="range" min="2500" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+            <label for="filterMaxDrive">Tempo Máx. Carro</label>
+            <span id="labelMaxDrive" class="text-amber-700 font-bold">15 min</span>
+          </div>
+          <input id="filterMaxDrive" type="range" min="3" max="15" step="1" value="15" class="w-full accent-amber-500 cursor-pointer" />
+        </div>
+
+        <div class="flex gap-2">
+          <div class="flex-1">
+            <label for="sortBy" class="block text-xs font-semibold text-slate-600 mb-1">Ordenar por</label>
+            <select id="sortBy" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="drive_asc">Menor Tempo até o Trabalho</option>
+              <option value="price_asc">Menor Pacote Mensal</option>
+              <option value="area_desc">Maior Área (m²)</option>
+            </select>
+          </div>
+          <button id="btnResetFilters" type="button" title="Limpar Filtros" class="px-3 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 transition">
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Input & Favorites Toggle -->
+      <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="relative flex-1 max-w-md">
+          <input id="searchInput" type="text" placeholder="Buscar por rua, imobiliária, código ou bairro..." class="w-full rounded-lg border border-slate-300 pl-9 pr-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          <span class="absolute left-3 top-2 text-slate-400 text-sm">🔍</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="btnToggleFavorites" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
+            <span>⭐</span> Somente Favoritos (<span id="favCountBadge">0</span>)
+          </button>
+          <span id="resultsCounter" class="text-xs font-medium text-slate-500">Exibindo 9 de 9 imóveis</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Grid: Interactive Map + Cost Breakdown Chart -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Map Column -->
+      <div class="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span>🗺️</span> Mapa de Localização e Raio de Deslocamento
+            </h2>
+            <p class="text-xs text-slate-500">
+              Clique nos pinos para ver o resumo do imóvel, tempo de carro até a Av. Dom Luís, 807 e botão direto para o WhatsApp.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <button id="btnReloadMap" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold border border-slate-300 transition text-xs" title="Recarregar mapa">
+              <span>🔄</span> Recarregar Mapa
+            </button>
+            <div class="hidden sm:flex items-center gap-2 text-xs">
+              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-amber-500 inline-block border border-white shadow"></span> Trabalho
+              </span>
+              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block border border-white shadow"></span> Apto
+              </span>
+              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-sky-600 inline-block border border-white shadow"></span> Casa
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="map" style="min-height: 480px; height: 480px; width: 100%; position: relative;" class="w-full rounded-xl overflow-hidden shadow-inner bg-slate-100">
+          <div id="mapLoadingNotice" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 text-slate-500 p-6 text-center z-0">
+            <div class="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+            <p class="text-xs font-semibold text-slate-700">Carregando mapa interativo...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart & Quick Agency Directory Column -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
+          <div class="flex items-center justify-between mb-2">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Composição do Pacote Mensal (R$)</h2>
+              <p class="text-xs text-slate-500">Aluguel + Condomínio + IPTU (Todos abaixo do limite de R$ 3.500)</p>
+            </div>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="priceChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex-1">
+          <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-1.5">
+            <span>📲</span> Central Rápida de WhatsApp das Imobiliárias
+          </h3>
+          <p class="text-xs text-slate-500 mb-3">
+            Clique para iniciar conversa imediata no WhatsApp com a mensagem já preenchida para o código do imóvel:
+          </p>
+          <div id="quickAgencyList" class="space-y-2 max-h-44 overflow-y-auto custom-scrollbar pr-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Listings Grouped by Presentation Date -->
+    <section id="listingsSection" class="space-y-8"></section>
+
+  </main>
+
+  <!-- Schedule Status Modal -->
+  <div id="scheduleModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+            ● Agendamento Automático Ativo
+          </span>
+          <h3 class="text-lg font-bold text-slate-900 mt-2">Monitoramento Diário às 06:00 BRT</h3>
+        </div>
+        <button id="btnCloseScheduleModal" type="button" class="text-slate-400 hover:text-slate-600 text-xl font-bold leading-none">&times;</button>
+      </div>
+      <div class="mt-4 space-y-3 text-sm text-slate-600">
+        <p>
+          Sua rotina automática foi configurada para rodar <strong>diariamente por volta das 06:00 da manhã</strong> pelos próximos <strong>30 dias</strong> (até <strong>14/11/2026</strong>).
+        </p>
+        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-1.5 text-xs">
+          <div><strong>Critérios fixos da varredura:</strong></div>
+          <div>• Mínimo de 3 quartos e mínimo de 70 m² de área útil/construída;</div>
+          <div>• Valor total máximo de R$ 3.500,00/mês (Aluguel + Condomínio + IPTU);</div>
+          <div>• Apartamento ou Casa em Condomínio Fechado em Fortaleza/CE;</div>
+          <div>• Tempo máximo de 15 minutos de carro até o Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles);</div>
+          <div>• Agrupamento por data de apresentação com destaque para contato e link direto para WhatsApp.</div>
+        </div>
+      </div>
+      <div class="mt-5 flex justify-end">
+        <button id="btnAckScheduleModal" type="button" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition">
+          Entendi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-xs sm:text-sm font-medium px-4 py-3 rounded-xl shadow-lg border border-slate-700"></div>
+
+  <footer class="bg-white border-t border-slate-200 mt-10 py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>
+        <strong>Radar Imóveis Fortaleza</strong> • Referência de Deslocamento: Edifício Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles, Fortaleza/CE)
+      </div>
+      <div>
+        Dados verificados em 15/10/2026 • Atualização diária programada às 06:00 BRT
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const WORKPLACE = {
+      name: "Edifício Etevaldo Nogueira Business",
+      address: "Av. Dom Luís, 807 - Meireles, Fortaleza - CE, 60160-230",
+      lat: -3.7351,
+      lng: -38.4969,
+      mapsUrl: "https://www.spacesworks.com/pt/br/1875"
+    };
+
+    const PROPERTIES = [
+      {
+        id: "imv-1",
+        code: "IH 229",
+        title: "Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-RECENT",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
+        publishedDate: "13/10/2026",
+        neighborhood: "Aldeota",
+        address: "Próximo à Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200",
+        area: 108,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 3,
+        parking: 1,
+        rent: 1600,
+        condo: 1195,
+        iptu: 85,
+        total: 2880,
+        driveMinutes: 4,
+        driveKm: "2,0 km",
+        routeSummary: "Via Av. Padre Antônio Tomás e Av. Farias Brito",
+        lat: -3.7432,
+        lng: -38.4912,
+        agencyName: "Ihone Araújo Imóveis",
+        contactPerson: "Ihone Araújo (Corretora / Imobiliária)",
+        phoneDisplay: "(85) 99121-8289",
+        whatsappNumber: "5585991218289",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457",
+        routeUrl: "https://www.google.com/maps/dir/Av.+Padre+Ant%C3%B4nio+Tom%C3%A1s+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Nascente", "Varanda", "Dependência Completa", "Portaria Presencial", "Aceita Pet"]
+      },
+      {
+        id: "imv-2",
+        code: "EDSAFIRA",
+        title: "Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-RECENT",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
+        publishedDate: "13/10/2026",
+        neighborhood: "Papicu",
+        address: "Rua Júlio Azevedo, Papicu (Próx. ao Shopping RioMar), Fortaleza - CE, 60175-782",
+        area: 136,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 2,
+        parking: 1,
+        rent: 1400,
+        condo: 1540,
+        iptu: 80,
+        total: 3020,
+        driveMinutes: 6,
+        driveKm: "2,2 km",
+        routeSummary: "Via Rua Júlio Azevedo e Av. Farias Brito",
+        lat: -3.7395,
+        lng: -38.4785,
+        agencyName: "Bardawil Scherer Imóveis",
+        contactPerson: "Equipe de Locação Bardawil Scherer",
+        phoneDisplay: "(85) 4141-8080",
+        whatsappNumber: "558541418080",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869",
+        routeUrl: "https://www.google.com/maps/dir/R.+J%C3%BAlio+Azevedo,+380-1339+-+Papicu,+Fortaleza+-+CE,+60175-782,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["136 m² de Área Útil", "Próx. Shopping RioMar", "Condomínio Fechado", "Portaria"]
+      },
+      {
+        id: "imv-3",
+        code: "38/1",
+        title: "Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-RECENT",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
+        publishedDate: "13/10/2026",
+        neighborhood: "Fátima",
+        address: "Bairro de Fátima (Próx. Av. 13 de Maio / Rua Gen. Silva Júnior), Fortaleza - CE, 60411-200",
+        area: 130,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 2,
+        parking: 1,
+        rent: 2000,
+        condo: 1050,
+        iptu: 0,
+        total: 3050,
+        driveMinutes: 14,
+        driveKm: "8,4 km",
+        routeSummary: "Via Av. Pontes Vieira e Av. Almirante Henrique Sabóia",
+        lat: -3.7568,
+        lng: -38.5245,
+        agencyName: "Imobiliária Fortloc",
+        contactPerson: "Setor de Locação Fortloc (Av. Des. Moreira, 2020)",
+        phoneDisplay: "(85) 3261-1856",
+        whatsappNumber: "558532611856",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230",
+        routeUrl: "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["130 m²", "Armários Projetados", "Elevador", "Varanda", "Aceita Pet"]
+      },
+      {
+        id: "imv-4",
+        code: "14079",
+        title: "Apartamento 120 m² com 3 Quartos e 2 Vagas no Entorno da Rua Cel. Linhares",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "10/10/2026",
+        neighborhood: "Dionísio Torres",
+        address: "Entorno da Rua Coronel Linhares, Dionísio Torres / Aldeota, Fortaleza - CE, 60170-241",
+        area: 120,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 3,
+        parking: 2,
+        rent: 2280,
+        condo: 920,
+        iptu: 120,
+        total: 3320,
+        driveMinutes: 3,
+        driveKm: "0,65 km",
+        routeSummary: "Apenas 650 m via Rua Coronel Linhares até a Av. Dom Luís",
+        lat: -3.7388,
+        lng: -38.4975,
+        agencyName: "7Cantos Imobiliária",
+        contactPerson: "Central de Locação 7Cantos Fortaleza",
+        phoneDisplay: "(85) 4003-7654",
+        whatsappNumber: "558540037654",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765",
+        routeUrl: "https://www.google.com/maps/dir/R.+Cel.+Linhares+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["A 3 min do Trabalho", "2 Vagas de Garagem", "120 m²", "Próx. Shopping Del Paseo"]
+      },
+      {
+        id: "imv-5",
+        code: "1537349666",
+        title: "Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "08/10/2026",
+        neighborhood: "Dionísio Torres",
+        address: "Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237",
+        area: 74,
+        bedrooms: 3,
+        suites: 2,
+        bathrooms: 2,
+        parking: 1,
+        rent: 2227,
+        condo: 700,
+        iptu: 0,
+        total: 2927,
+        driveMinutes: 9,
+        driveKm: "4,0 km",
+        routeSummary: "Via Av. Pontes Vieira e Av. Senador Virgílio Távora",
+        lat: -3.7525,
+        lng: -38.5015,
+        agencyName: "Ícaro Gaspar / Nômades Imobiliária (Região Dionísio Torres)",
+        contactPerson: "Ícaro Gaspar / Atendimento Nômades Aldeota",
+        phoneDisplay: "(85) 3461-1166",
+        whatsappNumber: "558534611166",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666",
+        routeUrl: "https://www.google.com/maps/dir/Av.+Pontes+Vieira,+1234+-+Dion%C3%ADsio+Torres,+Fortaleza+-+CE,+60130-240,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["2 Suítes", "Móveis Planejados", "2 Elevadores Novos", "IPTU Incluso"]
+      },
+      {
+        id: "imv-6",
+        code: "18SLHJ6",
+        title: "Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "07/10/2026",
+        neighborhood: "Fátima",
+        address: "Rua General Silva Júnior, 700 - Cond. Jardim Antares, Fátima, Fortaleza - CE, 60411-200",
+        area: 105,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 3,
+        parking: 1,
+        rent: 1500,
+        condo: 585,
+        iptu: 0,
+        total: 2085,
+        driveMinutes: 14,
+        driveKm: "9,1 km",
+        routeSummary: "Via Av. Borges de Melo e Av. Almirante Henrique Sabóia",
+        lat: -3.7595,
+        lng: -38.5280,
+        agencyName: "A Predial Imobiliária / Atendimento Fátima & Aldeota",
+        contactPerson: "Central de Locação A Predial (Av. Santos Dumont, 2767)",
+        phoneDisplay: "(85) 4012-8000",
+        whatsappNumber: "558540128000",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696",
+        routeUrl: "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Menor Pacote c/ Lazer", "Piscina e Churrasqueira", "Espaço Gourmet", "105 m²"]
+      },
+      {
+        id: "imv-7",
+        code: "VALDEVINO",
+        title: "Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino, 1515)",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "15/09/2026",
+        neighborhood: "Aldeota",
+        address: "Rua Padre Valdevino, 1515, Apto 202 (Quase esq. c/ Rua Dr. José Lourenço), Aldeota, Fortaleza - CE, 60135-041",
+        area: 87,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 2,
+        parking: 2,
+        rent: 2500,
+        condo: 604,
+        iptu: 89,
+        total: 3193,
+        driveMinutes: 8,
+        driveKm: "3,4 km",
+        routeSummary: "Via Av. Antônio Sales e Av. Desembargador Moreira",
+        lat: -3.7410,
+        lng: -38.5105,
+        agencyName: "J&S Administração de Imóveis Ltda",
+        contactPerson: "Atendimento Locação J&S Corretores",
+        phoneDisplay: "(85) 98777-5743",
+        whatsappNumber: "5585987775743",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320",
+        routeUrl: "https://www.google.com/maps/dir/Ed.+Luis+Linhares+-+R.+Padre+Valdevino,+1515+-+Aldeota,+Fortaleza+-+CE,+60135-041,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["2 Vagas de Garagem", "Armários Projetados", "Portaria 24h", "Salão de Festas"]
+      },
+      {
+        id: "imv-8",
+        code: "9940",
+        title: "Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)",
+        type: "Apartamento",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "01/10/2026",
+        neighborhood: "Aldeota",
+        address: "A 2 quadras da Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191",
+        area: 152,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 3,
+        parking: 1,
+        rent: 2500,
+        condo: 0,
+        iptu: 0,
+        total: 2500,
+        driveMinutes: 7,
+        driveKm: "2,6 km",
+        routeSummary: "Via Av. Desembargador Moreira até a Av. Dom Luís",
+        lat: -3.7445,
+        lng: -38.5082,
+        agencyName: "Imobiliária Mega Imóveis (Sede Aldeota - Av. Dom Luís, 300)",
+        contactPerson: "Equipe de Locação Mega Imóveis Aldeota",
+        phoneDisplay: "(85) 3055-1111",
+        whatsappNumber: "558530551111",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234",
+        routeUrl: "https://www.google.com/maps/dir/Av.+Ant%C3%B4nio+Sales+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["152 m² de Área Útil", "Varanda e Lavabo", "Dependência Completa", "Imobiliária na Av. Dom Luís"]
+      },
+      {
+        id: "imv-9",
+        code: "L8803",
+        title: "Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos",
+        type: "Casa em Condomínio",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "01/10/2026",
+        neighborhood: "Sapiranga",
+        address: "Condomínio Fechado na Sapiranga-Coité, Fortaleza - CE, 60833-351",
+        area: 151,
+        bedrooms: 5,
+        suites: 3,
+        bathrooms: 5,
+        parking: 4,
+        rent: 2200,
+        condo: 707,
+        iptu: 88,
+        total: 2995,
+        driveMinutes: 14,
+        driveKm: "9,4 km",
+        routeSummary: "Via Av. Washington Soares e Av. Almirante Henrique Sabóia",
+        lat: -3.7895,
+        lng: -38.4720,
+        agencyName: "Imobiliária Mota da Costa (Rua Osvaldo Cruz, 2302)",
+        contactPerson: "Setor de Locação Mota da Costa",
+        phoneDisplay: "(85) 3036-9936",
+        whatsappNumber: "558530369936",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194",
+        routeUrl: "https://www.google.com/maps/dir/Sapiranga-Coit%C3%A9,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Casa em Condomínio", "151 m² Construídos", "4 Vagas de Garagem", "Piscina, Deck e Jardim"]
+      },
+      {
+        id: "imv-10",
+        code: "CA0059",
+        title: "Casa Duplex em Condomínio Fechado 105 m² com 3 Quartos e Deck Privativo",
+        type: "Casa em Condomínio",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "01/10/2026",
+        neighborhood: "José de Alencar",
+        address: "Condomínio Fechado no Bairro José de Alencar, Fortaleza - CE, 60830-465",
+        area: 105,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 3,
+        parking: 2,
+        rent: 2600,
+        condo: 685,
+        iptu: 92,
+        total: 3377,
+        driveMinutes: 15,
+        driveKm: "10,8 km",
+        routeSummary: "Via Av. Washington Soares, Av. Eng. Santana Jr. e Via Expressa",
+        lat: -3.7980,
+        lng: -38.4810,
+        agencyName: "Expert Imobiliário (R. Dr. Gilberto Studart, 55)",
+        contactPerson: "Equipe de Locação Expert Imobiliário",
+        phoneDisplay: "(85) 2181-3555",
+        whatsappNumber: "558521813555",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311",
+        routeUrl: "https://www.google.com/maps/dir/Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Casa Duplex em Condomínio", "Deck Privativo c/ Churrasqueira", "Armários Embutidos", "Piscina no Condomínio"]
+      }
+    ];
+
+    let favorites = new Set();
+    let onlyFavorites = false;
+    let mapInstance = null;
+    let markersById = {};
+    let markerGroup = null;
+    let priceChartInstance = null;
+
+    function loadFavorites() {
+      try {
+        const raw = localStorage.getItem("fortaleza_rental_favs_v1");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) favorites = new Set(parsed);
+        }
+      } catch (e) {
+        favorites = new Set();
+      }
+    }
+
+    function saveFavorites() {
+      try {
+        localStorage.setItem("fortaleza_rental_favs_v1", JSON.stringify(Array.from(favorites)));
+      } catch (e) {
+        // Ignore storage errors in sandboxed iframe
+      }
+    }
+
+    function formatBRL(value) {
+      return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 });
+    }
+
+    function buildWhatsAppUrl(item) {
+      const msg = encodeURIComponent(
+        `Olá! Vi o anúncio do imóvel Cód. ${item.code} (${item.title} - ${item.neighborhood}, ${item.area}m², pacote total de ${formatBRL(item.total)}/mês) no meu Radar de Imóveis de Fortaleza e gostaria de agendar uma visita.`
+      );
+      return `https://wa.me/${item.whatsappNumber}?text=${msg}`;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 2800);
+    }
+
+    function initMap() {
+      const mapContainer = document.getElementById("map");
+      if (!mapContainer) return;
+
+      if (typeof L === "undefined") {
+        console.warn("Leaflet ainda não carregado. Tentando novamente em 200ms...");
+        setTimeout(initMap, 200);
+        return;
+      }
+
+      try {
+        if (mapInstance) {
+          mapInstance.remove();
+          mapInstance = null;
+        }
+
+        mapInstance = L.map("map", {
+          center: [WORKPLACE.lat, WORKPLACE.lng],
+          zoom: 13,
+          zoomControl: true,
+          scrollWheelZoom: true
+        });
+
+        // Use official OpenStreetMap tiles with universal CORS and iframe support
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+          crossOrigin: true
+        }).addTo(mapInstance);
+
+        // 15-minute approximate driving radius visual guide around Edf. Etevaldo Nogueira Business
+        L.circle([WORKPLACE.lat, WORKPLACE.lng], {
+          color: "#f59e0b",
+          fillColor: "#fbbf24",
+          fillOpacity: 0.08,
+          weight: 1.5,
+          dashArray: "6, 6",
+          radius: 7500
+        }).addTo(mapInstance);
+
+        const workIcon = L.divIcon({
+          className: "custom-work-pin",
+          html: `<div style="background:#f59e0b;color:#0f172a;font-weight:800;font-size:12px;padding:4px 8px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);white-space:nowrap;cursor:pointer;">🏢 Edf. Etevaldo Nogueira</div>`,
+          iconSize: [160, 28],
+          iconAnchor: [80, 14]
+        });
+
+        const workMarker = L.marker([WORKPLACE.lat, WORKPLACE.lng], { icon: workIcon }).addTo(mapInstance);
+        workMarker.bindPopup(`
+          <div class="p-1 text-xs space-y-1">
+            <div class="font-bold text-amber-600 uppercase tracking-wider">Local de Trabalho (Referência)</div>
+            <div class="font-extrabold text-slate-900 text-sm">${WORKPLACE.name}</div>
+            <div class="text-slate-600">${WORKPLACE.address}</div>
+            <div class="pt-1">
+              <a href="${WORKPLACE.mapsUrl}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 font-semibold underline">Ver página do edifício</a>
+            </div>
+          </div>
+        `);
+
+        markerGroup = L.layerGroup().addTo(mapInstance);
+
+        // Hide loading notice once map renders
+        const notice = document.getElementById("mapLoadingNotice");
+        if (notice) notice.style.display = "none";
+
+        // Invalidate size on multiple ticks to guarantee correct sizing in flex/iframe layouts
+        [100, 300, 600, 1200].forEach((delay) => {
+          setTimeout(() => {
+            if (mapInstance) mapInstance.invalidateSize();
+          }, delay);
+        });
+
+      } catch (err) {
+        console.error("Erro ao inicializar Leaflet:", err);
+        showMapFallbackError();
+      }
+    }
+
+    function showMapFallbackError() {
+      const container = document.getElementById("map");
+      if (!container) return;
+      container.innerHTML = `
+        <div class="h-full w-full flex flex-col items-center justify-center p-6 text-center bg-slate-50 text-slate-700">
+          <div class="text-3xl mb-2">🗺️</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Visualização de Mapa no Navegador</h3>
+          <p class="text-xs text-slate-500 max-w-md mb-4">Se o mapa interativo não carregou automaticamente, você pode recarregar ou abrir as rotas diretamente no Google Maps:</p>
+          <div class="flex flex-wrap justify-center gap-2">
+            <button onclick="initMap(); applyFiltersAndRender();" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold text-xs shadow hover:bg-emerald-500 transition">
+              🔄 Tentar Recarregar Mapa
+            </button>
+            <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold text-xs shadow hover:bg-slate-800 transition">
+              📍 Abrir Região no Google Maps
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateMapMarkers(filteredList) {
+      if (!markerGroup) return;
+      markerGroup.clearLayers();
+      markersById = {};
+
+      filteredList.forEach((item) => {
+        const isHouse = item.type === "Casa em Condomínio";
+        const bgColor = isHouse ? "#0284c7" : "#059669";
+        const pinIcon = L.divIcon({
+          className: "custom-prop-pin",
+          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
+          iconSize: [120, 24],
+          iconAnchor: [60, 12]
+        });
+
+        const marker = L.marker([item.lat, item.lng], { icon: pinIcon }).addTo(markerGroup);
+        const waUrl = buildWhatsAppUrl(item);
+
+        marker.bindPopup(`
+          <div class="p-1 text-xs space-y-1.5" style="min-width:230px;">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded font-bold text-white" style="background:${bgColor}">${item.type}</span>
+              <span class="font-semibold text-amber-700">🚗 ${item.driveMinutes} min (${item.driveKm})</span>
+            </div>
+            <div class="font-bold text-slate-900 text-sm leading-snug">${item.title}</div>
+            <div class="text-slate-600">${item.address}</div>
+            <div class="bg-slate-100 rounded p-2 text-slate-800">
+              <div><strong>Pacote Total: ${formatBRL(item.total)}/mês</strong></div>
+              <div class="text-[11px] text-slate-600">Aluguel ${formatBRL(item.rent)} + Cond. ${formatBRL(item.condo)} + IPTU ${formatBRL(item.iptu)}</div>
+              <div class="text-[11px] text-slate-600 mt-0.5">${item.area} m² • ${item.bedrooms} quartos (${item.suites} suíte) • ${item.parking} vaga(s)</div>
+            </div>
+            <div class="border-t border-slate-200 pt-1.5">
+              <div class="font-semibold text-slate-900">📞 ${item.agencyName}</div>
+              <div class="text-slate-600">${item.phoneDisplay}</div>
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="background:#16a34a;color:#fff;padding:5px 8px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block;text-align:center;flex:1;">
+                💬 WhatsApp
+              </a>
+              <a href="${item.listingUrl}" target="_blank" rel="noopener noreferrer" style="background:#0f172a;color:#fff;padding:5px 8px;border-radius:6px;font-weight:600;text-decoration:none;display:inline-block;text-align:center;flex:1;">
+                🔗 Anúncio
+              </a>
+            </div>
+          </div>
+        `);
+
+        markersById[item.id] = marker;
+      });
+    }
+
+    function focusPropertyOnMap(id) {
+      const item = PROPERTIES.find((p) => p.id === id);
+      if (!item) return;
+      if (!mapInstance) {
+        initMap();
+      }
+      const mapEl = document.getElementById("map");
+      if (mapEl) {
+        mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      if (mapInstance) {
+        mapInstance.invalidateSize();
+        mapInstance.setView([item.lat, item.lng], 15, { animate: true });
+        const marker = markersById[id];
+        if (marker) {
+          setTimeout(() => marker.openPopup(), 300);
+        }
+      }
+    }
+
+    function updateChart(filteredList) {
+      const ctx = document.getElementById("priceChart").getContext("2d");
+      const labels = filteredList.map((p) => `${p.neighborhood} (${p.code})`);
+      const rents = filteredList.map((p) => p.rent);
+      const condos = filteredList.map((p) => p.condo);
+      const iptus = filteredList.map((p) => p.iptu);
+
+      if (priceChartInstance) {
+        priceChartInstance.destroy();
+      }
+
+      priceChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Aluguel (R$)",
+              data: rents,
+              backgroundColor: "#059669",
+              borderRadius: 4
+            },
+            {
+              label: "Condomínio (R$)",
+              data: condos,
+              backgroundColor: "#0284c7",
+              borderRadius: 4
+            },
+            {
+              label: "IPTU (R$)",
+              data: iptus,
+              backgroundColor: "#f59e0b",
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "top",
+              labels: { boxWidth: 12, font: { size: 11 } }
+            },
+            tooltip: {
+              callbacks: {
+                footer: (items) => {
+                  const total = items.reduce((acc, cur) => acc + cur.parsed.y, 0);
+                  return `Pacote Total: R$ ${total.toLocaleString("pt-BR")}/mês`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: { font: { size: 10 }, maxRotation: 35, minRotation: 20 }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              max: 3600,
+              ticks: {
+                font: { size: 10 },
+                callback: (v) => `R$ ${v}`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderQuickAgencyList(filteredList) {
+      const container = document.getElementById("quickAgencyList");
+      if (filteredList.length === 0) {
+        container.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">Nenhum imóvel nos filtros atuais.</div>`;
+        return;
+      }
+
+      container.innerHTML = filteredList.map((item) => {
+        const waUrl = buildWhatsAppUrl(item);
+        return `
+          <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-slate-800 truncate">${item.agencyName}</div>
+              <div class="text-[11px] text-slate-500 truncate">Cód. ${item.code} • ${item.neighborhood} (${formatBRL(item.total)}/mês)</div>
+            </div>
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+              <span>💬</span> ${item.phoneDisplay}
+            </a>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updateKPIs(filteredList) {
+      document.getElementById("kpiCount").textContent = String(filteredList.length);
+      document.getElementById("favCountBadge").textContent = String(favorites.size);
+      document.getElementById("resultsCounter").textContent = `Exibindo ${filteredList.length} de ${PROPERTIES.length} imóveis`;
+
+      if (filteredList.length === 0) {
+        document.getElementById("kpiMinPrice").textContent = "—";
+        document.getElementById("kpiMinDrive").textContent = "—";
+        document.getElementById("kpiAvgArea").textContent = "—";
+        return;
+      }
+
+      const minPrice = Math.min(...filteredList.map((p) => p.total));
+      const minDrive = Math.min(...filteredList.map((p) => p.driveMinutes));
+      const avgArea = Math.round(filteredList.reduce((acc, p) => acc + p.area, 0) / filteredList.length);
+
+      document.getElementById("kpiMinPrice").textContent = formatBRL(minPrice);
+      document.getElementById("kpiMinDrive").textContent = `${minDrive} min`;
+      document.getElementById("kpiAvgArea").textContent = `${avgArea} m²`;
+    }
+
+    function renderListings(filteredList) {
+      const container = document.getElementById("listingsSection");
+
+      if (filteredList.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
+            <div class="text-3xl">🏠</div>
+            <h3 class="text-base font-bold text-slate-800">Nenhum imóvel encontrado com esses filtros</h3>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os controles de valor máximo, tempo de deslocamento ou clique em "Limpar" para visualizar todos os 9 imóveis qualificados.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Group by presentationDateGroup preserving order
+      const groups = [
+        {
+          key: "2026-10-15-RECENT",
+          badge: "Lote Diário • 15/10/2026 (Captação Recente)",
+          title: "Apresentados em 15/10/2026 — Anúncios Recentes das Últimas 72h",
+          subtitle: "Imóveis recém-publicados nos portais e imobiliárias de Fortaleza que cumprem todos os seus requisitos",
+          items: filteredList.filter((i) => i.presentationDateGroup === "2026-10-15-RECENT")
+        },
+        {
+          key: "2026-10-15-ACTIVE",
+          badge: "Lote Diário • 15/10/2026 (Base Ativa Outubro/2026)",
+          title: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas em Fortaleza",
+          subtitle: "Imóveis disponíveis verificados hoje na primeira varredura completa (Apartamentos e Casas em Condomínio)",
+          items: filteredList.filter((i) => i.presentationDateGroup === "2026-10-15-ACTIVE")
+        }
+      ].filter((g) => g.items.length > 0);
+
+      container.innerHTML = groups.map((group) => `
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-emerald-400">
+                📅 ${group.badge}
+              </span>
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">${group.title}</h2>
+              <p class="text-xs text-slate-500">${group.subtitle}</p>
+            </div>
+            <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg self-start sm:self-center">
+              ${group.items.length} ${group.items.length === 1 ? "imóvel neste grupo" : "imóveis neste grupo"}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${group.items.map((item) => {
+              const isFav = favorites.has(item.id);
+              const isHouse = item.type === "Casa em Condomínio";
+              const waUrl = buildWhatsAppUrl(item);
+
+              return `
+                <article class="bg-white rounded-2xl shadow-sm border ${isFav ? "border-amber-400 ring-2 ring-amber-200" : "border-slate-200"} overflow-hidden flex flex-col justify-between transition hover:shadow-md">
+                  <div class="p-5 space-y-4">
+                    <!-- Top Badges & Favorite Button -->
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex flex-wrap items-center gap-1.5">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold ${isHouse ? "bg-sky-100 text-sky-800" : "bg-emerald-100 text-emerald-800"}">
+                          ${isHouse ? "🏡 Casa em Condomínio" : "🏢 Apartamento"}
+                        </span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-100 text-amber-900">
+                          🚗 ${item.driveMinutes} min (${item.driveKm}) até o trabalho
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-600">
+                          Cód: ${item.code} • Publ. ${item.publishedDate}
+                        </span>
+                      </div>
+                      <button type="button" data-fav-id="${item.id}" class="btn-fav shrink-0 p-1.5 rounded-lg border ${isFav ? "bg-amber-50 border-amber-300 text-amber-600" : "bg-slate-50 border-slate-200 text-slate-400 hover:text-slate-600"} transition" title="Salvar nos Favoritos">
+                        ${isFav ? "⭐ Salvo" : "☆ Favoritar"}
+                      </button>
+                    </div>
+
+                    <!-- Title & Address -->
+                    <div>
+                      <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                        <a href="${item.listingUrl}" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-700 transition underline decoration-slate-300 hover:decoration-emerald-600">
+                          ${item.title}
+                        </a>
+                      </h3>
+                      <p class="text-xs text-slate-600 mt-1 flex items-center gap-1">
+                        <span>📍</span> <strong>${item.neighborhood}:</strong> ${item.address}
+                      </p>
+                      <p class="text-[11px] text-slate-500 mt-0.5">
+                        🛣️ Rota para Av. Dom Luís, 807: ${item.routeSummary}
+                      </p>
+                    </div>
+
+                    <!-- Property Specs Grid -->
+                    <div class="grid grid-cols-4 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center">
+                      <div>
+                        <div class="text-[11px] text-slate-500">Área</div>
+                        <div class="text-sm font-extrabold text-slate-900">${item.area} m²</div>
+                      </div>
+                      <div>
+                        <div class="text-[11px] text-slate-500">Quartos</div>
+                        <div class="text-sm font-extrabold text-slate-900">${item.bedrooms} (${item.suites} suíte)</div>
+                      </div>
+                      <div>
+                        <div class="text-[11px] text-slate-500">Banheiros</div>
+                        <div class="text-sm font-extrabold text-slate-900">${item.bathrooms}</div>
+                      </div>
+                      <div>
+                        <div class="text-[11px] text-slate-500">Vagas</div>
+                        <div class="text-sm font-extrabold text-slate-900">${item.parking}</div>
+                      </div>
+                    </div>
+
+                    <!-- Price Breakdown Box -->
+                    <div class="rounded-xl bg-slate-900 text-white p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div>
+                        <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Pacote Mensal Total (Tudo Incluso)</div>
+                        <div class="text-xl font-extrabold text-emerald-400">${formatBRL(item.total)}<span class="text-xs font-normal text-slate-300">/mês</span></div>
+                      </div>
+                      <div class="text-xs text-slate-300 space-y-0.5 sm:text-right">
+                        <div>Aluguel: <strong class="text-white">${formatBRL(item.rent)}</strong></div>
+                        <div>Condomínio: <strong class="text-white">${item.condo > 0 ? formatBRL(item.condo) : "Incluso"}</strong> • IPTU: <strong class="text-white">${item.iptu > 0 ? formatBRL(item.iptu) : "Incluso"}</strong></div>
+                      </div>
+                    </div>
+
+                    <!-- Highlighted Contact & Direct WhatsApp Box -->
+                    <div class="rounded-xl bg-emerald-50 border-2 border-emerald-500/40 p-3.5 space-y-2.5">
+                      <div class="flex items-start justify-between gap-2">
+                        <div>
+                          <div class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1">
+                            <span>📞</span> Contato Destacado da Imobiliária / Corretor
+                          </div>
+                          <div class="text-sm font-bold text-slate-900 mt-0.5">${item.agencyName}</div>
+                          <div class="text-xs text-slate-700">${item.contactPerson} • Tel/WhatsApp: <strong>${item.phoneDisplay}</strong></div>
+                        </div>
+                        <button type="button" data-copy-phone="${item.phoneDisplay}" class="btn-copy-phone shrink-0 px-2 py-1 rounded bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-[11px] font-semibold transition">
+                          Copiar Nº
+                        </button>
+                      </div>
+
+                      <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-sm transition">
+                          <span>💬</span> Falar Agora no WhatsApp (${item.phoneDisplay})
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Highlights Tags -->
+                    <div class="flex flex-wrap gap-1.5">
+                      ${item.highlights.map((h) => `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">${h}</span>`).join("")}
+                    </div>
+                  </div>
+
+                  <!-- Card Footer Actions -->
+                  <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div class="flex items-center gap-2">
+                      <button type="button" data-map-id="${item.id}" class="btn-focus-map inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold transition">
+                        <span>📍</span> Destacar no Mapa
+                      </button>
+                      <a href="${item.routeUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-medium transition">
+                        <span>🚗</span> Rota no Google Maps
+                      </a>
+                    </div>
+                    <a href="${item.listingUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold transition">
+                      Abrir Anúncio Oficial &rarr;
+                    </a>
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function applyFiltersAndRender() {
+      const dateGroup = document.getElementById("filterDateGroup").value;
+      const propType = document.getElementById("filterType").value;
+      const neighborhood = document.getElementById("filterNeighborhood").value;
+      const maxPrice = Number(document.getElementById("filterMaxPrice").value);
+      const maxDrive = Number(document.getElementById("filterMaxDrive").value);
+      const sortBy = document.getElementById("sortBy").value;
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      document.getElementById("labelMaxPrice").textContent = formatBRL(maxPrice);
+      document.getElementById("labelMaxDrive").textContent = `${maxDrive} min`;
+
+      let filtered = PROPERTIES.filter((item) => {
+        if (dateGroup !== "ALL" && item.presentationDateGroup !== dateGroup) return false;
+        if (propType !== "ALL" && item.type !== propType) return false;
+        if (neighborhood !== "ALL" && item.neighborhood !== neighborhood) return false;
+        if (item.total > maxPrice) return false;
+        if (item.driveMinutes > maxDrive) return false;
+        if (onlyFavorites && !favorites.has(item.id)) return false;
+        if (query) {
+          const haystack = `${item.title} ${item.neighborhood} ${item.address} ${item.agencyName} ${item.code}`.toLowerCase();
+          if (!haystack.includes(query)) return false;
+        }
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        if (sortBy === "drive_asc") return a.driveMinutes - b.driveMinutes || a.total - b.total;
+        if (sortBy === "price_asc") return a.total - b.total || a.driveMinutes - b.driveMinutes;
+        if (sortBy === "area_desc") return b.area - a.area || a.total - b.total;
+        return 0;
+      });
+
+      updateKPIs(filtered);
+      updateMapMarkers(filtered);
+      updateChart(filtered);
+      renderQuickAgencyList(filtered);
+      renderListings(filtered);
+    }
+
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`Número ${text} copiado para a área de transferência!`);
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast(`Número ${text} copiado para a área de transferência!`);
+      } catch (e) {
+        showToast(`Número: ${text}`);
+      }
+      document.body.removeChild(ta);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadFavorites();
+      initMap();
+      applyFiltersAndRender();
+
+      // Filter listeners
+      ["filterDateGroup", "filterType", "filterNeighborhood", "filterMaxPrice", "filterMaxDrive", "sortBy"].forEach((id) => {
+        const el = document.getElementById(id.trim());
+        if (el) el.addEventListener("input", applyFiltersAndRender);
+      });
+      document.getElementById("searchInput").addEventListener("input", applyFiltersAndRender);
+
+      document.getElementById("btnResetFilters").addEventListener("click", () => {
+        document.getElementById("filterDateGroup").value = "ALL";
+        document.getElementById("filterType").value = "ALL";
+        document.getElementById("filterNeighborhood").value = "ALL";
+        document.getElementById("filterMaxPrice").value = "3500";
+        document.getElementById("filterMaxDrive").value = "15";
+        document.getElementById("sortBy").value = "drive_asc";
+        document.getElementById("searchInput").value = "";
+        onlyFavorites = false;
+        document.getElementById("btnToggleFavorites").classList.remove("bg-amber-100", "border-amber-400");
+        applyFiltersAndRender();
+        showToast("Filtros restaurados para a visão completa.");
+      });
+
+      document.getElementById("btnToggleFavorites").addEventListener("click", () => {
+        onlyFavorites = !onlyFavorites;
+        const btn = document.getElementById("btnToggleFavorites");
+        if (onlyFavorites) {
+          btn.classList.add("bg-amber-100", "border-amber-400");
+        } else {
+          btn.classList.remove("bg-amber-100", "border-amber-400");
+        }
+        applyFiltersAndRender();
+      });
+
+      const btnReload = document.getElementById("btnReloadMap");
+      if (btnReload) {
+        btnReload.addEventListener("click", () => {
+          initMap();
+          applyFiltersAndRender();
+          if (mapInstance) {
+            mapInstance.invalidateSize();
+            showToast("Mapa recarregado e ajustado com sucesso!");
+          }
+        });
+      }
+
+      window.addEventListener("resize", () => {
+        if (mapInstance) mapInstance.invalidateSize();
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && mapInstance) mapInstance.invalidateSize();
+      });
+
+      document.getElementById("btnCenterWork").addEventListener("click", () => {
+        if (!mapInstance) initMap();
+        if (mapInstance) {
+          mapInstance.invalidateSize();
+          mapInstance.setView([WORKPLACE.lat, WORKPLACE.lng], 15, { animate: true });
+          showToast("Mapa centralizado no Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807).");
+        }
+      });
+
+      document.getElementById("btnFitAll").addEventListener("click", () => {
+        if (!mapInstance) initMap();
+        if (mapInstance) {
+          mapInstance.invalidateSize();
+          const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
+          PROPERTIES.forEach((p) => bounds.extend([p.lat, p.lng]));
+          mapInstance.fitBounds(bounds, { padding: [35, 35] });
+        }
+      });
+
+      // Modal handlers
+      const modal = document.getElementById("scheduleModal");
+      const openModal = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+      const closeModal = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      };
+      document.getElementById("btnOpenScheduleModal").addEventListener("click", openModal);
+      document.getElementById("btnCloseScheduleModal").addEventListener("click", closeModal);
+      document.getElementById("btnAckScheduleModal").addEventListener("click", closeModal);
+
+      // Delegated events inside listingsSection
+      document.getElementById("listingsSection").addEventListener("click", (e) => {
+        const favBtn = e.target.closest(".btn-fav");
+        if (favBtn) {
+          const id = favBtn.getAttribute("data-fav-id");
+          if (favorites.has(id)) {
+            favorites.delete(id);
+            showToast("Imóvel removido dos favoritos.");
+          } else {
+            favorites.add(id);
+            showToast("Imóvel salvo nos favoritos!");
+          }
+          saveFavorites();
+          applyFiltersAndRender();
+          return;
+        }
+
+        const mapBtn = e.target.closest(".btn-focus-map");
+        if (mapBtn) {
+          const id = mapBtn.getAttribute("data-map-id");
+          focusPropertyOnMap(id);
+          return;
+        }
+
+        const copyBtn = e.target.closest(".btn-copy-phone");
+        if (copyBtn) {
+          const phone = copyBtn.getAttribute("data-copy-phone");
+          copyTextToClipboard(phone);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
