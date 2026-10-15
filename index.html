@@ -64,9 +64,14 @@
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold mb-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Monitoramento Diário Ativo • Execução às 06:00 BRT (15/10/2026 a 14/11/2026)
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Monitoramento Diário Ativo • Execução às 06:00 BRT
+            </div>
+            <div id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span> Sincronizado com Google Sheets
+            </div>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             Radar Imóveis Fortaleza • Aluguel Residencial
@@ -77,14 +82,20 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
+          <button id="btnSyncSheet" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition shadow" title="Atualizar dados direto do Google Sheets">
+            <span>🔄</span> Atualizar Imóveis
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition" title="Abrir planilha de dados no Google Sheets">
+            <span>📊</span> Planilha Google
+          </a>
           <button id="btnCenterWork" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs sm:text-sm transition shadow">
             <span>📍</span> Focar no Trabalho (Av. Dom Luís, 807)
           </button>
           <button id="btnFitAll" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
             <span>🗺️</span> Ver Todos no Mapa
           </button>
-          <button id="btnOpenScheduleModal" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition shadow">
-            <span>⏰</span> Status do Agendamento (06:00)
+          <button id="btnOpenScheduleModal" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
+            <span>⏰</span> Agendamento (06:00)
           </button>
         </div>
       </div>
@@ -301,7 +312,7 @@
           <div>• Apartamento ou Casa em Condomínio Fechado em Fortaleza/CE;</div>
           <div>• Tempo máximo de 15 a 20 minutos de carro até o Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles);</div>
           <div>• Bairros autorizados para Casa em Condomínio Fechado: Sapiranga, José de Alencar, Édson Queiroz, Cidade dos Funcionários e Lagoa Redonda;</div>
-          <div>• Agrupamento por data de apresentação com destaque para contato e link direto para WhatsApp.</div>
+          <div>• Integração com banco de dados no Google Sheets para atualização em tempo real.</div>
         </div>
       </div>
       <div class="mt-5 flex justify-end">
@@ -335,7 +346,7 @@
       mapsUrl: "https://www.spacesworks.com/pt/br/1875"
     };
 
-    const PROPERTIES = [
+    let PROPERTIES = [
       {
         id: "imv-1",
         code: "IH 229",
@@ -753,6 +764,119 @@
         highlights: ["Casa Nova Nunca Habitada", "Condomínio Fechado", "Piscina e Churrasqueira", "Quintal Privativo", "Semi-mobiliada"]
       }
     ];
+
+    const SPREADSHEET_ID = "12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk";
+    const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
+
+    function parseCSVLine(text) {
+      const result = [];
+      let cur = "";
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') {
+          if (inQuotes && text[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (c === ',' && !inQuotes) {
+          result.push(cur);
+          cur = "";
+        } else {
+          cur += c;
+        }
+      }
+      result.push(cur);
+      return result;
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.split(/\r?\n/).filter(line => line.trim().length > 0);
+      return lines.map(parseCSVLine);
+    }
+
+    async function syncFromGoogleSheets(notify = false) {
+      const badge = document.getElementById("syncStatusBadge");
+      try {
+        if (badge) {
+          badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin inline-block mr-1"></span> Buscando dados da planilha...`;
+        }
+        const res = await fetch(SHEET_CSV_URL);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const csvText = await res.text();
+        const rows = parseCSV(csvText);
+        if (rows.length > 1) {
+          const headers = rows[0].map(h => h.trim().toLowerCase());
+          const newProps = [];
+          for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.length < 5 || !row[0]) continue;
+            const getVal = (col) => {
+              const idx = headers.indexOf(col);
+              return idx !== -1 && row[idx] ? row[idx].trim() : "";
+            };
+            const id = getVal("id") || `imv-${i}`;
+            const code = getVal("codigo") || `IMV-${i}`;
+            const title = getVal("titulo") || "Imóvel para Aluguel";
+            const type = getVal("tipo") || "Apartamento";
+            const neighborhood = getVal("bairro") || "Aldeota";
+            const address = getVal("endereco") || "";
+            const area = Number(getVal("area_m2")) || 70;
+            const bedrooms = Number(getVal("quartos")) || 3;
+            const suites = Number(getVal("suites")) || 1;
+            const bathrooms = Number(getVal("banheiros")) || 2;
+            const parking = Number(getVal("vagas")) || 1;
+            const rent = Number(getVal("aluguel")) || 0;
+            const condo = Number(getVal("condominio")) || 0;
+            const iptu = Number(getVal("iptu")) || 0;
+            const total = Number(getVal("total")) || (rent + condo + iptu);
+            const driveMinutes = Number(getVal("drive_minutos")) || 15;
+            const driveKm = getVal("drive_km") || "";
+            const routeSummary = getVal("rota") || "";
+            const lat = Number(getVal("lat")) || -3.7351;
+            const lng = Number(getVal("lng")) || -38.4969;
+            const agencyName = getVal("imobiliaria") || "Imobiliária";
+            const contactPerson = getVal("contato_nome") || agencyName;
+            const phoneDisplay = getVal("telefone") || "";
+            const whatsappNumber = getVal("whatsapp_numero") || phoneDisplay.replace(/\D/g, "");
+            const listingUrl = getVal("url_anuncio") || "#";
+            const dataGrupo = getVal("data_grupo") || "2026-10-15-ACTIVE";
+            const destaquesRaw = getVal("destaques") || "";
+            const highlights = destaquesRaw ? destaquesRaw.split(";").map(s => s.trim().replace(/^["']|["']$/g, "")) : [];
+
+            newProps.push({
+              id, code, title, type, neighborhood, address, area, bedrooms, suites, bathrooms, parking,
+              rent, condo, iptu, total, driveMinutes, driveKm, routeSummary, lat, lng,
+              agencyName, contactPerson, phoneDisplay, whatsappNumber, listingUrl,
+              presentationDateGroup: dataGrupo,
+              presentationDateLabel: dataGrupo.includes("RECENT")
+                ? "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)"
+                : "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas em Fortaleza",
+              publishedDate: "15/10/2026",
+              routeUrl: `https://www.google.com/maps/dir/${encodeURIComponent(address)}/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/`,
+              highlights
+            });
+          }
+          if (newProps.length > 0) {
+            PROPERTIES = newProps;
+            applyFiltersAndRender();
+            if (badge) {
+              const now = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+              badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Google Sheets sincronizado (${newProps.length} imóveis • ${now})`;
+            }
+            if (notify) showToast(`Sincronizado! ${newProps.length} imóveis carregados da planilha.`);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn("Sincronização em segundo plano: mantendo base local.", e);
+        if (badge) {
+          badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Base ativa (${PROPERTIES.length} imóveis)`;
+        }
+      }
+    }
 
     let favorites = new Set();
     let onlyFavorites = false;
@@ -1327,6 +1451,12 @@
       loadFavorites();
       initMap();
       applyFiltersAndRender();
+      syncFromGoogleSheets();
+
+      const btnSync = document.getElementById("btnSyncSheet");
+      if (btnSync) {
+        btnSync.addEventListener("click", () => syncFromGoogleSheets(true));
+      }
 
       // Filter listeners
       ["filterDateGroup", "filterType", "filterNeighborhood", "filterMaxPrice", "filterMaxDrive", "sortBy"].forEach((id) => {
