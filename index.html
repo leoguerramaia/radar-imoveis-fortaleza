@@ -70,7 +70,7 @@
               Monitoramento Diário Ativo • Execução às 06:00 BRT
             </div>
             <div id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-sky-400"></span> Sincronizado com Google Sheets
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span> Conectado ao Google Sheets
             </div>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
@@ -806,6 +806,13 @@
         const res = await fetch(SHEET_CSV_URL);
         if (!res.ok) throw new Error("HTTP " + res.status);
         const csvText = await res.text();
+        
+        // Validação estrita: se a planilha estiver privada, o Google retorna página de login HTML
+        const firstLine = (csvText.split(/\r?\n/)[0] || "").toLowerCase();
+        if (!firstLine.includes("codigo") || !firstLine.includes("titulo") || csvText.trim().startsWith("<")) {
+          throw new Error("Planilha privada ou requer login. Mantendo base de 13 imóveis locais.");
+        }
+
         const rows = parseCSV(csvText);
         if (rows.length > 1) {
           const headers = rows[0].map(h => h.trim().toLowerCase());
@@ -835,8 +842,9 @@
             const driveMinutes = Number(getVal("drive_minutos")) || 15;
             const driveKm = getVal("drive_km") || "";
             const routeSummary = getVal("rota") || "";
-            const lat = Number(getVal("lat")) || -3.7351;
-            const lng = Number(getVal("lng")) || -38.4969;
+            const lat = parseFloat(getVal("lat"));
+            const lng = parseFloat(getVal("lng"));
+            if (isNaN(lat) || isNaN(lng) || (lat === -3.7351 && lng === -38.4969)) continue;
             const agencyName = getVal("imobiliaria") || "Imobiliária";
             const contactPerson = getVal("contato_nome") || agencyName;
             const phoneDisplay = getVal("telefone") || "";
@@ -948,6 +956,7 @@
           zoomControl: true,
           scrollWheelZoom: true
         });
+        mapInstance.on("movestart", () => { window.__userInteractedMap = true; });
 
         // Use official OpenStreetMap tiles with universal CORS and iframe support
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -991,6 +1000,11 @@
         const notice = document.getElementById("mapLoadingNotice");
         if (notice) notice.style.display = "none";
 
+        // Sempre desenha os pinos dos imóveis assim que o mapa e o markerGroup estiverem prontos!
+        if (typeof applyFiltersAndRender === "function") {
+          applyFiltersAndRender();
+        }
+
         // Invalidate size on multiple ticks to guarantee correct sizing in flex/iframe layouts
         [100, 300, 600, 1200].forEach((delay) => {
           setTimeout(() => {
@@ -1030,11 +1044,12 @@
       markersById = {};
 
       filteredList.forEach((item) => {
+        if (!item.lat || !item.lng) return;
         const isHouse = item.type === "Casa em Condomínio";
         const bgColor = isHouse ? "#0284c7" : "#059669";
         const pinIcon = L.divIcon({
           className: "custom-prop-pin",
-          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
+          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;cursor:pointer;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
           iconSize: [120, 24],
           iconAnchor: [60, 12]
         });
@@ -1072,6 +1087,19 @@
 
         markersById[item.id] = marker;
       });
+
+      // Ajusta o zoom e enquadramento automaticamente para exibir o trabalho e todos os imóveis
+      if (mapInstance && filteredList.length > 0 && !window.__userInteractedMap) {
+        try {
+          const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
+          filteredList.forEach((p) => {
+            if (p.lat && p.lng) bounds.extend([p.lat, p.lng]);
+          });
+          mapInstance.fitBounds(bounds, { padding: [35, 35], maxZoom: 14 });
+        } catch (e) {
+          // ignore
+        }
+      }
     }
 
     function focusPropertyOnMap(id) {
