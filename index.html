@@ -2,26 +2,33 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radar Imóveis Fortaleza — Dashboard & Mapa (Até 15-20 min do Edf. Etevaldo Nogueira Business)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Radar Imóveis Fortaleza — Dashboard & Mapa</title>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Leaflet Map CSS & JS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script>
-    if (typeof L === 'undefined') {
-      document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />');
-      document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
-    }
-  </script>
+  
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- Supabase Client JS (Cloud Sync) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <style>
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f1f5f9;
       color: #0f172a;
+      -webkit-font-smoothing: antialiased;
     }
     #map {
       height: 480px;
@@ -38,7 +45,7 @@
     }
     .leaflet-popup-content-wrapper {
       border-radius: 0.75rem;
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
@@ -48,12 +55,12 @@
       background: #cbd5e1;
       border-radius: 9999px;
     }
-    /* Star rating styles */
     .star-btn {
       transition: transform 0.15s ease, color 0.15s ease;
+      touch-action: manipulation;
     }
-    .star-btn:hover {
-      transform: scale(1.2);
+    .star-btn:active {
+      transform: scale(1.3);
     }
   </style>
 </head>
@@ -68,70 +75,70 @@
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
     </div>
 
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Monitoramento Diário Ativo • Execução às 06:00 BRT
+              Monitoramento Diário Ativo • 06:00 BRT
+            </div>
+            <div id="supabaseStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold cursor-pointer hover:bg-slate-700 transition" onclick="openSupabaseModal()">
+              <span>☁️</span> <span id="supabaseStatusText">Conectar Supabase</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold">
-              <span>✅</span> Valores 100% Verificados nas Fontes Oficiais
+              <span>✅</span> Valores Conferidos na OLX
             </div>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             Radar Imóveis Fortaleza • Aluguel Residencial
           </h1>
-          <p class="mt-1 text-sm sm:text-base text-slate-300 max-w-3xl">
-            Curadoria com valores oficiais conferidos (Aluguel, Condomínio e IPTU), cobrindo bairros centrais e próximos a até 15-20 min do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807). Avalie com estrelas para destacar ou descartar anúncios.
+          <p class="mt-1 text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
+            Curadoria diária com valores oficiais auditados (Aluguel, Condomínio e IPTU), a até 15-20 min do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807). Classifique os imóveis por estrelas para destacar ou descartar anúncios.
           </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <button id="btnCenterWork" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs sm:text-sm transition shadow">
-            <span>📍</span> Focar no Trabalho (Av. Dom Luís, 807)
+          <button id="btnCenterWork" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition shadow">
+            <span>📍</span> Trabalho (Dom Luís, 807)
           </button>
-          <button id="btnFitAll" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm transition shadow">
-            <span>🗺️</span> Ver Todos no Mapa
+          <button id="btnFitAll" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm transition shadow">
+            <span>🗺️</span> Todos no Mapa
           </button>
-          <button id="btnReloadMap" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
-            <span>🔄</span> Recarregar Mapa
-          </button>
-          <button id="btnOpenScheduleModal" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
-            <span>⏰</span> Agendamento (06:00)
+          <button id="btnOpenSupabaseModal" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-semibold text-xs sm:text-sm transition">
+            <span>☁️</span> Supabase
           </button>
         </div>
       </div>
 
       <!-- KPI Summary Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
-          <p class="text-xs text-slate-400 font-medium">Imóveis no Painel</p>
+          <p class="text-xs text-slate-400 font-medium">Imóveis Ativos no Painel</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiCount" class="text-2xl font-extrabold text-white">0</span>
-            <span id="kpiTypesCount" class="text-xs text-emerald-400 font-medium">Verificados</span>
+            <span id="kpiCount" class="text-2xl font-black text-white">—</span>
+            <span class="text-xs text-emerald-400 font-semibold">Auditados</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
-          <p class="text-xs text-slate-400 font-medium">Menor Pacote Mensal</p>
+          <p class="text-xs text-slate-400 font-medium">Menor Pacote Total Real</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">—</span>
+            <span id="kpiMinPrice" class="text-2xl font-black text-emerald-400">—</span>
             <span class="text-xs text-slate-400">Teto: R$ 3.500</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Menor Tempo até o Trabalho</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiMinDrive" class="text-2xl font-extrabold text-amber-400">—</span>
+            <span id="kpiMinDrive" class="text-2xl font-black text-amber-400">—</span>
             <span class="text-xs text-slate-400">Máx: 20 min</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
-          <p class="text-xs text-slate-400 font-medium">Classificados com Estrelas</p>
+          <p class="text-xs text-slate-400 font-medium">Avaliações por Estrelas</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiRatedCount" class="text-2xl font-extrabold text-sky-400">0</span>
-            <span id="kpiDiscardedCount" class="text-xs text-rose-400 font-medium">0 descartados</span>
+            <span id="kpiRatedCount" class="text-2xl font-black text-sky-400">0</span>
+            <span id="kpiDiscardedCount" class="text-xs text-rose-400 font-semibold">0 descartados</span>
           </div>
         </div>
       </div>
@@ -145,18 +152,19 @@
     <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
         <div>
-          <label for="filterRating" class="block text-xs font-semibold text-slate-600 mb-1">Classificação por Estrelas</label>
-          <select id="filterRating" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium">
-            <option value="ACTIVE_ALL">Ativos (Sem 1-2 ⭐)</option>
+          <label for="filterRating" class="block text-xs font-bold text-slate-700 mb-1">Classificação por Estrelas</label>
+          <select id="filterRating" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold">
+            <option value="ACTIVE_ALL">Ativos (Ocultar 1-2 ⭐)</option>
             <option value="GREEN_ONLY">🟢 4 ou 5 Estrelas (Verdes)</option>
             <option value="YELLOW_ONLY">🟡 3 Estrelas (Amarelos)</option>
             <option value="UNRATED_ONLY">⚪ Ainda Não Avaliados</option>
-            <option value="DISCARDED_ONLY">🗑️ Descartados (1 ou 2 ⭐)</option>
+            <option value="DISCARDED_ONLY">🗑️ Ver Descartados (1 ou 2 ⭐)</option>
+            <option value="SHOW_EVERYTHING">Todos (Inclusive Descartados)</option>
           </select>
         </div>
 
         <div>
-          <label for="filterType" class="block text-xs font-semibold text-slate-600 mb-1">Tipo de Imóvel</label>
+          <label for="filterType" class="block text-xs font-bold text-slate-700 mb-1">Tipo de Imóvel</label>
           <select id="filterType" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
             <option value="ALL">Todos os Tipos</option>
             <option value="Apartamento">Apenas Apartamentos</option>
@@ -165,7 +173,7 @@
         </div>
 
         <div>
-          <label for="filterNeighborhood" class="block text-xs font-semibold text-slate-600 mb-1">Bairro (Fortaleza/CE)</label>
+          <label for="filterNeighborhood" class="block text-xs font-bold text-slate-700 mb-1">Bairro (Fortaleza/CE)</label>
           <select id="filterNeighborhood" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
             <option value="ALL">Todos os Bairros</option>
             <option value="Aldeota">Aldeota</option>
@@ -193,24 +201,24 @@
         </div>
 
         <div>
-          <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
             <label for="filterMaxPrice">Pacote Máximo Total</label>
-            <span id="labelMaxPrice" class="text-emerald-700 font-bold">R$ 3.500</span>
+            <span id="labelMaxPrice" class="text-emerald-700 font-extrabold">R$ 3.500</span>
           </div>
           <input id="filterMaxPrice" type="range" min="1500" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
         </div>
 
         <div>
-          <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
             <label for="filterMaxDrive">Tempo Máx. Carro</label>
-            <span id="labelMaxDrive" class="text-amber-700 font-bold">25 min</span>
+            <span id="labelMaxDrive" class="text-amber-700 font-extrabold">25 min</span>
           </div>
           <input id="filterMaxDrive" type="range" min="3" max="25" step="1" value="25" class="w-full accent-amber-500 cursor-pointer" />
         </div>
 
         <div class="flex gap-2">
           <div class="flex-1">
-            <label for="sortBy" class="block text-xs font-semibold text-slate-600 mb-1">Ordenar por</label>
+            <label for="sortBy" class="block text-xs font-bold text-slate-700 mb-1">Ordenar por</label>
             <select id="sortBy" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
               <option value="rating_desc">Maior Nota (Estrelas)</option>
               <option value="drive_asc">Menor Tempo até o Trabalho</option>
@@ -219,7 +227,7 @@
               <option value="area_desc">Maior Área (m²)</option>
             </select>
           </div>
-          <button id="btnResetFilters" type="button" title="Limpar Filtros" class="px-3 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 transition">
+          <button id="btnResetFilters" type="button" title="Limpar Filtros" class="px-3 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-xs font-bold text-slate-700 transition shadow-sm">
             Limpar
           </button>
         </div>
@@ -228,20 +236,20 @@
       <!-- Search Input & Status Indicators -->
       <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="relative flex-1 max-w-md">
-          <input id="searchInput" type="text" placeholder="Buscar por rua, código, imobiliária ou bairro..." class="w-full rounded-lg border border-slate-300 pl-9 pr-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-          <span class="absolute left-3 top-2 text-slate-400 text-sm">🔍</span>
+          <input id="searchInput" type="text" placeholder="Buscar por código, rua, imobiliária ou bairro..." class="w-full rounded-lg border border-slate-300 pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          <span class="absolute left-3 top-2.5 text-slate-400 text-sm">🔍</span>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 4-5 ⭐ Verde
           </div>
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold">
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> 3 ⭐ Amarelo
           </div>
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 1-2 ⭐ Removido
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 1-2 ⭐ Ocultado
           </div>
-          <span id="resultsCounter" class="text-xs font-medium text-slate-600 pl-2">Exibindo 0 imóveis</span>
+          <span id="resultsCounter" class="text-xs font-bold text-slate-600 pl-2">Carregando imóveis...</span>
         </div>
       </div>
     </section>
@@ -256,19 +264,13 @@
               <span>🗺️</span> Mapa de Localização e Deslocamento
             </h2>
             <p class="text-xs text-slate-500">
-              Pinos coloridos de acordo com sua classificação (Verde: 4-5⭐, Amarelo: 3⭐, Azul/Verde escuro: não avaliados).
+              Pinos coloridos de acordo com sua classificação (Verde: 4-5⭐, Amarelo: 3⭐, Azul: não avaliados).
             </p>
           </div>
           <div class="flex items-center gap-2 text-xs">
-            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-              <span class="w-3 h-3 rounded-full bg-amber-500 inline-block border border-white shadow"></span> Trabalho
-            </span>
-            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-              <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block border border-white shadow"></span> 4-5 ⭐
-            </span>
-            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-              <span class="w-3 h-3 rounded-full bg-amber-400 inline-block border border-white shadow"></span> 3 ⭐
-            </span>
+            <button id="btnReloadMap" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold border border-slate-300 transition text-xs" title="Recarregar mapa">
+              <span>🔄</span> Recarregar
+            </button>
           </div>
         </div>
         <div id="map" class="w-full rounded-xl overflow-hidden shadow-inner bg-slate-100">
@@ -310,33 +312,52 @@
 
   </main>
 
-  <!-- Schedule Status Modal -->
-  <div id="scheduleModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200">
+  <!-- Supabase Configuration Modal -->
+  <div id="supabaseModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-            ● Agendamento Automático Ativo
-          </span>
-          <h3 class="text-lg font-bold text-slate-900 mt-2">Monitoramento Diário às 06:00 BRT</h3>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800">
+            ☁️ Sincronização em Nuvem
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mt-2">Conectar com o Supabase</h3>
         </div>
-        <button id="btnCloseScheduleModal" type="button" class="text-slate-400 hover:text-slate-600 text-xl font-bold leading-none">&times;</button>
+        <button type="button" onclick="closeSupabaseModal()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold leading-none">&times;</button>
       </div>
-      <div class="mt-4 space-y-3 text-sm text-slate-600">
-        <p>
-          Sua rotina automática diária rastreia novos anúncios nos portais e imobiliárias de Fortaleza para apartamentos e casas em condomínio com até 15-20 min do <strong>Edifício Etevaldo Nogueira Business</strong>.
-        </p>
-        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-1.5 text-xs">
-          <div><strong>Regras de Classificação no Painel:</strong></div>
-          <div>• <strong>4 ou 5 Estrelas:</strong> O card fica destacado em verde esmeralda (Alta Prioridade).</div>
-          <div>• <strong>3 Estrelas:</strong> O card fica destacado em amarelo âmbar (Interesse Médio).</div>
-          <div>• <strong>1 ou 2 Estrelas:</strong> O imóvel é automaticamente descartado e ocultado do painel e mapa.</div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Com o Supabase conectado, suas classificações por estrelas (1 a 5 ⭐) serão salvas em tempo real no banco de dados na nuvem, ficando sincronizadas automaticamente entre o celular e o computador!
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label for="sbUrlInput" class="block font-bold text-slate-700 mb-1">Project URL (Supabase)</label>
+          <input id="sbUrlInput" type="text" placeholder="https://exemplo.supabase.co" class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
+        </div>
+        <div>
+          <label for="sbKeyInput" class="block font-bold text-slate-700 mb-1">API Anon Public Key (Supabase)</label>
+          <input id="sbKeyInput" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1 text-[11px] text-slate-600">
+          <div><strong>Onde pegar essas duas informações no Supabase:</strong></div>
+          <div>1. Acesse o painel do seu projeto no Supabase (<a href="https://supabase.com/dashboard" target="_blank" class="text-sky-600 underline font-semibold">supabase.com</a>).</div>
+          <div>2. Vá em <strong>Project Settings</strong> (ícone de engrenagem) ➔ <strong>API</strong>.</div>
+          <div>3. Copie o <strong>Project URL</strong> e o <strong>anon / public key</strong> e cole aqui.</div>
         </div>
       </div>
-      <div class="mt-5 flex justify-end">
-        <button id="btnAckScheduleModal" type="button" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition">
-          Fechar
+
+      <div class="flex justify-between items-center pt-2">
+        <button type="button" onclick="disconnectSupabase()" class="text-xs text-rose-600 hover:text-rose-800 font-bold underline">
+          Desconectar Nuvem
         </button>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeSupabaseModal()" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+            Cancelar
+          </button>
+          <button type="button" onclick="saveSupabaseConfig()" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition shadow">
+            Salvar e Sincronizar
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1202,7 +1223,136 @@
     let markersById = {};
     let markerGroup = null;
     let priceChartInstance = null;
+    let supabaseClient = null;
 
+    // --- SUPABASE CLOUD SYNC INITIALIZATION ---
+    function initSupabaseClient() {
+      const sbUrl = localStorage.getItem("fortaleza_sb_url");
+      const sbKey = localStorage.getItem("fortaleza_sb_key");
+
+      const badge = document.getElementById("supabaseStatusBadge");
+      const text = document.getElementById("supabaseStatusText");
+
+      if (sbUrl && sbKey && typeof window.supabase !== "undefined" && window.supabase.createClient) {
+        try {
+          supabaseClient = window.supabase.createClient(sbUrl, sbKey);
+          if (badge && text) {
+            badge.classList.remove("bg-slate-800", "border-slate-700", "text-slate-300");
+            badge.classList.add("bg-sky-500/20", "border-sky-400/30", "text-sky-300");
+            text.textContent = "Nuvem Ativa (Supabase)";
+          }
+          // Pull remote ratings from Supabase
+          pullSupabaseRatings();
+          return;
+        } catch (e) {
+          console.warn("Erro ao instanciar Supabase:", e);
+        }
+      }
+
+      if (badge && text) {
+        badge.classList.remove("bg-sky-500/20", "border-sky-400/30", "text-sky-300");
+        badge.classList.add("bg-slate-800", "border-slate-700", "text-slate-300");
+        text.textContent = "Conectar Supabase";
+      }
+    }
+
+    async function pullSupabaseRatings() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from("property_ratings")
+          .select("property_id, rating");
+        
+        if (error) {
+          console.warn("Erro ao buscar avaliações no Supabase:", error);
+          return;
+        }
+
+        if (Array.isArray(data)) {
+          let changed = false;
+          data.forEach(row => {
+            if (row.property_id && row.rating) {
+              userRatings[row.property_id] = Number(row.rating);
+              changed = true;
+            }
+          });
+          if (changed) {
+            saveRatingsLocally();
+            applyFiltersAndRender();
+          }
+        }
+      } catch (err) {
+        console.warn("Exceção ao puxar avaliações do Supabase:", err);
+      }
+    }
+
+    async function syncRatingToSupabase(propId, rating) {
+      if (!supabaseClient) return;
+      try {
+        if (rating > 0) {
+          await supabaseClient
+            .from("property_ratings")
+            .upsert({
+              property_id: propId,
+              rating: rating,
+              updated_at: new Date().toISOString()
+            }, { onConflict: 'property_id' });
+        } else {
+          await supabaseClient
+            .from("property_ratings")
+            .delete()
+            .eq("property_id", propId);
+        }
+      } catch (err) {
+        console.warn("Erro ao sincronizar com Supabase:", err);
+      }
+    }
+
+    function openSupabaseModal() {
+      const modal = document.getElementById("supabaseModal");
+      const urlInput = document.getElementById("sbUrlInput");
+      const keyInput = document.getElementById("sbKeyInput");
+
+      urlInput.value = localStorage.getItem("fortaleza_sb_url") || "";
+      keyInput.value = localStorage.getItem("fortaleza_sb_key") || "";
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeSupabaseModal() {
+      const modal = document.getElementById("supabaseModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function saveSupabaseConfig() {
+      const url = document.getElementById("sbUrlInput").value.trim();
+      const key = document.getElementById("sbKeyInput").value.trim();
+
+      if (!url || !key) {
+        showToast("Por favor, preencha a URL e a Anon Key do Supabase.");
+        return;
+      }
+
+      localStorage.setItem("fortaleza_sb_url", url);
+      localStorage.setItem("fortaleza_sb_key", key);
+
+      initSupabaseClient();
+      closeSupabaseModal();
+      showToast("Configurações do Supabase salvas com sucesso!");
+    }
+
+    function disconnectSupabase() {
+      localStorage.removeItem("fortaleza_sb_url");
+      localStorage.removeItem("fortaleza_sb_key");
+      supabaseClient = null;
+      initSupabaseClient();
+      closeSupabaseModal();
+      showToast("Supabase desconectado. As notas permanecem salvas localmente.");
+    }
+
+    // --- LOCAL RATINGS STORAGE ---
     function loadRatings() {
       try {
         const raw = localStorage.getItem("fortaleza_rental_ratings_v2");
@@ -1214,12 +1364,10 @@
       }
     }
 
-    function saveRatings() {
+    function saveRatingsLocally() {
       try {
         localStorage.setItem("fortaleza_rental_ratings_v2", JSON.stringify(userRatings));
-      } catch (e) {
-        // Storage fail-safe
-      }
+      } catch (e) {}
     }
 
     function formatBRL(value) {
@@ -1244,7 +1392,8 @@
         undoBtn.classList.remove("hidden");
         undoBtn.onclick = () => {
           delete userRatings[lastDiscardedId];
-          saveRatings();
+          saveRatingsLocally();
+          syncRatingToSupabase(lastDiscardedId, 0);
           applyFiltersAndRender();
           toast.classList.add("hidden");
           showToast("Ação desfeita! Imóvel restaurado ao painel.");
@@ -1263,11 +1412,12 @@
     function setRating(propId, rating) {
       const current = userRatings[propId];
       if (current === rating) {
-        // Toggle off if clicked same rating
         delete userRatings[propId];
+        syncRatingToSupabase(propId, 0);
         showToast("Classificação removida.");
       } else {
         userRatings[propId] = rating;
+        syncRatingToSupabase(propId, rating);
         if (rating === 1 || rating === 2) {
           const item = PROPERTIES.find(p => p.id === propId);
           showToast(`Imóvel Cód. ${item ? item.code : propId} avaliado com ${rating} ⭐ e removido do painel.`, propId);
@@ -1277,16 +1427,21 @@
           showToast(`Imóvel marcado com ${rating} estrelas (Verde / Prioridade Alta).`);
         }
       }
-      saveRatings();
+      saveRatingsLocally();
       applyFiltersAndRender();
     }
 
+    // --- LEAFLET MAP LOGIC (SAFE RETRY & RESILIENT) ---
+    let mapRetryCount = 0;
     function initMap() {
       const mapContainer = document.getElementById("map");
       if (!mapContainer) return;
 
-      if (typeof L === "undefined") {
-        setTimeout(initMap, 150);
+      if (typeof window.L === "undefined") {
+        if (mapRetryCount < 50) {
+          mapRetryCount++;
+          setTimeout(initMap, 100);
+        }
         return;
       }
 
@@ -1296,20 +1451,20 @@
           mapInstance = null;
         }
 
-        mapInstance = L.map("map", {
+        mapInstance = window.L.map("map", {
           center: [WORKPLACE.lat, WORKPLACE.lng],
           zoom: 13,
           zoomControl: true,
           scrollWheelZoom: true
         });
 
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
           maxZoom: 19,
           crossOrigin: true
         }).addTo(mapInstance);
 
-        L.circle([WORKPLACE.lat, WORKPLACE.lng], {
+        window.L.circle([WORKPLACE.lat, WORKPLACE.lng], {
           color: "#f59e0b",
           fillColor: "#fbbf24",
           fillOpacity: 0.08,
@@ -1318,14 +1473,14 @@
           radius: 7500
         }).addTo(mapInstance);
 
-        const workIcon = L.divIcon({
+        const workIcon = window.L.divIcon({
           className: "custom-work-pin",
           html: `<div style="background:#f59e0b;color:#0f172a;font-weight:800;font-size:12px;padding:4px 8px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);white-space:nowrap;cursor:pointer;">🏢 Edf. Etevaldo Nogueira</div>`,
           iconSize: [160, 28],
           iconAnchor: [80, 14]
         });
 
-        const workMarker = L.marker([WORKPLACE.lat, WORKPLACE.lng], { icon: workIcon }).addTo(mapInstance);
+        const workMarker = window.L.marker([WORKPLACE.lat, WORKPLACE.lng], { icon: workIcon }).addTo(mapInstance);
         workMarker.bindPopup(`
           <div class="p-1 text-xs space-y-1">
             <div class="font-bold text-amber-600 uppercase tracking-wider">Local de Trabalho (Referência)</div>
@@ -1337,10 +1492,14 @@
           </div>
         `);
 
-        markerGroup = L.layerGroup().addTo(mapInstance);
+        markerGroup = window.L.layerGroup().addTo(mapInstance);
 
+        // Hide loading notice immediately once map loads
         const notice = document.getElementById("mapLoadingNotice");
         if (notice) notice.style.display = "none";
+
+        // Draw current markers immediately!
+        updateMapMarkers(getCurrentFilteredList());
 
         [100, 300, 600, 1200].forEach((delay) => {
           setTimeout(() => {
@@ -1354,11 +1513,8 @@
     }
 
     function updateMapMarkers(filteredList) {
-      if (!mapInstance) initMap();
-      if (!markerGroup) {
-        if (mapInstance) markerGroup = L.layerGroup().addTo(mapInstance);
-        else return;
-      }
+      if (!mapInstance || !markerGroup || typeof window.L === "undefined") return;
+
       markerGroup.clearLayers();
       markersById = {};
 
@@ -1366,26 +1522,25 @@
         if (!item.lat || !item.lng) return;
         const rating = userRatings[item.id] || 0;
         
-        // Color marker according to rating
-        let bgColor = "#059669"; // default emerald
+        let bgColor = "#059669";
         if (rating >= 4) {
-          bgColor = "#10b981"; // bright green
+          bgColor = "#10b981"; // green
         } else if (rating === 3) {
-          bgColor = "#f59e0b"; // yellow/amber
+          bgColor = "#f59e0b"; // yellow
         } else if (rating === 1 || rating === 2) {
-          bgColor = "#ef4444"; // red (discarded)
+          bgColor = "#ef4444"; // red
         } else if (item.type === "Casa em Condomínio") {
-          bgColor = "#0284c7"; // sky blue
+          bgColor = "#0284c7"; // sky
         }
 
-        const pinIcon = L.divIcon({
+        const pinIcon = window.L.divIcon({
           className: "custom-prop-pin",
           html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;cursor:pointer;">${rating > 0 ? rating + '⭐ • ' : ''}${formatBRL(item.total)}</div>`,
           iconSize: [120, 24],
           iconAnchor: [60, 12]
         });
 
-        const marker = L.marker([item.lat, item.lng], { icon: pinIcon }).addTo(markerGroup);
+        const marker = window.L.marker([item.lat, item.lng], { icon: pinIcon }).addTo(markerGroup);
         const waUrl = buildWhatsAppUrl(item);
 
         marker.bindPopup(`
@@ -1424,9 +1579,9 @@
         markersById[item.id] = marker;
       });
 
-      if (mapInstance && filteredList.length > 0) {
+      if (filteredList.length > 0) {
         try {
-          const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
+          const bounds = window.L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
           filteredList.forEach((p) => {
             if (p.lat && p.lng) bounds.extend([p.lat, p.lng]);
           });
@@ -1454,7 +1609,11 @@
     }
 
     function updateChart(filteredList) {
-      const ctx = document.getElementById("priceChart").getContext("2d");
+      if (typeof window.Chart === "undefined") return;
+      const ctxEl = document.getElementById("priceChart");
+      if (!ctxEl) return;
+      const ctx = ctxEl.getContext("2d");
+
       const labels = filteredList.slice(0, 15).map((p) => `${p.neighborhood} (${p.code})`);
       const rents = filteredList.slice(0, 15).map((p) => p.rent);
       const condos = filteredList.slice(0, 15).map((p) => p.condo);
@@ -1464,7 +1623,7 @@
         priceChartInstance.destroy();
       }
 
-      priceChartInstance = new Chart(ctx, {
+      priceChartInstance = new window.Chart(ctx, {
         type: "bar",
         data: {
           labels,
@@ -1527,6 +1686,7 @@
 
     function renderQuickAgencyList(filteredList) {
       const container = document.getElementById("quickAgencyList");
+      if (!container) return;
       if (filteredList.length === 0) {
         container.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">Nenhum imóvel nos filtros atuais.</div>`;
         return;
@@ -1550,15 +1710,19 @@
     }
 
     function updateKPIs(filteredList, allProperties) {
-      document.getElementById("kpiCount").textContent = String(filteredList.length);
-      document.getElementById("resultsCounter").textContent = `Exibindo ${filteredList.length} de ${allProperties.length} imóveis cadastrados`;
+      const countEl = document.getElementById("kpiCount");
+      const counterEl = document.getElementById("resultsCounter");
+      if (countEl) countEl.textContent = String(filteredList.length);
+      if (counterEl) counterEl.textContent = `Exibindo ${filteredList.length} de ${allProperties.length} imóveis cadastrados`;
 
       const ratedIds = Object.keys(userRatings);
       const discardedCount = ratedIds.filter(id => userRatings[id] === 1 || userRatings[id] === 2).length;
       const activeRatedCount = ratedIds.filter(id => userRatings[id] >= 3).length;
 
-      document.getElementById("kpiRatedCount").textContent = String(activeRatedCount);
-      document.getElementById("kpiDiscardedCount").textContent = `${discardedCount} descartados (1-2⭐)`;
+      const ratedCountEl = document.getElementById("kpiRatedCount");
+      const discardedCountEl = document.getElementById("kpiDiscardedCount");
+      if (ratedCountEl) ratedCountEl.textContent = String(activeRatedCount);
+      if (discardedCountEl) discardedCountEl.textContent = `${discardedCount} descartados (1-2⭐)`;
 
       if (filteredList.length === 0) {
         document.getElementById("kpiMinPrice").textContent = "—";
@@ -1587,7 +1751,7 @@
         `;
       }
       return `
-        <div class="flex items-center gap-1 bg-white/80 backdrop-blur px-2.5 py-1 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-1 bg-white/90 backdrop-blur px-2.5 py-1 rounded-xl border border-slate-200 shadow-sm">
           <span class="text-[11px] font-bold text-slate-500 mr-1">Sua Nota:</span>
           ${starsHtml}
           ${currentRating > 0 ? `<button type="button" class="star-btn text-[11px] font-bold text-slate-400 hover:text-slate-600 ml-1.5 underline" data-rate-id="${propId}" data-rate-val="0" title="Limpar avaliação">Limpar</button>` : ''}
@@ -1597,32 +1761,32 @@
 
     function renderListings(filteredList) {
       const container = document.getElementById("listingsSection");
+      if (!container) return;
 
       if (filteredList.length === 0) {
         container.innerHTML = `
           <div class="bg-white rounded-2xl border-2 border-slate-200 p-10 text-center space-y-3">
             <div class="text-3xl">🏠</div>
             <h3 class="text-base font-bold text-slate-800">Nenhum imóvel encontrado com esses filtros</h3>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os filtros de valor, tempo de deslocamento ou mude o filtro de estrelas para visualizar outros imóveis.</p>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os filtros de valor, tempo de deslocamento ou mude o filtro de estrelas no topo para visualizar outros imóveis.</p>
           </div>
         `;
         return;
       }
 
-      // Group by presentationDateGroup
       const recentGroup = filteredList.filter(i => i.presentationDateGroup === "2026-10-15-RECENT");
       const activeGroup = filteredList.filter(i => i.presentationDateGroup === "2026-10-15-ACTIVE");
 
       const groups = [
         {
           badge: "Novas Captações & Bairros Adicionados",
-          title: "Captações Recentes (Outubro/2026) — Valores Auditados",
+          title: "Captações Recentes — Valores Auditados na OLX",
           subtitle: "Oportunidades em Aldeota, Varjota, Joaquim Távora, Cocó, Cambeba, Tauape, Jacarecanga e Montese",
           items: recentGroup
         },
         {
           badge: "Base Ativa Verificada",
-          title: "Base de Imóveis Verificada em Fortaleza",
+          title: "Base Ativa Verificada em Fortaleza",
           subtitle: "Apartamentos e Casas em Condomínio Fechado (Dionísio Torres, Fátima, Sapiranga, José de Alencar, Edson Queiroz e Lagoa Redonda)",
           items: activeGroup
         }
@@ -1653,32 +1817,28 @@
               const waUrl = buildWhatsAppUrl(item);
 
               // TONS DOS CARDS DIFERENCIADOS:
-              // 1. Se avaliado com 4 ou 5 estrelas: VERDE destacado
-              // 2. Se avaliado com 3 estrelas: AMARELO destacado
-              // 3. Se descartado (1 ou 2 estrelas, se estiver na aba de descartados): VERMELHO/ROSE
-              // 4. Se não avaliado: Alterna entre Tom A (Branco Puro com borda Slate) e Tom B (Slate Suave azulado contrastante)
               let cardBgClass = "";
               let cardBorderClass = "";
               let headerBarClass = "";
               let badgeRatingHtml = "";
 
               if (rating >= 4) {
-                cardBgClass = "bg-emerald-50/90";
-                cardBorderClass = "border-2 border-emerald-500 ring-2 ring-emerald-300/60 shadow-md";
+                cardBgClass = "bg-emerald-50/95";
+                cardBorderClass = "border-2 border-emerald-500 ring-4 ring-emerald-300/40 shadow-md";
                 headerBarClass = "bg-emerald-700 text-white";
-                badgeRatingHtml = `<span class="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center gap-1">⭐ ${rating} Estrelas • Alta Prioridade</span>`;
+                badgeRatingHtml = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs flex items-center gap-1">⭐ ${rating} Estrelas • Alta Prioridade</span>`;
               } else if (rating === 3) {
-                cardBgClass = "bg-amber-50/90";
-                cardBorderClass = "border-2 border-amber-400 ring-2 ring-amber-300/60 shadow-md";
+                cardBgClass = "bg-amber-50/95";
+                cardBorderClass = "border-2 border-amber-400 ring-4 ring-amber-300/40 shadow-md";
                 headerBarClass = "bg-amber-600 text-white";
-                badgeRatingHtml = `<span class="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 font-bold text-xs flex items-center gap-1">⭐ 3 Estrelas • Interesse Médio</span>`;
+                badgeRatingHtml = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center gap-1">⭐ 3 Estrelas • Interesse Médio</span>`;
               } else if (rating === 1 || rating === 2) {
-                cardBgClass = "bg-rose-50/80";
+                cardBgClass = "bg-rose-50/85";
                 cardBorderClass = "border-2 border-rose-400 opacity-75 shadow-sm";
                 headerBarClass = "bg-rose-700 text-white";
-                badgeRatingHtml = `<span class="px-2.5 py-1 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center gap-1">🗑️ ${rating} Estrela(s) • Descartado</span>`;
+                badgeRatingHtml = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-extrabold text-xs flex items-center gap-1">🗑️ ${rating} Estrela(s) • Descartado</span>`;
               } else {
-                // Alternância nítida de tons entre cards consecutivos!
+                // Alternância nítida de tons entre cards consecutivos
                 if (globalCardIndex % 2 === 1) {
                   cardBgClass = "bg-white";
                   cardBorderClass = "border-2 border-slate-300 hover:border-slate-400 shadow-sm hover:shadow-md";
@@ -1686,7 +1846,7 @@
                 } else {
                   cardBgClass = "bg-slate-100/90";
                   cardBorderClass = "border-2 border-slate-400 hover:border-slate-500 shadow-sm hover:shadow-md";
-                  headerBarClass = "bg-indigo-900 text-white";
+                  headerBarClass = "bg-indigo-950 text-white";
                 }
               }
 
@@ -1696,9 +1856,9 @@
                   <!-- Card Header Bar (Delimitação clara do início do card) -->
                   <div class="${headerBarClass} px-4 py-2.5 flex items-center justify-between text-xs font-bold tracking-wide">
                     <div class="flex items-center gap-2">
-                      <span class="px-2 py-0.5 rounded bg-black/20 text-white font-extrabold text-[11px]">#${String(globalCardIndex).padStart(2, '0')}</span>
+                      <span class="px-2 py-0.5 rounded bg-black/30 text-white font-black text-[11px]">#${String(globalCardIndex).padStart(2, '0')}</span>
                       <span>${item.neighborhood.toUpperCase()}</span>
-                      <span class="opacity-75">• Cód: ${item.code}</span>
+                      <span class="opacity-80">• Cód: ${item.code}</span>
                     </div>
                     <div class="flex items-center gap-1.5">
                       ${badgeRatingHtml}
@@ -1757,7 +1917,7 @@
                       </div>
                     </div>
 
-                    <!-- COMPOSIÇÃO DOS VALORES OFICIAIS (Totalmente transparente e discriminada) -->
+                    <!-- COMPOSIÇÃO DOS VALORES OFICIAIS -->
                     <div class="rounded-xl bg-slate-900 text-white p-4 space-y-2 border border-slate-800 shadow">
                       <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-2 border-b border-slate-700">
                         <div>
@@ -1835,24 +1995,32 @@
       `).join('');
     }
 
-    function applyFiltersAndRender() {
-      const ratingFilter = document.getElementById("filterRating").value;
-      const propType = document.getElementById("filterType").value;
-      const neighborhood = document.getElementById("filterNeighborhood").value;
-      const maxPrice = Number(document.getElementById("filterMaxPrice").value);
-      const maxDrive = Number(document.getElementById("filterMaxDrive").value);
-      const sortBy = document.getElementById("sortBy").value;
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    function getCurrentFilteredList() {
+      const ratingFilterEl = document.getElementById("filterRating");
+      const propTypeEl = document.getElementById("filterType");
+      const neighborhoodEl = document.getElementById("filterNeighborhood");
+      const maxPriceEl = document.getElementById("filterMaxPrice");
+      const maxDriveEl = document.getElementById("filterMaxDrive");
+      const sortByEl = document.getElementById("sortBy");
+      const queryEl = document.getElementById("searchInput");
 
-      document.getElementById("labelMaxPrice").textContent = formatBRL(maxPrice);
-      document.getElementById("labelMaxDrive").textContent = `${maxDrive} min`;
+      const ratingFilter = ratingFilterEl ? ratingFilterEl.value : "ACTIVE_ALL";
+      const propType = propTypeEl ? propTypeEl.value : "ALL";
+      const neighborhood = neighborhoodEl ? neighborhoodEl.value : "ALL";
+      const maxPrice = maxPriceEl ? Number(maxPriceEl.value) : 3500;
+      const maxDrive = maxDriveEl ? Number(maxDriveEl.value) : 25;
+      const sortBy = sortByEl ? sortByEl.value : "rating_desc";
+      const query = queryEl ? queryEl.value.trim().toLowerCase() : "";
+
+      const labelMaxPrice = document.getElementById("labelMaxPrice");
+      const labelMaxDrive = document.getElementById("labelMaxDrive");
+      if (labelMaxPrice) labelMaxPrice.textContent = formatBRL(maxPrice);
+      if (labelMaxDrive) labelMaxDrive.textContent = `${maxDrive} min`;
 
       let filtered = PROPERTIES.filter((item) => {
         const r = userRatings[item.id] || 0;
 
-        // Regra de exclusão por estrelas:
         if (ratingFilter === "ACTIVE_ALL") {
-          // Remove do painel se classificado com 1 ou 2 estrelas!
           if (r === 1 || r === 2) return false;
         } else if (ratingFilter === "GREEN_ONLY") {
           if (r < 4) return false;
@@ -1886,11 +2054,30 @@
         return 0;
       });
 
+      return filtered;
+    }
+
+    function applyFiltersAndRender() {
+      const filtered = getCurrentFilteredList();
+
+      // RENDER DOM ELEMENTS FIRST (NEVER BLOCKED BY MAP OR CHART)
       updateKPIs(filtered, PROPERTIES);
-      updateMapMarkers(filtered);
-      updateChart(filtered);
-      renderQuickAgencyList(filtered);
       renderListings(filtered);
+      renderQuickAgencyList(filtered);
+
+      // ASYNC MAP UPDATE
+      try {
+        updateMapMarkers(filtered);
+      } catch (err) {
+        console.warn("Erro ao atualizar marcadores no mapa:", err);
+      }
+
+      // ASYNC CHART UPDATE
+      try {
+        updateChart(filtered);
+      } catch (err) {
+        console.warn("Erro ao atualizar gráfico:", err);
+      }
     }
 
     function copyTextToClipboard(text) {
@@ -1919,28 +2106,35 @@
       document.body.removeChild(ta);
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
+    // --- ROCK-SOLID BOOT SEQUENCE (RUNS WHETHER DOM IS ALREADY READY OR NOT) ---
+    function initApp() {
       loadRatings();
-      initMap();
+      initSupabaseClient();
       applyFiltersAndRender();
+      initMap();
 
       ["filterRating", "filterType", "filterNeighborhood", "filterMaxPrice", "filterMaxDrive", "sortBy"].forEach((id) => {
-        const el = document.getElementById(id.trim());
+        const el = document.getElementById(id);
         if (el) el.addEventListener("input", applyFiltersAndRender);
       });
-      document.getElementById("searchInput").addEventListener("input", applyFiltersAndRender);
 
-      document.getElementById("btnResetFilters").addEventListener("click", () => {
-        document.getElementById("filterRating").value = "ACTIVE_ALL";
-        document.getElementById("filterType").value = "ALL";
-        document.getElementById("filterNeighborhood").value = "ALL";
-        document.getElementById("filterMaxPrice").value = "3500";
-        document.getElementById("filterMaxDrive").value = "25";
-        document.getElementById("sortBy").value = "rating_desc";
-        document.getElementById("searchInput").value = "";
-        applyFiltersAndRender();
-        showToast("Filtros restaurados.");
-      });
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) searchInput.addEventListener("input", applyFiltersAndRender);
+
+      const btnReset = document.getElementById("btnResetFilters");
+      if (btnReset) {
+        btnReset.addEventListener("click", () => {
+          document.getElementById("filterRating").value = "ACTIVE_ALL";
+          document.getElementById("filterType").value = "ALL";
+          document.getElementById("filterNeighborhood").value = "ALL";
+          document.getElementById("filterMaxPrice").value = "3500";
+          document.getElementById("filterMaxDrive").value = "25";
+          document.getElementById("sortBy").value = "rating_desc";
+          document.getElementById("searchInput").value = "";
+          applyFiltersAndRender();
+          showToast("Filtros restaurados.");
+        });
+      }
 
       const btnReload = document.getElementById("btnReloadMap");
       if (btnReload) {
@@ -1962,67 +2156,71 @@
         if (!document.hidden && mapInstance) mapInstance.invalidateSize();
       });
 
-      document.getElementById("btnCenterWork").addEventListener("click", () => {
-        if (!mapInstance) initMap();
-        if (mapInstance) {
-          mapInstance.invalidateSize();
-          mapInstance.setView([WORKPLACE.lat, WORKPLACE.lng], 15, { animate: true });
-          showToast("Mapa focado no Edf. Etevaldo Nogueira Business.");
-        }
-      });
+      const btnCenter = document.getElementById("btnCenterWork");
+      if (btnCenter) {
+        btnCenter.addEventListener("click", () => {
+          if (!mapInstance) initMap();
+          if (mapInstance) {
+            mapInstance.invalidateSize();
+            mapInstance.setView([WORKPLACE.lat, WORKPLACE.lng], 15, { animate: true });
+            showToast("Mapa focado no Edf. Etevaldo Nogueira Business.");
+          }
+        });
+      }
 
-      document.getElementById("btnFitAll").addEventListener("click", () => {
-        if (!mapInstance) initMap();
-        if (mapInstance) {
-          mapInstance.invalidateSize();
-          const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
-          PROPERTIES.forEach((p) => {
-            const r = userRatings[p.id] || 0;
-            if (r !== 1 && r !== 2) bounds.extend([p.lat, p.lng]);
-          });
-          mapInstance.fitBounds(bounds, { padding: [p.lat, p.lng]);
-          });
-          mapInstance.fitBounds(bounds, { padding: [35, 35] });
-        }
-      });
+      const btnFit = document.getElementById("btnFitAll");
+      if (btnFit) {
+        btnFit.addEventListener("click", () => {
+          if (!mapInstance) initMap();
+          if (mapInstance && typeof window.L !== "undefined") {
+            mapInstance.invalidateSize();
+            const bounds = window.L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
+            PROPERTIES.forEach((p) => {
+              const r = userRatings[p.id] || 0;
+              if (r !== 1 && r !== 2) bounds.extend([p.lat, p.lng]);
+            });
+            mapInstance.fitBounds(bounds, { padding: [35, 35] });
+          }
+        });
+      }
 
-      const modal = document.getElementById("scheduleModal");
-      const openModal = () => {
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-      };
-      const closeModal = () => {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-      };
-      document.getElementById("btnOpenScheduleModal").addEventListener("click", openModal);
-      document.getElementById("btnCloseScheduleModal").addEventListener("click", closeModal);
-      document.getElementById("btnAckScheduleModal").addEventListener("click", closeModal);
+      const btnOpenSb = document.getElementById("btnOpenSupabaseModal");
+      if (btnOpenSb) btnOpenSb.addEventListener("click", openSupabaseModal);
 
       // Event delegation inside listings
-      document.getElementById("listingsSection").addEventListener("click", (e) => {
-        const starBtn = e.target.closest(".star-btn");
-        if (starBtn) {
-          const propId = starBtn.getAttribute("data-rate-id");
-          const val = Number(starBtn.getAttribute("data-rate-val"));
-          setRating(propId, val);
-          return;
-        }
+      const listingsSection = document.getElementById("listingsSection");
+      if (listingsSection) {
+        listingsSection.addEventListener("click", (e) => {
+          const starBtn = e.target.closest(".star-btn");
+          if (starBtn) {
+            const propId = starBtn.getAttribute("data-rate-id");
+            const val = Number(starBtn.getAttribute("data-rate-val"));
+            setRating(propId, val);
+            return;
+          }
 
-        const mapBtn = e.target.closest(".btn-focus-map");
-        if (mapBtn) {
-          const id = mapBtn.getAttribute("data-map-id");
-          focusPropertyOnMap(id);
-          return;
-        }
+          const mapBtn = e.target.closest(".btn-focus-map");
+          if (mapBtn) {
+            const id = mapBtn.getAttribute("data-map-id");
+            focusPropertyOnMap(id);
+            return;
+          }
 
-        const copyBtn = e.target.closest(".btn-copy-phone");
-        if (copyBtn) {
-          const phone = copyBtn.getAttribute("data-copy-phone");
-          copyTextToClipboard(phone);
-        }
-      });
-    });
+          const copyBtn = e.target.closest(".btn-copy-phone");
+          if (copyBtn) {
+            const phone = copyBtn.getAttribute("data-copy-phone");
+            copyTextToClipboard(phone);
+          }
+        });
+      }
+    }
+
+    // Safe execution trigger
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initApp);
+    } else {
+      initApp();
+    }
   </script>
 </body>
 </html>
