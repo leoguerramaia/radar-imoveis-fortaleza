@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radar Imóveis Fortaleza — Dashboard & Mapa (Até 15 min do Edf. Etevaldo Nogueira Business)</title>
+  <title>Radar Imóveis Fortaleza — Dashboard & Mapa (Até 15-20 min do Edf. Etevaldo Nogueira Business)</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,7 +72,7 @@
             Radar Imóveis Fortaleza • Aluguel Residencial
           </h1>
           <p class="mt-1 text-sm sm:text-base text-slate-300 max-w-3xl">
-            Curadoria diária de <strong>Apartamentos</strong> e <strong>Casas em Condomínio</strong> com <strong>mín. 3 quartos</strong>, <strong>mín. 70 m²</strong>, pacote total até <strong>R$ 3.500/mês</strong> (aluguel + condomínio + IPTU) e a até <strong>15 min de carro</strong> do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807 - Meireles).
+            Curadoria diária de <strong>Apartamentos</strong> e <strong>Casas em Condomínio</strong> (Aldeota, Papicu, Dionísio Torres, Fátima, Sapiranga, José de Alencar) e <strong>Casas em Condomínio Fechado</strong> em <strong>Édson Queiroz</strong>, <strong>Cidade dos Funcionários</strong> e <strong>Lagoa Redonda</strong>, com mín. 3 quartos, mín. 70 m² e pacote total até R$ 3.500/mês até o <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807).
           </p>
         </div>
 
@@ -94,14 +94,14 @@
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Imóveis Qualificados Hoje</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiCount" class="text-2xl font-extrabold text-white">9</span>
-            <span class="text-xs text-emerald-400 font-medium">7 Aptos • 2 Casas Cond.</span>
+            <span id="kpiCount" class="text-2xl font-extrabold text-white">13</span>
+            <span class="text-xs text-emerald-400 font-medium">7 Aptos • 6 Casas Cond.</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Menor Pacote Mensal</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">R$ 2.500</span>
+            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">R$ 2.085</span>
             <span class="text-xs text-slate-400">Teto: R$ 3.500</span>
           </div>
         </div>
@@ -109,13 +109,13 @@
           <p class="text-xs text-slate-400 font-medium">Menor Tempo até o Trabalho</p>
           <div class="flex items-baseline justify-between mt-1">
             <span id="kpiMinDrive" class="text-2xl font-extrabold text-amber-400">3 min</span>
-            <span class="text-xs text-slate-400">Máx: 15 min</span>
+            <span class="text-xs text-slate-400">Máx: 20 min</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
-          <p class="text-xs text-slate-400 font-medium">Área Útil / Construída Média</p>
+          <p class="text-xs text-slate-400 font-medium">Área Útil Média</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiAvgArea" class="text-2xl font-extrabold text-sky-400">118 m²</span>
+            <span id="kpiAvgArea" class="text-2xl font-extrabold text-sky-400">114 m²</span>
             <span class="text-xs text-slate-400">Mín: 70 m²</span>
           </div>
         </div>
@@ -132,7 +132,7 @@
         <div>
           <label for="filterDateGroup" class="block text-xs font-semibold text-slate-600 mb-1">Data de Apresentação</label>
           <select id="filterDateGroup" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            <option value="ALL">Todas as Datas (9)</option>
+            <option value="ALL">Todas as Datas (13)</option>
             <option value="2026-10-15-RECENT">15/10/2026 • Captação Recente (Últimas 72h)</option>
             <option value="2026-10-15-ACTIVE">15/10/2026 • Base Ativa Verificada (Out/2026)</option>
           </select>
@@ -150,13 +150,16 @@
         <div>
           <label for="filterNeighborhood" class="block text-xs font-semibold text-slate-600 mb-1">Bairro (Fortaleza/CE)</label>
           <select id="filterNeighborhood" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            <option value="ALL">Todos os Bairros</option>
-            <option value="Aldeota">Aldeota</option>
-            <option value="Dionísio Torres">Dionísio Torres</option>
-            <option value="Papicu">Papicu</option>
-            <option value="Fátima">Fátima</option>
-            <option value="Sapiranga">Sapiranga</option>
-            <option value="José de Alencar">José de Alencar</option>
+            <option value="ALL">Todos os Bairros (9)</option>
+            <option value="Aldeota">Aldeota (Apto)</option>
+            <option value="Dionísio Torres">Dionísio Torres (Apto)</option>
+            <option value="Papicu">Papicu (Apto)</option>
+            <option value="Fátima">Fátima (Apto)</option>
+            <option value="Sapiranga">Sapiranga (Casa Cond.)</option>
+            <option value="José de Alencar">José de Alencar (Casa Cond.)</option>
+            <option value="Edson Queiroz">Édson Queiroz (Casa Cond.)</option>
+            <option value="Cidade dos Funcionários">Cidade dos Funcionários (Casa Cond.)</option>
+            <option value="Lagoa Redonda">Lagoa Redonda (Casa Cond.)</option>
           </select>
         </div>
 
@@ -165,15 +168,15 @@
             <label for="filterMaxPrice">Pacote Máximo</label>
             <span id="labelMaxPrice" class="text-emerald-700 font-bold">R$ 3.500</span>
           </div>
-          <input id="filterMaxPrice" type="range" min="2500" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
+          <input id="filterMaxPrice" type="range" min="2000" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
         </div>
 
         <div>
           <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
             <label for="filterMaxDrive">Tempo Máx. Carro</label>
-            <span id="labelMaxDrive" class="text-amber-700 font-bold">15 min</span>
+            <span id="labelMaxDrive" class="text-amber-700 font-bold">25 min</span>
           </div>
-          <input id="filterMaxDrive" type="range" min="3" max="15" step="1" value="15" class="w-full accent-amber-500 cursor-pointer" />
+          <input id="filterMaxDrive" type="range" min="3" max="25" step="1" value="25" class="w-full accent-amber-500 cursor-pointer" />
         </div>
 
         <div class="flex gap-2">
@@ -201,7 +204,7 @@
           <button id="btnToggleFavorites" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
             <span>⭐</span> Somente Favoritos (<span id="favCountBadge">0</span>)
           </button>
-          <span id="resultsCounter" class="text-xs font-medium text-slate-500">Exibindo 9 de 9 imóveis</span>
+          <span id="resultsCounter" class="text-xs font-medium text-slate-500">Exibindo 13 de 13 imóveis</span>
         </div>
       </div>
     </section>
@@ -296,7 +299,8 @@
           <div>• Mínimo de 3 quartos e mínimo de 70 m² de área útil/construída;</div>
           <div>• Valor total máximo de R$ 3.500,00/mês (Aluguel + Condomínio + IPTU);</div>
           <div>• Apartamento ou Casa em Condomínio Fechado em Fortaleza/CE;</div>
-          <div>• Tempo máximo de 15 minutos de carro até o Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles);</div>
+          <div>• Tempo máximo de 15 a 20 minutos de carro até o Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles);</div>
+          <div>• Bairros autorizados para Casa em Condomínio Fechado: Sapiranga, José de Alencar, Édson Queiroz, Cidade dos Funcionários e Lagoa Redonda;</div>
           <div>• Agrupamento por data de apresentação com destaque para contato e link direto para WhatsApp.</div>
         </div>
       </div>
@@ -651,6 +655,102 @@
         listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311",
         routeUrl: "https://www.google.com/maps/dir/Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
         highlights: ["Casa Duplex em Condomínio", "Deck Privativo c/ Churrasqueira", "Armários Embutidos", "Piscina no Condomínio"]
+      },
+      {
+        id: "imv-11",
+        code: "BD385",
+        title: "Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz",
+        type: "Casa em Condomínio",
+        presentationDateGroup: "2026-10-15-RECENT",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
+        publishedDate: "14/10/2026",
+        neighborhood: "Edson Queiroz",
+        address: "Próximo à Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255",
+        area: 90,
+        bedrooms: 3,
+        suites: 2,
+        bathrooms: 3,
+        parking: 2,
+        rent: 1900,
+        condo: 600,
+        iptu: 0,
+        total: 2500,
+        driveMinutes: 13,
+        driveKm: "6,8 km",
+        routeSummary: "Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Farias Brito",
+        lat: -3.7720,
+        lng: -38.4840,
+        agencyName: "Breno Diniz Lima Imóveis",
+        contactPerson: "Breno Diniz Lima (Corretor Profissional)",
+        phoneDisplay: "(85) 98835-1212",
+        whatsappNumber: "5585988351212",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793",
+        routeUrl: "https://www.google.com/maps/dir/Edson+Queiroz,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Casa em Condomínio", "2 Suítes", "2 Vagas", "Pacote R$ 2.500/mês", "Próx. Unifor e Fórum Clóvis Beviláqua"]
+      },
+      {
+        id: "imv-12",
+        code: "CF110",
+        title: "Casa Duplex em Condomínio Fechado 110 m² com 3 Suítes na Cidade dos Funcionários",
+        type: "Casa em Condomínio",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "12/10/2026",
+        neighborhood: "Cidade dos Funcionários",
+        address: "Entorno da Av. Oliveira Paiva / Rua Des. Gonzaga, Cidade dos Funcionários, Fortaleza - CE, 60822-630",
+        area: 110,
+        bedrooms: 3,
+        suites: 3,
+        bathrooms: 4,
+        parking: 2,
+        rent: 2250,
+        condo: 550,
+        iptu: 90,
+        total: 2890,
+        driveMinutes: 15,
+        driveKm: "8,8 km",
+        routeSummary: "Via Av. Governador Raul Barbosa e Av. Almirante Henrique Sabóia",
+        lat: -3.7840,
+        lng: -38.4980,
+        agencyName: "Alessandro Belchior Imóveis (Unidade Sul)",
+        contactPerson: "Central de Locação Alessandro Belchior",
+        phoneDisplay: "(85) 3466-4343",
+        whatsappNumber: "558534664343",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785",
+        routeUrl: "https://www.google.com/maps/dir/Cidade+dos+Funcion%C3%A1rios,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Casa Duplex em Condomínio", "3 Suítes", "Piscina e Deck", "Portaria 24h", "Próx. Av. Oliveira Paiva"]
+      },
+      {
+        id: "imv-13",
+        code: "RP95",
+        title: "Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda",
+        type: "Casa em Condomínio",
+        presentationDateGroup: "2026-10-15-ACTIVE",
+        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
+        publishedDate: "07/10/2026",
+        neighborhood: "Lagoa Redonda",
+        address: "Rua Luiza Guimarães - Cond. Reserva dos Pássaros, Lagoa Redonda, Fortaleza - CE, 60831-490",
+        area: 95,
+        bedrooms: 3,
+        suites: 2,
+        bathrooms: 2,
+        parking: 2,
+        rent: 2950,
+        condo: 410,
+        iptu: 69,
+        total: 3429,
+        driveMinutes: 20,
+        driveKm: "14,0 km",
+        routeSummary: "Via Av. Maestro Lisboa, Av. Washington Soares e Av. Almirante Henrique Sabóia",
+        lat: -3.8185,
+        lng: -38.4620,
+        agencyName: "Condomínio Reserva dos Pássaros (Locação Direta / Corretor)",
+        contactPerson: "André Rabelo (Atendimento Locação)",
+        phoneDisplay: "(85) 98877-3420",
+        whatsappNumber: "5585988773420",
+        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275",
+        routeUrl: "https://www.google.com/maps/dir/Rua+Luiza+Guimar%C3%A3es,+Lagoa+Redonda+-+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        highlights: ["Casa Nova Nunca Habitada", "Condomínio Fechado", "Piscina e Churrasqueira", "Quintal Privativo", "Semi-mobiliada"]
       }
     ];
 
@@ -994,7 +1094,7 @@
           <div class="bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
             <div class="text-3xl">🏠</div>
             <h3 class="text-base font-bold text-slate-800">Nenhum imóvel encontrado com esses filtros</h3>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os controles de valor máximo, tempo de deslocamento ou clique em "Limpar" para visualizar todos os 9 imóveis qualificados.</p>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os controles de valor máximo, tempo de deslocamento ou clique em "Limpar" para visualizar todos os 13 imóveis qualificados.</p>
           </div>
         `;
         return;
@@ -1068,7 +1168,7 @@
                         </a>
                       </h3>
                       <p class="text-xs text-slate-600 mt-1 flex items-center gap-1">
-                        <span>📍</span> <strong>${item.neighborhood}:</strong> ${item.address}
+                        <span>📍</span> <strong>${item.neighborhood}:</strong>${item.address}
                       </p>
                       <p class="text-[11px] text-slate-500 mt-0.5">
                         🛣️ Rota para Av. Dom Luís, 807: ${item.routeSummary}
@@ -1240,7 +1340,7 @@
         document.getElementById("filterType").value = "ALL";
         document.getElementById("filterNeighborhood").value = "ALL";
         document.getElementById("filterMaxPrice").value = "3500";
-        document.getElementById("filterMaxDrive").value = "15";
+        document.getElementById("filterMaxDrive").value = "25";
         document.getElementById("sortBy").value = "drive_asc";
         document.getElementById("searchInput").value = "";
         onlyFavorites = false;
