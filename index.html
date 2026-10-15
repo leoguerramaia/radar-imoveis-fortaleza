@@ -69,30 +69,27 @@
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               Monitoramento Diário Ativo • Execução às 06:00 BRT
             </div>
-            <div id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Base Ativa (13 Imóveis)
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Base Ativa (21 Imóveis • 21 Bairros)
             </div>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             Radar Imóveis Fortaleza • Aluguel Residencial
           </h1>
           <p class="mt-1 text-sm sm:text-base text-slate-300 max-w-3xl">
-            Curadoria diária de <strong>Apartamentos</strong> e <strong>Casas em Condomínio</strong> (Aldeota, Papicu, Dionísio Torres, Fátima, Sapiranga, José de Alencar) e <strong>Casas em Condomínio Fechado</strong> em <strong>Édson Queiroz</strong>, <strong>Cidade dos Funcionários</strong> e <strong>Lagoa Redonda</strong>, com mín. 3 quartos, mín. 70 m² e pacote total até R$ 3.500/mês até o <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807).
+            Curadoria diária cobrindo <strong>21 bairros de Fortaleza</strong> (incluindo Aldeota, Meireles, Varjota, Cocó, Dionísio Torres, Fátima, Joaquim Távora, Eng. Luciano Cavalcante, Montese, Cidade 2000, Tauape, Jacarecanga, Cambeba, Praia do Futuro, Vicente Pinzón, Sapiranga, José de Alencar, Edson Queiroz, Cidade dos Funcionários e Lagoa Redonda), com mín. 3 quartos, mín. 70 m² e pacote total até R$ 3.500/mês a até 15-20 min do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807).
           </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <button id="btnSyncSheet" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition shadow" title="Atualizar dados direto do Google Sheets">
-            <span>🔄</span> Atualizar Imóveis
-          </button>
-          <a href="https://docs.google.com/spreadsheets/d/12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition" title="Abrir planilha de dados no Google Sheets">
-            <span>📊</span> Planilha Google
-          </a>
           <button id="btnCenterWork" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs sm:text-sm transition shadow">
             <span>📍</span> Focar no Trabalho (Av. Dom Luís, 807)
           </button>
-          <button id="btnFitAll" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
+          <button id="btnFitAll" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm transition shadow">
             <span>🗺️</span> Ver Todos no Mapa
+          </button>
+          <button id="btnReloadMap" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
+            <span>🔄</span> Recarregar Mapa
           </button>
           <button id="btnOpenScheduleModal" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-xs sm:text-sm transition">
             <span>⏰</span> Agendamento (06:00)
@@ -105,14 +102,14 @@
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Imóveis Qualificados Hoje</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiCount" class="text-2xl font-extrabold text-white">13</span>
-            <span class="text-xs text-emerald-400 font-medium">7 Aptos • 6 Casas Cond.</span>
+            <span id="kpiCount" class="text-2xl font-extrabold text-white">21</span>
+            <span class="text-xs text-emerald-400 font-medium">15 Aptos • 6 Casas Cond.</span>
           </div>
         </div>
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Menor Pacote Mensal</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">R$ 2.085</span>
+            <span id="kpiMinPrice" class="text-2xl font-extrabold text-emerald-400">R$ 1.650</span>
             <span class="text-xs text-slate-400">Teto: R$ 3.500</span>
           </div>
         </div>
@@ -126,7 +123,7 @@
         <div class="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-xl p-3.5">
           <p class="text-xs text-slate-400 font-medium">Área Útil Média</p>
           <div class="flex items-baseline justify-between mt-1">
-            <span id="kpiAvgArea" class="text-2xl font-extrabold text-sky-400">114 m²</span>
+            <span id="kpiAvgArea" class="text-2xl font-extrabold text-sky-400">110 m²</span>
             <span class="text-xs text-slate-400">Mín: 70 m²</span>
           </div>
         </div>
@@ -143,9 +140,9 @@
         <div>
           <label for="filterDateGroup" class="block text-xs font-semibold text-slate-600 mb-1">Data de Apresentação</label>
           <select id="filterDateGroup" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            <option value="ALL">Todas as Datas (13)</option>
-            <option value="2026-10-15-RECENT">15/10/2026 • Captação Recente (Últimas 72h)</option>
-            <option value="2026-10-15-ACTIVE">15/10/2026 • Base Ativa Verificada (Out/2026)</option>
+            <option value="ALL">Todas as Datas (21)</option>
+            <option value="2026-10-15-RECENT">15/10/2026 • Novos Bairros & Recentes</option>
+            <option value="2026-10-15-ACTIVE">15/10/2026 • Base Ativa Verificada</option>
           </select>
         </div>
 
@@ -161,16 +158,28 @@
         <div>
           <label for="filterNeighborhood" class="block text-xs font-semibold text-slate-600 mb-1">Bairro (Fortaleza/CE)</label>
           <select id="filterNeighborhood" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            <option value="ALL">Todos os Bairros (9)</option>
-            <option value="Aldeota">Aldeota (Apto)</option>
-            <option value="Dionísio Torres">Dionísio Torres (Apto)</option>
-            <option value="Papicu">Papicu (Apto)</option>
-            <option value="Fátima">Fátima (Apto)</option>
-            <option value="Sapiranga">Sapiranga (Casa Cond.)</option>
-            <option value="José de Alencar">José de Alencar (Casa Cond.)</option>
-            <option value="Edson Queiroz">Édson Queiroz (Casa Cond.)</option>
-            <option value="Cidade dos Funcionários">Cidade dos Funcionários (Casa Cond.)</option>
-            <option value="Lagoa Redonda">Lagoa Redonda (Casa Cond.)</option>
+            <option value="ALL">Todos os Bairros (21)</option>
+            <option value="Aldeota">Aldeota (3)</option>
+            <option value="Cambeba">Cambeba</option>
+            <option value="Cidade 2000">Cidade 2000 (1)</option>
+            <option value="Cidade dos Funcionários">Cidade dos Funcionários (1)</option>
+            <option value="Cocó">Cocó (1)</option>
+            <option value="Dionísio Torres">Dionísio Torres (2)</option>
+            <option value="Edson Queiroz">Edson Queiroz (1)</option>
+            <option value="Engenheiro Luciano Cavalcante">Engenheiro Luciano Cavalcante (1)</option>
+            <option value="Fátima">Fátima (2)</option>
+            <option value="Jacarecanga">Jacarecanga (1)</option>
+            <option value="Joaquim Távora">Joaquim Távora (1)</option>
+            <option value="José de Alencar">José de Alencar (1)</option>
+            <option value="Lagoa Redonda">Lagoa Redonda (1)</option>
+            <option value="Meireles">Meireles</option>
+            <option value="Montese">Montese (1)</option>
+            <option value="Papicu">Papicu (1)</option>
+            <option value="Praia do Futuro">Praia do Futuro</option>
+            <option value="Sapiranga">Sapiranga (1)</option>
+            <option value="Tauape">Tauape (1)</option>
+            <option value="Varjota">Varjota (1)</option>
+            <option value="Vicente Pinzón">Vicente Pinzón</option>
           </select>
         </div>
 
@@ -179,7 +188,7 @@
             <label for="filterMaxPrice">Pacote Máximo</label>
             <span id="labelMaxPrice" class="text-emerald-700 font-bold">R$ 3.500</span>
           </div>
-          <input id="filterMaxPrice" type="range" min="2000" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
+          <input id="filterMaxPrice" type="range" min="1500" max="3500" step="50" value="3500" class="w-full accent-emerald-600 cursor-pointer" />
         </div>
 
         <div>
@@ -215,7 +224,7 @@
           <button id="btnToggleFavorites" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
             <span>⭐</span> Somente Favoritos (<span id="favCountBadge">0</span>)
           </button>
-          <span id="resultsCounter" class="text-xs font-medium text-slate-500">Exibindo 13 de 13 imóveis</span>
+          <span id="resultsCounter" class="text-xs font-medium text-slate-500">Exibindo 21 de 21 imóveis</span>
         </div>
       </div>
     </section>
@@ -234,23 +243,18 @@
             </p>
           </div>
           <div class="flex items-center gap-2 text-xs">
-            <button id="btnReloadMap" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold border border-slate-300 transition text-xs" title="Recarregar mapa">
-              <span>🔄</span> Recarregar Mapa
-            </button>
-            <div class="hidden sm:flex items-center gap-2 text-xs">
-              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-                <span class="w-3 h-3 rounded-full bg-amber-500 inline-block border border-white shadow"></span> Trabalho
-              </span>
-              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-                <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block border border-white shadow"></span> Apto
-              </span>
-              <span class="inline-flex items-center gap-1 font-medium text-slate-700">
-                <span class="w-3 h-3 rounded-full bg-sky-600 inline-block border border-white shadow"></span> Casa
-              </span>
-            </div>
+            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+              <span class="w-3 h-3 rounded-full bg-amber-500 inline-block border border-white shadow"></span> Trabalho
+            </span>
+            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+              <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block border border-white shadow"></span> Apto
+            </span>
+            <span class="inline-flex items-center gap-1 font-medium text-slate-700">
+              <span class="w-3 h-3 rounded-full bg-sky-600 inline-block border border-white shadow"></span> Casa
+            </span>
           </div>
         </div>
-        <div id="map" style="min-height: 480px; height: 480px; width: 100%; position: relative;" class="w-full rounded-xl overflow-hidden shadow-inner bg-slate-100">
+        <div id="map" class="w-full rounded-xl overflow-hidden shadow-inner bg-slate-100">
           <div id="mapLoadingNotice" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 text-slate-500 p-6 text-center z-0">
             <div class="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-2"></div>
             <p class="text-xs font-semibold text-slate-700">Carregando mapa interativo...</p>
@@ -264,7 +268,7 @@
           <div class="flex items-center justify-between mb-2">
             <div>
               <h2 class="text-base font-bold text-slate-900">Composição do Pacote Mensal (R$)</h2>
-              <p class="text-xs text-slate-500">Aluguel + Condomínio + IPTU (Todos abaixo do limite de R$ 3.500)</p>
+              <p class="text-xs text-slate-500">Aluguel + Condomínio + IPTU (Todos abaixo de R$ 3.500)</p>
             </div>
           </div>
           <div class="relative h-72 w-full">
@@ -309,10 +313,9 @@
           <div><strong>Critérios fixos da varredura:</strong></div>
           <div>• Mínimo de 3 quartos e mínimo de 70 m² de área útil/construída;</div>
           <div>• Valor total máximo de R$ 3.500,00/mês (Aluguel + Condomínio + IPTU);</div>
-          <div>• Apartamento ou Casa em Condomínio Fechado em Fortaleza/CE;</div>
+          <div>• 21 Bairros monitorados em Fortaleza/CE;</div>
           <div>• Tempo máximo de 15 a 20 minutos de carro até o Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807 - Meireles);</div>
-          <div>• Bairros autorizados para Casa em Condomínio Fechado: Sapiranga, José de Alencar, Édson Queiroz, Cidade dos Funcionários e Lagoa Redonda;</div>
-          <div>• Integração com banco de dados no Google Sheets para atualização em tempo real.</div>
+          <div>• Agrupamento por data de apresentação com destaque para contato e link direto para WhatsApp.</div>
         </div>
       </div>
       <div class="mt-5 flex justify-end">
@@ -346,544 +349,789 @@
       mapsUrl: "https://www.spacesworks.com/pt/br/1875"
     };
 
-    let PROPERTIES = [
+    const PROPERTIES = [
       {
-        id: "imv-1",
-        code: "IH 229",
-        title: "Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-RECENT",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
-        publishedDate: "13/10/2026",
-        neighborhood: "Aldeota",
-        address: "Próximo à Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200",
-        area: 108,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 3,
-        parking: 1,
-        rent: 1600,
-        condo: 1195,
-        iptu: 85,
-        total: 2880,
-        driveMinutes: 4,
-        driveKm: "2,0 km",
-        routeSummary: "Via Av. Padre Antônio Tomás e Av. Farias Brito",
-        lat: -3.7432,
-        lng: -38.4912,
-        agencyName: "Ihone Araújo Imóveis",
-        contactPerson: "Ihone Araújo (Corretora / Imobiliária)",
-        phoneDisplay: "(85) 99121-8289",
-        whatsappNumber: "5585991218289",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457",
-        routeUrl: "https://www.google.com/maps/dir/Av.+Padre+Ant%C3%B4nio+Tom%C3%A1s+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Nascente", "Varanda", "Dependência Completa", "Portaria Presencial", "Aceita Pet"]
+        "id": "imv-1",
+        "code": "IH 229",
+        "title": "Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)",
+        "publishedDate": "13/10/2026",
+        "neighborhood": "Aldeota",
+        "address": "Próximo à Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200",
+        "area": 108,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 1,
+        "rent": 1600,
+        "condo": 1195,
+        "iptu": 85,
+        "total": 2880,
+        "driveMinutes": 4,
+        "driveKm": "2,0 km",
+        "routeSummary": "Via Av. Padre Antônio Tomás e Av. Farias Brito",
+        "lat": -3.7432,
+        "lng": -38.4912,
+        "agencyName": "Ihone Araújo Imóveis",
+        "contactPerson": "Ihone Araújo (Corretora)",
+        "phoneDisplay": "(85) 99121-8289",
+        "whatsappNumber": "5585991218289",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457",
+        "routeUrl": "https://www.google.com/maps/dir/Av.+Padre+Ant%C3%B4nio+Tom%C3%A1s+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Nascente",
+          "Varanda",
+          "Dependência Completa",
+          "Portaria Presencial",
+          "Aceita Pet"
+        ]
       },
       {
-        id: "imv-2",
-        code: "EDSAFIRA",
-        title: "Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-RECENT",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
-        publishedDate: "13/10/2026",
-        neighborhood: "Papicu",
-        address: "Rua Júlio Azevedo, Papicu (Próx. ao Shopping RioMar), Fortaleza - CE, 60175-782",
-        area: 136,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 2,
-        parking: 1,
-        rent: 1400,
-        condo: 1540,
-        iptu: 80,
-        total: 3020,
-        driveMinutes: 6,
-        driveKm: "2,2 km",
-        routeSummary: "Via Rua Júlio Azevedo e Av. Farias Brito",
-        lat: -3.7395,
-        lng: -38.4785,
-        agencyName: "Bardawil Scherer Imóveis",
-        contactPerson: "Equipe de Locação Bardawil Scherer",
-        phoneDisplay: "(85) 4141-8080",
-        whatsappNumber: "558541418080",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869",
-        routeUrl: "https://www.google.com/maps/dir/R.+J%C3%BAlio+Azevedo,+380-1339+-+Papicu,+Fortaleza+-+CE,+60175-782,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["136 m² de Área Útil", "Próx. Shopping RioMar", "Condomínio Fechado", "Portaria"]
+        "id": "imv-2",
+        "code": "EDSAFIRA",
+        "title": "Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)",
+        "publishedDate": "13/10/2026",
+        "neighborhood": "Papicu",
+        "address": "Rua Júlio Azevedo, Papicu (Próx. ao Shopping RioMar), Fortaleza - CE, 60175-782",
+        "area": 136,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 1400,
+        "condo": 1540,
+        "iptu": 80,
+        "total": 3020,
+        "driveMinutes": 6,
+        "driveKm": "2,2 km",
+        "routeSummary": "Via Rua Júlio Azevedo e Av. Farias Brito",
+        "lat": -3.7395,
+        "lng": -38.4785,
+        "agencyName": "Bardawil Scherer Imóveis",
+        "contactPerson": "Equipe de Locação Bardawil Scherer",
+        "phoneDisplay": "(85) 4141-8080",
+        "whatsappNumber": "558541418080",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869",
+        "routeUrl": "https://www.google.com/maps/dir/R.+J%C3%BAlio+Azevedo,+380-1339+-+Papicu,+Fortaleza+-+CE,+60175-782,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "136 m² de Área Útil",
+          "Próx. Shopping RioMar",
+          "Condomínio Fechado",
+          "Portaria"
+        ]
       },
       {
-        id: "imv-3",
-        code: "38/1",
-        title: "Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-RECENT",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
-        publishedDate: "13/10/2026",
-        neighborhood: "Fátima",
-        address: "Bairro de Fátima (Próx. Av. 13 de Maio / Rua Gen. Silva Júnior), Fortaleza - CE, 60411-200",
-        area: 130,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 2,
-        parking: 1,
-        rent: 2000,
-        condo: 1050,
-        iptu: 0,
-        total: 3050,
-        driveMinutes: 14,
-        driveKm: "8,4 km",
-        routeSummary: "Via Av. Pontes Vieira e Av. Almirante Henrique Sabóia",
-        lat: -3.7568,
-        lng: -38.5245,
-        agencyName: "Imobiliária Fortloc",
-        contactPerson: "Setor de Locação Fortloc (Av. Des. Moreira, 2020)",
-        phoneDisplay: "(85) 3261-1856",
-        whatsappNumber: "558532611856",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230",
-        routeUrl: "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["130 m²", "Armários Projetados", "Elevador", "Varanda", "Aceita Pet"]
+        "id": "imv-3",
+        "code": "38/1",
+        "title": "Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)",
+        "publishedDate": "13/10/2026",
+        "neighborhood": "Fátima",
+        "address": "Bairro de Fátima (Próx. Av. 13 de Maio / Rua Gen. Silva Júnior), Fortaleza - CE, 60411-200",
+        "area": 130,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 2000,
+        "condo": 1050,
+        "iptu": 0,
+        "total": 3050,
+        "driveMinutes": 14,
+        "driveKm": "8,4 km",
+        "routeSummary": "Via Av. Pontes Vieira e Av. Almirante Henrique Sabóia",
+        "lat": -3.7568,
+        "lng": -38.5245,
+        "agencyName": "Imobiliária Fortloc",
+        "contactPerson": "Setor de Locação Fortloc (Av. Des. Moreira, 2020)",
+        "phoneDisplay": "(85) 3261-1856",
+        "whatsappNumber": "558532611856",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230",
+        "routeUrl": "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "130 m²",
+          "Armários Projetados",
+          "Elevador",
+          "Varanda",
+          "Aceita Pet"
+        ]
       },
       {
-        id: "imv-4",
-        code: "14079",
-        title: "Apartamento 120 m² com 3 Quartos e 2 Vagas no Entorno da Rua Cel. Linhares",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "10/10/2026",
-        neighborhood: "Dionísio Torres",
-        address: "Entorno da Rua Coronel Linhares, Dionísio Torres / Aldeota, Fortaleza - CE, 60170-241",
-        area: 120,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 3,
-        parking: 2,
-        rent: 2280,
-        condo: 920,
-        iptu: 120,
-        total: 3320,
-        driveMinutes: 3,
-        driveKm: "0,65 km",
-        routeSummary: "Apenas 650 m via Rua Coronel Linhares até a Av. Dom Luís",
-        lat: -3.7388,
-        lng: -38.4975,
-        agencyName: "7Cantos Imobiliária",
-        contactPerson: "Central de Locação 7Cantos Fortaleza",
-        phoneDisplay: "(85) 4003-7654",
-        whatsappNumber: "558540037654",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765",
-        routeUrl: "https://www.google.com/maps/dir/R.+Cel.+Linhares+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["A 3 min do Trabalho", "2 Vagas de Garagem", "120 m²", "Próx. Shopping Del Paseo"]
+        "id": "imv-4",
+        "code": "14079",
+        "title": "Apartamento 120 m² com 3 Quartos e 2 Vagas no Entorno da Rua Cel. Linhares",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "10/10/2026",
+        "neighborhood": "Dionísio Torres",
+        "address": "Entorno da Rua Coronel Linhares, Dionísio Torres / Aldeota, Fortaleza - CE, 60170-241",
+        "area": 120,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 2,
+        "rent": 2280,
+        "condo": 920,
+        "iptu": 120,
+        "total": 3320,
+        "driveMinutes": 3,
+        "driveKm": "0,65 km",
+        "routeSummary": "Apenas 650 m via Rua Coronel Linhares até a Av. Dom Luís",
+        "lat": -3.7388,
+        "lng": -38.4975,
+        "agencyName": "7Cantos Imobiliária",
+        "contactPerson": "Central de Locação 7Cantos Fortaleza",
+        "phoneDisplay": "(85) 4003-7654",
+        "whatsappNumber": "558540037654",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765",
+        "routeUrl": "https://www.google.com/maps/dir/R.+Cel.+Linhares+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "A 3 min do Trabalho",
+          "2 Vagas de Garagem",
+          "120 m²",
+          "Próx. Shopping Del Paseo"
+        ]
       },
       {
-        id: "imv-5",
-        code: "1537349666",
-        title: "Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "08/10/2026",
-        neighborhood: "Dionísio Torres",
-        address: "Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237",
-        area: 74,
-        bedrooms: 3,
-        suites: 2,
-        bathrooms: 2,
-        parking: 1,
-        rent: 2227,
-        condo: 700,
-        iptu: 0,
-        total: 2927,
-        driveMinutes: 9,
-        driveKm: "4,0 km",
-        routeSummary: "Via Av. Pontes Vieira e Av. Senador Virgílio Távora",
-        lat: -3.7525,
-        lng: -38.5015,
-        agencyName: "Ícaro Gaspar / Nômades Imobiliária (Região Dionísio Torres)",
-        contactPerson: "Ícaro Gaspar / Atendimento Nômades Aldeota",
-        phoneDisplay: "(85) 3461-1166",
-        whatsappNumber: "558534611166",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666",
-        routeUrl: "https://www.google.com/maps/dir/Av.+Pontes+Vieira,+1234+-+Dion%C3%ADsio+Torres,+Fortaleza+-+CE,+60130-240,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["2 Suítes", "Móveis Planejados", "2 Elevadores Novos", "IPTU Incluso"]
+        "id": "imv-5",
+        "code": "1537349666",
+        "title": "Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "08/10/2026",
+        "neighborhood": "Dionísio Torres",
+        "address": "Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237",
+        "area": 74,
+        "bedrooms": 3,
+        "suites": 2,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 2227,
+        "condo": 700,
+        "iptu": 0,
+        "total": 2927,
+        "driveMinutes": 9,
+        "driveKm": "4,0 km",
+        "routeSummary": "Via Av. Pontes Vieira e Av. Senador Virgílio Távora",
+        "lat": -3.7525,
+        "lng": -38.5015,
+        "agencyName": "Ícaro Gaspar / Nômades Imobiliária",
+        "contactPerson": "Ícaro Gaspar / Atendimento Nômades",
+        "phoneDisplay": "(85) 3461-1166",
+        "whatsappNumber": "558534611166",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666",
+        "routeUrl": "https://www.google.com/maps/dir/Av.+Pontes+Vieira,+1234+-+Dion%C3%ADsio+Torres,+Fortaleza+-+CE,+60130-240,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "2 Suítes",
+          "Móveis Planejados",
+          "2 Elevadores Novos",
+          "IPTU Incluso"
+        ]
       },
       {
-        id: "imv-6",
-        code: "18SLHJ6",
-        title: "Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "07/10/2026",
-        neighborhood: "Fátima",
-        address: "Rua General Silva Júnior, 700 - Cond. Jardim Antares, Fátima, Fortaleza - CE, 60411-200",
-        area: 105,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 3,
-        parking: 1,
-        rent: 1500,
-        condo: 585,
-        iptu: 0,
-        total: 2085,
-        driveMinutes: 14,
-        driveKm: "9,1 km",
-        routeSummary: "Via Av. Borges de Melo e Av. Almirante Henrique Sabóia",
-        lat: -3.7595,
-        lng: -38.5280,
-        agencyName: "A Predial Imobiliária / Atendimento Fátima & Aldeota",
-        contactPerson: "Central de Locação A Predial (Av. Santos Dumont, 2767)",
-        phoneDisplay: "(85) 4012-8000",
-        whatsappNumber: "558540128000",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696",
-        routeUrl: "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Menor Pacote c/ Lazer", "Piscina e Churrasqueira", "Espaço Gourmet", "105 m²"]
+        "id": "imv-6",
+        "code": "18SLHJ6",
+        "title": "Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "07/10/2026",
+        "neighborhood": "Fátima",
+        "address": "Rua General Silva Júnior, 700 - Cond. Jardim Antares, Fátima, Fortaleza - CE, 60411-200",
+        "area": 105,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 1,
+        "rent": 1500,
+        "condo": 585,
+        "iptu": 0,
+        "total": 2085,
+        "driveMinutes": 14,
+        "driveKm": "9,1 km",
+        "routeSummary": "Via Av. Borges de Melo e Av. Almirante Henrique Sabóia",
+        "lat": -3.7595,
+        "lng": -38.528,
+        "agencyName": "A Predial Imobiliária",
+        "contactPerson": "Central de Locação A Predial (Av. Santos Dumont, 2767)",
+        "phoneDisplay": "(85) 4012-8000",
+        "whatsappNumber": "558540128000",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696",
+        "routeUrl": "https://www.google.com/maps/dir/Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Menor Pacote c/ Lazer",
+          "Piscina e Churrasqueira",
+          "Espaço Gourmet",
+          "105 m²"
+        ]
       },
       {
-        id: "imv-7",
-        code: "VALDEVINO",
-        title: "Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino, 1515)",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "15/09/2026",
-        neighborhood: "Aldeota",
-        address: "Rua Padre Valdevino, 1515, Apto 202 (Quase esq. c/ Rua Dr. José Lourenço), Aldeota, Fortaleza - CE, 60135-041",
-        area: 87,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 2,
-        parking: 2,
-        rent: 2500,
-        condo: 604,
-        iptu: 89,
-        total: 3193,
-        driveMinutes: 8,
-        driveKm: "3,4 km",
-        routeSummary: "Via Av. Antônio Sales e Av. Desembargador Moreira",
-        lat: -3.7410,
-        lng: -38.5105,
-        agencyName: "J&S Administração de Imóveis Ltda",
-        contactPerson: "Atendimento Locação J&S Corretores",
-        phoneDisplay: "(85) 98777-5743",
-        whatsappNumber: "5585987775743",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320",
-        routeUrl: "https://www.google.com/maps/dir/Ed.+Luis+Linhares+-+R.+Padre+Valdevino,+1515+-+Aldeota,+Fortaleza+-+CE,+60135-041,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["2 Vagas de Garagem", "Armários Projetados", "Portaria 24h", "Salão de Festas"]
+        "id": "imv-7",
+        "code": "VALDEVINO",
+        "title": "Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino)",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "15/09/2026",
+        "neighborhood": "Aldeota",
+        "address": "Rua Padre Valdevino, 1515, Apto 202, Aldeota, Fortaleza - CE, 60135-041",
+        "area": 87,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 2,
+        "rent": 2500,
+        "condo": 604,
+        "iptu": 89,
+        "total": 3193,
+        "driveMinutes": 8,
+        "driveKm": "3,4 km",
+        "routeSummary": "Via Av. Antônio Sales e Av. Desembargador Moreira",
+        "lat": -3.741,
+        "lng": -38.5105,
+        "agencyName": "J&S Administração de Imóveis",
+        "contactPerson": "Atendimento Locação J&S Corretores",
+        "phoneDisplay": "(85) 98777-5743",
+        "whatsappNumber": "5585987775743",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320",
+        "routeUrl": "https://www.google.com/maps/dir/Ed.+Luis+Linhares+-+R.+Padre+Valdevino,+1515+-+Aldeota,+Fortaleza+-+CE,+60135-041,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "2 Vagas de Garagem",
+          "Armários Projetados",
+          "Portaria 24h",
+          "Salão de Festas"
+        ]
       },
       {
-        id: "imv-8",
-        code: "9940",
-        title: "Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)",
-        type: "Apartamento",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "01/10/2026",
-        neighborhood: "Aldeota",
-        address: "A 2 quadras da Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191",
-        area: 152,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 3,
-        parking: 1,
-        rent: 2500,
-        condo: 0,
-        iptu: 0,
-        total: 2500,
-        driveMinutes: 7,
-        driveKm: "2,6 km",
-        routeSummary: "Via Av. Desembargador Moreira até a Av. Dom Luís",
-        lat: -3.7445,
-        lng: -38.5082,
-        agencyName: "Imobiliária Mega Imóveis (Sede Aldeota - Av. Dom Luís, 300)",
-        contactPerson: "Equipe de Locação Mega Imóveis Aldeota",
-        phoneDisplay: "(85) 3055-1111",
-        whatsappNumber: "558530551111",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234",
-        routeUrl: "https://www.google.com/maps/dir/Av.+Ant%C3%B4nio+Sales+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["152 m² de Área Útil", "Varanda e Lavabo", "Dependência Completa", "Imobiliária na Av. Dom Luís"]
+        "id": "imv-8",
+        "code": "9940",
+        "title": "Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "01/10/2026",
+        "neighborhood": "Aldeota",
+        "address": "A 2 quadras da Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191",
+        "area": 152,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 1,
+        "rent": 2500,
+        "condo": 0,
+        "iptu": 0,
+        "total": 2500,
+        "driveMinutes": 7,
+        "driveKm": "2,6 km",
+        "routeSummary": "Via Av. Desembargador Moreira até a Av. Dom Luís",
+        "lat": -3.7445,
+        "lng": -38.5082,
+        "agencyName": "Mega Imóveis Aldeota",
+        "contactPerson": "Equipe de Locação Mega Imóveis",
+        "phoneDisplay": "(85) 3055-1111",
+        "whatsappNumber": "558530551111",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234",
+        "routeUrl": "https://www.google.com/maps/dir/Av.+Ant%C3%B4nio+Sales+-+Fortaleza,+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "152 m² de Área Útil",
+          "Varanda e Lavabo",
+          "Dependência Completa",
+          "Imobiliária na Av. Dom Luís"
+        ]
       },
       {
-        id: "imv-9",
-        code: "L8803",
-        title: "Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos",
-        type: "Casa em Condomínio",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "01/10/2026",
-        neighborhood: "Sapiranga",
-        address: "Condomínio Fechado na Sapiranga-Coité, Fortaleza - CE, 60833-351",
-        area: 151,
-        bedrooms: 5,
-        suites: 3,
-        bathrooms: 5,
-        parking: 4,
-        rent: 2200,
-        condo: 707,
-        iptu: 88,
-        total: 2995,
-        driveMinutes: 14,
-        driveKm: "9,4 km",
-        routeSummary: "Via Av. Washington Soares e Av. Almirante Henrique Sabóia",
-        lat: -3.7895,
-        lng: -38.4720,
-        agencyName: "Imobiliária Mota da Costa (Rua Osvaldo Cruz, 2302)",
-        contactPerson: "Setor de Locação Mota da Costa",
-        phoneDisplay: "(85) 3036-9936",
-        whatsappNumber: "558530369936",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194",
-        routeUrl: "https://www.google.com/maps/dir/Sapiranga-Coit%C3%A9,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Casa em Condomínio", "151 m² Construídos", "4 Vagas de Garagem", "Piscina, Deck e Jardim"]
+        "id": "imv-9",
+        "code": "L8803",
+        "title": "Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "01/10/2026",
+        "neighborhood": "Sapiranga",
+        "address": "Condomínio Fechado na Sapiranga-Coité, Fortaleza - CE, 60833-351",
+        "area": 151,
+        "bedrooms": 5,
+        "suites": 3,
+        "bathrooms": 5,
+        "parking": 4,
+        "rent": 2200,
+        "condo": 707,
+        "iptu": 88,
+        "total": 2995,
+        "driveMinutes": 14,
+        "driveKm": "9,4 km",
+        "routeSummary": "Via Av. Washington Soares e Av. Almirante Henrique Sabóia",
+        "lat": -3.7895,
+        "lng": -38.472,
+        "agencyName": "Imobiliária Mota da Costa",
+        "contactPerson": "Setor de Locação Mota da Costa",
+        "phoneDisplay": "(85) 3036-9936",
+        "whatsappNumber": "558530369936",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194",
+        "routeUrl": "https://www.google.com/maps/dir/Sapiranga-Coit%C3%A9,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Casa em Condomínio",
+          "151 m² Construídos",
+          "4 Vagas de Garagem",
+          "Piscina, Deck e Jardim"
+        ]
       },
       {
-        id: "imv-10",
-        code: "CA0059",
-        title: "Casa Duplex em Condomínio Fechado 105 m² com 3 Quartos e Deck Privativo",
-        type: "Casa em Condomínio",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "01/10/2026",
-        neighborhood: "José de Alencar",
-        address: "Condomínio Fechado no Bairro José de Alencar, Fortaleza - CE, 60830-465",
-        area: 105,
-        bedrooms: 3,
-        suites: 1,
-        bathrooms: 3,
-        parking: 2,
-        rent: 2600,
-        condo: 685,
-        iptu: 92,
-        total: 3377,
-        driveMinutes: 15,
-        driveKm: "10,8 km",
-        routeSummary: "Via Av. Washington Soares, Av. Eng. Santana Jr. e Via Expressa",
-        lat: -3.7980,
-        lng: -38.4810,
-        agencyName: "Expert Imobiliário (R. Dr. Gilberto Studart, 55)",
-        contactPerson: "Equipe de Locação Expert Imobiliário",
-        phoneDisplay: "(85) 2181-3555",
-        whatsappNumber: "558521813555",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311",
-        routeUrl: "https://www.google.com/maps/dir/Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Casa Duplex em Condomínio", "Deck Privativo c/ Churrasqueira", "Armários Embutidos", "Piscina no Condomínio"]
+        "id": "imv-10",
+        "code": "CA0059",
+        "title": "Casa Duplex em Condomínio Fechado 105 m² com Deck Privativo",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "01/10/2026",
+        "neighborhood": "José de Alencar",
+        "address": "Condomínio Fechado no Bairro José de Alencar, Fortaleza - CE, 60830-465",
+        "area": 105,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 2,
+        "rent": 2600,
+        "condo": 685,
+        "iptu": 92,
+        "total": 3377,
+        "driveMinutes": 15,
+        "driveKm": "10,8 km",
+        "routeSummary": "Via Av. Washington Soares, Av. Eng. Santana Jr. e Via Expressa",
+        "lat": -3.798,
+        "lng": -38.481,
+        "agencyName": "Expert Imobiliário",
+        "contactPerson": "Equipe de Locação Expert Imobiliário",
+        "phoneDisplay": "(85) 2181-3555",
+        "whatsappNumber": "558521813555",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311",
+        "routeUrl": "https://www.google.com/maps/dir/Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Casa Duplex em Condomínio",
+          "Deck Privativo c/ Churrasqueira",
+          "Armários Embutidos",
+          "Piscina no Condomínio"
+        ]
       },
       {
-        id: "imv-11",
-        code: "BD385",
-        title: "Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz",
-        type: "Casa em Condomínio",
-        presentationDateGroup: "2026-10-15-RECENT",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Captação Recente (Publicados entre 12/10 e 15/10/2026)",
-        publishedDate: "14/10/2026",
-        neighborhood: "Edson Queiroz",
-        address: "Próximo à Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255",
-        area: 90,
-        bedrooms: 3,
-        suites: 2,
-        bathrooms: 3,
-        parking: 2,
-        rent: 1900,
-        condo: 600,
-        iptu: 0,
-        total: 2500,
-        driveMinutes: 13,
-        driveKm: "6,8 km",
-        routeSummary: "Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Farias Brito",
-        lat: -3.7720,
-        lng: -38.4840,
-        agencyName: "Breno Diniz Lima Imóveis",
-        contactPerson: "Breno Diniz Lima (Corretor Profissional)",
-        phoneDisplay: "(85) 98835-1212",
-        whatsappNumber: "5585988351212",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793",
-        routeUrl: "https://www.google.com/maps/dir/Edson+Queiroz,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Casa em Condomínio", "2 Suítes", "2 Vagas", "Pacote R$ 2.500/mês", "Próx. Unifor e Fórum Clóvis Beviláqua"]
+        "id": "imv-11",
+        "code": "BD385",
+        "title": "Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Edson Queiroz",
+        "address": "Próximo à Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255",
+        "area": 90,
+        "bedrooms": 3,
+        "suites": 2,
+        "bathrooms": 3,
+        "parking": 2,
+        "rent": 1900,
+        "condo": 600,
+        "iptu": 0,
+        "total": 2500,
+        "driveMinutes": 13,
+        "driveKm": "6,8 km",
+        "routeSummary": "Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Farias Brito",
+        "lat": -3.772,
+        "lng": -38.484,
+        "agencyName": "Breno Diniz Lima Imóveis",
+        "contactPerson": "Breno Diniz Lima (Corretor Profissional)",
+        "phoneDisplay": "(85) 98835-1212",
+        "whatsappNumber": "5585988351212",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793",
+        "routeUrl": "https://www.google.com/maps/dir/Edson+Queiroz,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Casa em Condomínio",
+          "2 Suítes",
+          "2 Vagas",
+          "Pacote R$ 2.500/mês",
+          "Próx. Unifor"
+        ]
       },
       {
-        id: "imv-12",
-        code: "CF110",
-        title: "Casa Duplex em Condomínio Fechado 110 m² com 3 Suítes na Cidade dos Funcionários",
-        type: "Casa em Condomínio",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "12/10/2026",
-        neighborhood: "Cidade dos Funcionários",
-        address: "Entorno da Av. Oliveira Paiva / Rua Des. Gonzaga, Cidade dos Funcionários, Fortaleza - CE, 60822-630",
-        area: 110,
-        bedrooms: 3,
-        suites: 3,
-        bathrooms: 4,
-        parking: 2,
-        rent: 2250,
-        condo: 550,
-        iptu: 90,
-        total: 2890,
-        driveMinutes: 15,
-        driveKm: "8,8 km",
-        routeSummary: "Via Av. Governador Raul Barbosa e Av. Almirante Henrique Sabóia",
-        lat: -3.7840,
-        lng: -38.4980,
-        agencyName: "Alessandro Belchior Imóveis (Unidade Sul)",
-        contactPerson: "Central de Locação Alessandro Belchior",
-        phoneDisplay: "(85) 3466-4343",
-        whatsappNumber: "558534664343",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785",
-        routeUrl: "https://www.google.com/maps/dir/Cidade+dos+Funcion%C3%A1rios,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Casa Duplex em Condomínio", "3 Suítes", "Piscina e Deck", "Portaria 24h", "Próx. Av. Oliveira Paiva"]
+        "id": "imv-12",
+        "code": "CF110",
+        "title": "Casa Duplex em Condomínio Fechado 110 m² com 3 Suítes na Cidade dos Funcionários",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "12/10/2026",
+        "neighborhood": "Cidade dos Funcionários",
+        "address": "Entorno da Av. Oliveira Paiva / Rua Des. Gonzaga, Cidade dos Funcionários, Fortaleza - CE, 60822-630",
+        "area": 110,
+        "bedrooms": 3,
+        "suites": 3,
+        "bathrooms": 4,
+        "parking": 2,
+        "rent": 2250,
+        "condo": 550,
+        "iptu": 90,
+        "total": 2890,
+        "driveMinutes": 15,
+        "driveKm": "8,8 km",
+        "routeSummary": "Via Av. Governador Raul Barbosa e Av. Almirante Henrique Sabóia",
+        "lat": -3.784,
+        "lng": -38.498,
+        "agencyName": "Alessandro Belchior Imóveis",
+        "contactPerson": "Central de Locação Alessandro Belchior",
+        "phoneDisplay": "(85) 3466-4343",
+        "whatsappNumber": "558534664343",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785",
+        "routeUrl": "https://www.google.com/maps/dir/Cidade+dos+Funcion%C3%A1rios,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Casa Duplex em Condomínio",
+          "3 Suítes",
+          "Piscina e Deck",
+          "Portaria 24h",
+          "Próx. Av. Oliveira Paiva"
+        ]
       },
       {
-        id: "imv-13",
-        code: "RP95",
-        title: "Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda",
-        type: "Casa em Condomínio",
-        presentationDateGroup: "2026-10-15-ACTIVE",
-        presentationDateLabel: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas (Outubro/2026)",
-        publishedDate: "07/10/2026",
-        neighborhood: "Lagoa Redonda",
-        address: "Rua Luiza Guimarães - Cond. Reserva dos Pássaros, Lagoa Redonda, Fortaleza - CE, 60831-490",
-        area: 95,
-        bedrooms: 3,
-        suites: 2,
-        bathrooms: 2,
-        parking: 2,
-        rent: 2950,
-        condo: 410,
-        iptu: 69,
-        total: 3429,
-        driveMinutes: 20,
-        driveKm: "14,0 km",
-        routeSummary: "Via Av. Maestro Lisboa, Av. Washington Soares e Av. Almirante Henrique Sabóia",
-        lat: -3.8185,
-        lng: -38.4620,
-        agencyName: "Condomínio Reserva dos Pássaros (Locação Direta / Corretor)",
-        contactPerson: "André Rabelo (Atendimento Locação)",
-        phoneDisplay: "(85) 98877-3420",
-        whatsappNumber: "5585988773420",
-        listingUrl: "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275",
-        routeUrl: "https://www.google.com/maps/dir/Rua+Luiza+Guimar%C3%A3es,+Lagoa+Redonda+-+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
-        highlights: ["Casa Nova Nunca Habitada", "Condomínio Fechado", "Piscina e Churrasqueira", "Quintal Privativo", "Semi-mobiliada"]
+        "id": "imv-13",
+        "code": "RP95",
+        "title": "Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-ACTIVE",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas",
+        "publishedDate": "07/10/2026",
+        "neighborhood": "Lagoa Redonda",
+        "address": "Rua Luiza Guimarães - Cond. Reserva dos Pássaros, Lagoa Redonda, Fortaleza - CE, 60831-490",
+        "area": 95,
+        "bedrooms": 3,
+        "suites": 2,
+        "bathrooms": 2,
+        "parking": 2,
+        "rent": 2950,
+        "condo": 410,
+        "iptu": 69,
+        "total": 3429,
+        "driveMinutes": 20,
+        "driveKm": "14,0 km",
+        "routeSummary": "Via Av. Maestro Lisboa, Av. Washington Soares e Av. Almirante Henrique Sabóia",
+        "lat": -3.8185,
+        "lng": -38.462,
+        "agencyName": "Condomínio Reserva dos Pássaros",
+        "contactPerson": "André Rabelo (Atendimento Locação)",
+        "phoneDisplay": "(85) 98877-3420",
+        "whatsappNumber": "5585988773420",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275",
+        "routeUrl": "https://www.google.com/maps/dir/Rua+Luiza+Guimar%C3%A3es,+Lagoa+Redonda+-+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Casa Nova Nunca Habitada",
+          "Condomínio Fechado",
+          "Piscina e Churrasqueira",
+          "Quintal Privativo",
+          "Semi-mobiliada"
+        ]
+      },
+      {
+        "id": "imv-14",
+        "code": "VJ94",
+        "title": "Apartamento 94 m² com 3 Quartos e 2 Vagas na Varjota",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Varjota",
+        "address": "Rua Silva Paulet / Rua Frederico Borges, Varjota, Fortaleza - CE, 60160-200",
+        "area": 94,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 3,
+        "parking": 2,
+        "rent": 1700,
+        "condo": 680,
+        "iptu": 0,
+        "total": 2380,
+        "driveMinutes": 4,
+        "driveKm": "1,4 km",
+        "routeSummary": "Apenas 4 min via Rua Silva Paulet direto até a Av. Dom Luís",
+        "lat": -3.733,
+        "lng": -38.486,
+        "agencyName": "Varjota Imóveis Fortaleza",
+        "contactPerson": "Atendimento Locação Varjota",
+        "phoneDisplay": "(85) 99654-2211",
+        "whatsappNumber": "5585996542211",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-e-venda-com-94-metros-quadrados-com-3-quartos-em-varjota-fortaleza-1539723673",
+        "routeUrl": "https://www.google.com/maps/dir/Varjota,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "A 4 min do Trabalho",
+          "Polo Gastronômico da Varjota",
+          "2 Vagas de Garagem",
+          "94 m²"
+        ]
+      },
+      {
+        "id": "imv-15",
+        "code": "JT111",
+        "title": "Apartamento Amplo 111 m² com 3 Quartos (1 Suíte Master) e 3 Vagas no Joaquim Távora",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "13/10/2026",
+        "neighborhood": "Joaquim Távora",
+        "address": "Rua Joaquim Sá próx. Av. Barão de Studart, Joaquim Távora, Fortaleza - CE, 60130-050",
+        "area": 111,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 4,
+        "parking": 3,
+        "rent": 1800,
+        "condo": 750,
+        "iptu": 0,
+        "total": 2550,
+        "driveMinutes": 8,
+        "driveKm": "3,2 km",
+        "routeSummary": "Via Av. Barão de Studart e Av. Dom Luís",
+        "lat": -3.748,
+        "lng": -38.514,
+        "agencyName": "RE/MAX Elegante",
+        "contactPerson": "Equipe RE/MAX Elegante",
+        "phoneDisplay": "(85) 99865-4447",
+        "whatsappNumber": "5585998654447",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-dormitorios-para-alugar-111-m-por-r-1-800-00-mes-joaquim-tavora-f-1544011586",
+        "routeUrl": "https://www.google.com/maps/dir/Joaquim+T%C3%A1vora,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "111 m²",
+          "3 Vagas de Garagem",
+          "Suíte Master",
+          "Dependência Completa",
+          "Gerador"
+        ]
+      },
+      {
+        "id": "imv-16",
+        "code": "COCO75",
+        "title": "Apartamento 75 m² com 3 Quartos no Cocó (Próx. Parque do Cocó)",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Cocó",
+        "address": "Entorno da Av. Padre Antônio Tomás / Parque do Cocó, Cocó, Fortaleza - CE, 60192-010",
+        "area": 75,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 1900,
+        "condo": 800,
+        "iptu": 0,
+        "total": 2700,
+        "driveMinutes": 7,
+        "driveKm": "2,8 km",
+        "routeSummary": "Via Av. Eng. Santana Jr. e Av. Dom Luís",
+        "lat": -3.746,
+        "lng": -38.482,
+        "agencyName": "Cocó Prime Imóveis",
+        "contactPerson": "Central de Locação Cocó",
+        "phoneDisplay": "(85) 98844-1234",
+        "whatsappNumber": "5585988441234",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-75-metros-quadrados-com-3-quartos-em-coco-fortaleza-ce-1522065312",
+        "routeUrl": "https://www.google.com/maps/dir/Coc%C3%B3,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Ao lado do Parque do Cocó",
+          "Condomínio com Lazer",
+          "7 min do Trabalho",
+          "Portaria 24h"
+        ]
+      },
+      {
+        "id": "imv-17",
+        "code": "LC74",
+        "title": "Apartamento 74 m² no Condomínio Reservatto (Engenheiro Luciano Cavalcante)",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "12/10/2026",
+        "neighborhood": "Engenheiro Luciano Cavalcante",
+        "address": "Rua Thompson Bulcão, Eng. Luciano Cavalcante, Fortaleza - CE, 60810-460",
+        "area": 74,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 2,
+        "rent": 2100,
+        "condo": 750,
+        "iptu": 0,
+        "total": 2850,
+        "driveMinutes": 12,
+        "driveKm": "5,5 km",
+        "routeSummary": "Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Dom Luís",
+        "lat": -3.768,
+        "lng": -38.491,
+        "agencyName": "Triunfo Imóveis Sul",
+        "contactPerson": "Equipe de Locação Triunfo",
+        "phoneDisplay": "(85) 3278-6000",
+        "whatsappNumber": "558532786000",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-no-cond-reservatto-74m-3-quartos-luciano-cavalcante-fortaleza-ce-1536849037",
+        "routeUrl": "https://www.google.com/maps/dir/Engenheiro+Luciano+Cavalcante,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Condomínio Reservatto",
+          "2 Vagas de Garagem",
+          "Área de Lazer Completa",
+          "Próx. Câmara Municipal"
+        ]
+      },
+      {
+        "id": "imv-18",
+        "code": "TP168",
+        "title": "Casa Ampla 168 m² com 3 Quartos (2 Suítes) no Tauape",
+        "type": "Casa em Condomínio",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Tauape",
+        "address": "Entorno da Rua Monsenhor Salazar / Av. Pontes Vieira, Tauape, Fortaleza - CE, 60130-370",
+        "area": 168,
+        "bedrooms": 3,
+        "suites": 2,
+        "bathrooms": 3,
+        "parking": 1,
+        "rent": 2100,
+        "condo": 0,
+        "iptu": 0,
+        "total": 2100,
+        "driveMinutes": 11,
+        "driveKm": "4,8 km",
+        "routeSummary": "Via Av. Pontes Vieira e Av. Desembargador Moreira",
+        "lat": -3.754,
+        "lng": -38.513,
+        "agencyName": "A Predial - Agência Sul",
+        "contactPerson": "Atendimento Tauape A Predial",
+        "phoneDisplay": "(85) 4012-8000",
+        "whatsappNumber": "558540128000",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-aluguel-3-quartos-2-suites-1-vaga-tauape-fortaleza-ce-1539022833",
+        "routeUrl": "https://www.google.com/maps/dir/Tauape,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "168 m² de Área Útil",
+          "2 Suítes",
+          "Sem Taxa de Condomínio",
+          "Próx. Av. Pontes Vieira"
+        ]
+      },
+      {
+        "id": "imv-19",
+        "code": "JC148",
+        "title": "Apartamento Amplo 148 m² com 3 Quartos no Jacarecanga",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Jacarecanga",
+        "address": "Av. Filomeno Gomes / Rua Jacinto Matos, Jacarecanga, Fortaleza - CE, 60010-280",
+        "area": 148,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 1500,
+        "condo": 450,
+        "iptu": 0,
+        "total": 1950,
+        "driveMinutes": 18,
+        "driveKm": "7,5 km",
+        "routeSummary": "Via Av. Leste-Oeste e Av. Abolição até Meireles",
+        "lat": -3.722,
+        "lng": -38.542,
+        "agencyName": "Madre de Deus Imóveis",
+        "contactPerson": "Setor de Locação Centro-Oeste",
+        "phoneDisplay": "(85) 3214-5500",
+        "whatsappNumber": "558532145500",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895",
+        "routeUrl": "https://www.google.com/maps/dir/Jacarecanga,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "148 m² de Espaço",
+          "Pacote Total Abaixo de R$ 2.000",
+          "Excelente Custo-Benefício"
+        ]
+      },
+      {
+        "id": "imv-20",
+        "code": "MT80",
+        "title": "Casa 80 m² com 3 Quartos e Garagem no Montese",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Montese",
+        "address": "Próximo à Av. João Pessoa / Rua Alberto Magno, Montese, Fortaleza - CE, 60420-680",
+        "area": 80,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 1700,
+        "condo": 0,
+        "iptu": 0,
+        "total": 1700,
+        "driveMinutes": 15,
+        "driveKm": "7,0 km",
+        "routeSummary": "Via Av. Eduardo Girão e Av. Almirante Henrique Sabóia",
+        "lat": -3.765,
+        "lng": -38.546,
+        "agencyName": "Imobiliária Ceará Lar",
+        "contactPerson": "Plantão de Locação Montese",
+        "phoneDisplay": "(85) 98733-4400",
+        "whatsappNumber": "5585987334400",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386",
+        "routeUrl": "https://www.google.com/maps/dir/Montese,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "Sem Condomínio",
+          "Próximo à Av. João Pessoa",
+          "80 m²",
+          "Varanda e Garagem"
+        ]
+      },
+      {
+        "id": "imv-21",
+        "code": "CD73",
+        "title": "Apartamento 73 m² com 3 Quartos na Cidade 2000",
+        "type": "Apartamento",
+        "presentationDateGroup": "2026-10-15-RECENT",
+        "presentationDateLabel": "Apresentados em 15/10/2026 — Novos Bairros Adicionados",
+        "publishedDate": "14/10/2026",
+        "neighborhood": "Cidade 2000",
+        "address": "Entorno da Av. Central / Rua Natercia Cunha, Cidade 2000, Fortaleza - CE, 60190-290",
+        "area": 73,
+        "bedrooms": 3,
+        "suites": 1,
+        "bathrooms": 2,
+        "parking": 1,
+        "rent": 1250,
+        "condo": 400,
+        "iptu": 0,
+        "total": 1650,
+        "driveMinutes": 8,
+        "driveKm": "3,4 km",
+        "routeSummary": "Apenas 8 min via Av. Santos Dumont direto até a Av. Dom Luís",
+        "lat": -3.749,
+        "lng": -38.471,
+        "agencyName": "Cidade 2000 Imóveis",
+        "contactPerson": "Corretor Credenciado",
+        "phoneDisplay": "(85) 99188-7722",
+        "whatsappNumber": "5585991887722",
+        "listingUrl": "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-e-venda-possui-73-metros-quadrados-com-3-quartos-em-cidade-2000-fort-1538163336",
+        "routeUrl": "https://www.google.com/maps/dir/Cidade+2000,+Fortaleza+-+CE,+Brasil/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/",
+        "highlights": [
+          "A 8 min do Trabalho",
+          "Pacote R$ 1.650/mês",
+          "Próximo à Av. Santos Dumont"
+        ]
       }
     ];
-
-    const SPREADSHEET_ID = "12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk";
-    const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
-
-    function parseCSVLine(text) {
-      const result = [];
-      let cur = "";
-      let inQuotes = false;
-      for (let i = 0; i < text.length; i++) {
-        const c = text[i];
-        if (c === '"') {
-          if (inQuotes && text[i + 1] === '"') {
-            cur += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (c === ',' && !inQuotes) {
-          result.push(cur);
-          cur = "";
-        } else {
-          cur += c;
-        }
-      }
-      result.push(cur);
-      return result;
-    }
-
-    function parseCSV(csv) {
-      const lines = csv.split(/\r?\n/).filter(line => line.trim().length > 0);
-      return lines.map(parseCSVLine);
-    }
-
-    async function syncFromGoogleSheets(notify = false) {
-      const badge = document.getElementById("syncStatusBadge");
-      try {
-        if (badge) {
-          badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-spin inline-block mr-1"></span> Buscando dados da planilha...`;
-        }
-        const res = await fetch(SHEET_CSV_URL);
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const csvText = await res.text();
-        
-        const firstLine = (csvText.split(/\r?\n/)[0] || "").toLowerCase();
-        if (!firstLine.includes("codigo") || !firstLine.includes("titulo") || csvText.trim().startsWith("<")) {
-          throw new Error("Planilha privada ou requer login. Mantendo base de 13 imóveis locais.");
-        }
-
-        const rows = parseCSV(csvText);
-        if (rows.length > 1) {
-          const headers = rows[0].map(h => h.trim().toLowerCase());
-          const newProps = [];
-          for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            if (row.length < 5 || !row[0]) continue;
-            const getVal = (col) => {
-              const idx = headers.indexOf(col);
-              return idx !== -1 && row[idx] ? row[idx].trim() : "";
-            };
-            const id = getVal("id") || `imv-${i}`;
-            const code = getVal("codigo") || `IMV-${i}`;
-            const title = getVal("titulo") || "Imóvel para Aluguel";
-            const type = getVal("tipo") || "Apartamento";
-            const neighborhood = getVal("bairro") || "Aldeota";
-            const address = getVal("endereco") || "";
-            const area = Number(getVal("area_m2")) || 70;
-            const bedrooms = Number(getVal("quartos")) || 3;
-            const suites = Number(getVal("suites")) || 1;
-            const bathrooms = Number(getVal("banheiros")) || 2;
-            const parking = Number(getVal("vagas")) || 1;
-            const rent = Number(getVal("aluguel")) || 0;
-            const condo = Number(getVal("condominio")) || 0;
-            const iptu = Number(getVal("iptu")) || 0;
-            const total = Number(getVal("total")) || (rent + condo + iptu);
-            const driveMinutes = Number(getVal("drive_minutos")) || 15;
-            const driveKm = getVal("drive_km") || "";
-            const routeSummary = getVal("rota") || "";
-            const lat = parseFloat(getVal("lat"));
-            const lng = parseFloat(getVal("lng"));
-            if (isNaN(lat) || isNaN(lng) || (lat === -3.7351 && lng === -38.4969)) continue;
-            const agencyName = getVal("imobiliaria") || "Imobiliária";
-            const contactPerson = getVal("contato_nome") || agencyName;
-            const phoneDisplay = getVal("telefone") || "";
-            const whatsappNumber = getVal("whatsapp_numero") || phoneDisplay.replace(/\D/g, "");
-            const listingUrl = getVal("url_anuncio") || "#";
-            const dataGrupo = getVal("data_grupo") || "2026-10-15-ACTIVE";
-            const destaquesRaw = getVal("destaques") || "";
-            const highlights = destaquesRaw ? destaquesRaw.split(";").map(s => s.trim().replace(/^["']|["']$/g, "")) : [];
-
-            newProps.push({
-              id, code, title, type, neighborhood, address, area, bedrooms, suites, bathrooms, parking,
-              rent, condo, iptu, total, driveMinutes, driveKm, routeSummary, lat, lng,
-              agencyName, contactPerson, phoneDisplay, whatsappNumber, listingUrl,
-              presentationDateGroup: dataGrupo,
-              presentationDateLabel: dataGrupo.includes("RECENT")
-                ? "Apresentados em 15/10/2026 — Captação Recente (Últimas 72h)"
-                : "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas em Fortaleza",
-              publishedDate: "15/10/2026",
-              routeUrl: `https://www.google.com/maps/dir/${encodeURIComponent(address)}/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/`,
-              highlights
-            });
-          }
-          if (newProps.length > 0) {
-            PROPERTIES = newProps;
-            applyFiltersAndRender();
-            if (badge) {
-              const now = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-              badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Google Sheets sincronizado (${newProps.length} imóveis • ${now})`;
-            }
-            if (notify) showToast(`Sincronizado! ${newProps.length} imóveis carregados da planilha.`);
-            return;
-          }
-        }
-      } catch (e) {
-        console.warn("Sincronização em segundo plano: mantendo base local.", e);
-        if (badge) {
-          badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Base ativa (${PROPERTIES.length} imóveis)`;
-        }
-      }
-    }
 
     let favorites = new Set();
     let onlyFavorites = false;
@@ -938,8 +1186,8 @@
       if (!mapContainer) return;
 
       if (typeof L === "undefined") {
-        console.warn("Leaflet ainda não carregado. Tentando novamente em 200ms...");
-        setTimeout(initMap, 200);
+        console.warn("Leaflet ainda não carregado. Tentando novamente em 150ms...");
+        setTimeout(initMap, 150);
         return;
       }
 
@@ -955,7 +1203,6 @@
           zoomControl: true,
           scrollWheelZoom: true
         });
-        mapInstance.on("movestart", () => { window.__userInteractedMap = true; });
 
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
@@ -991,15 +1238,17 @@
           </div>
         `);
 
+        // Cria o grupo de marcadores dos imóveis e insere no mapa
         markerGroup = L.layerGroup().addTo(mapInstance);
 
+        // Oculta o indicador de carregamento
         const notice = document.getElementById("mapLoadingNotice");
         if (notice) notice.style.display = "none";
 
-        if (typeof applyFiltersAndRender === "function") {
-          applyFiltersAndRender();
-        }
+        // Renderiza imediatamente os pinos dos imóveis no mapa!
+        updateMapMarkers(PROPERTIES);
 
+        // Invalida o tamanho para renderizar todas as tiles perfeitamente
         [100, 300, 600, 1200].forEach((delay) => {
           setTimeout(() => {
             if (mapInstance) mapInstance.invalidateSize();
@@ -1019,21 +1268,22 @@
         <div class="h-full w-full flex flex-col items-center justify-center p-6 text-center bg-slate-50 text-slate-700">
           <div class="text-3xl mb-2">🗺️</div>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Visualização de Mapa no Navegador</h3>
-          <p class="text-xs text-slate-500 max-w-md mb-4">Se o mapa interativo não carregou automaticamente, você pode recarregar ou abrir as rotas diretamente no Google Maps:</p>
+          <p class="text-xs text-slate-500 max-w-md mb-4">Se o mapa não abriu de primeira, clique abaixo para recarregar:</p>
           <div class="flex flex-wrap justify-center gap-2">
             <button onclick="initMap(); applyFiltersAndRender();" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold text-xs shadow hover:bg-emerald-500 transition">
               🔄 Tentar Recarregar Mapa
             </button>
-            <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold text-xs shadow hover:bg-slate-800 transition">
-              📍 Abrir Região no Google Maps
-            </a>
           </div>
         </div>
       `;
     }
 
     function updateMapMarkers(filteredList) {
-      if (!markerGroup) return;
+      if (!mapInstance) initMap();
+      if (!markerGroup) {
+        if (mapInstance) markerGroup = L.layerGroup().addTo(mapInstance);
+        else return;
+      }
       markerGroup.clearLayers();
       markersById = {};
 
@@ -1043,7 +1293,7 @@
         const bgColor = isHouse ? "#0284c7" : "#059669";
         const pinIcon = L.divIcon({
           className: "custom-prop-pin",
-          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
+          html: `<div style="background:${bgColor};color:#ffffff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #ffffff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;cursor:pointer;">${formatBRL(item.total)} • ${item.driveMinutes}m</div>`,
           iconSize: [120, 24],
           iconAnchor: [60, 12]
         });
@@ -1082,7 +1332,8 @@
         markersById[item.id] = marker;
       });
 
-      if (mapInstance && filteredList.length > 0 && !window.__userInteractedMap) {
+      // Enquadra automaticamente o mapa para mostrar o trabalho e todos os imóveis visíveis
+      if (mapInstance && filteredList.length > 0) {
         try {
           const bounds = L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
           filteredList.forEach((p) => {
@@ -1098,9 +1349,7 @@
     function focusPropertyOnMap(id) {
       const item = PROPERTIES.find((p) => p.id === id);
       if (!item) return;
-      if (!mapInstance) {
-        initMap();
-      }
+      if (!mapInstance) initMap();
       const mapEl = document.getElementById("map");
       if (mapEl) {
         mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1117,10 +1366,10 @@
 
     function updateChart(filteredList) {
       const ctx = document.getElementById("priceChart").getContext("2d");
-      const labels = filteredList.map((p) => `${p.neighborhood} (${p.code})`);
-      const rents = filteredList.map((p) => p.rent);
-      const condos = filteredList.map((p) => p.condo);
-      const iptus = filteredList.map((p) => p.iptu);
+      const labels = filteredList.slice(0, 15).map((p) => `${p.neighborhood} (${p.code})`);
+      const rents = filteredList.slice(0, 15).map((p) => p.rent);
+      const condos = filteredList.slice(0, 15).map((p) => p.condo);
+      const iptus = filteredList.slice(0, 15).map((p) => p.iptu);
 
       if (priceChartInstance) {
         priceChartInstance.destroy();
@@ -1194,7 +1443,7 @@
         return;
       }
 
-      container.innerHTML = filteredList.map((item) => {
+      container.innerHTML = filteredList.slice(0, 10).map((item) => {
         const waUrl = buildWhatsAppUrl(item);
         return `
           <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition">
@@ -1239,7 +1488,7 @@
           <div class="bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
             <div class="text-3xl">🏠</div>
             <h3 class="text-base font-bold text-slate-800">Nenhum imóvel encontrado com esses filtros</h3>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os controles de valor máximo, tempo de deslocamento ou clique em "Limpar" para visualizar todos os 13 imóveis qualificados.</p>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os controles de valor máximo, tempo de deslocamento ou clique em "Limpar" para visualizar todos os 21 imóveis qualificados.</p>
           </div>
         `;
         return;
@@ -1248,16 +1497,16 @@
       const groups = [
         {
           key: "2026-10-15-RECENT",
-          badge: "Lote Diário • 15/10/2026 (Captação Recente)",
-          title: "Apresentados em 15/10/2026 — Anúncios Recentes das Últimas 72h",
-          subtitle: "Imóveis recém-publicados nos portais e imobiliárias de Fortaleza que cumprem todos os seus requisitos",
+          badge: "Lote Diário • 15/10/2026 (Novos Bairros & Recentes)",
+          title: "Apresentados em 15/10/2026 — Novos Bairros Adicionados & Captação Recente",
+          subtitle: "Oportunidades em Varjota, Joaquim Távora, Cocó, Eng. Luciano Cavalcante, Tauape, Montese, Cidade 2000 e Jacarecanga",
           items: filteredList.filter((i) => i.presentationDateGroup === "2026-10-15-RECENT")
         },
         {
           key: "2026-10-15-ACTIVE",
-          badge: "Lote Diário • 15/10/2026 (Base Ativa Outubro/2026)",
-          title: "Apresentados em 15/10/2026 — Oportunidades Ativas Verificadas em Fortaleza",
-          subtitle: "Imóveis disponíveis verificados hoje na primeira varredura completa (Apartamentos e Casas em Condomínio)",
+          badge: "Lote Diário • 15/10/2026 (Base Ativa)",
+          title: "Apresentados em 15/10/2026 — Base Ativa Verificada em Fortaleza",
+          subtitle: "Imóveis qualificados em Aldeota, Dionísio Torres, Papicu, Fátima, Sapiranga, José de Alencar, Edson Queiroz, Cidade dos Funcionários e Lagoa Redonda",
           items: filteredList.filter((i) => i.presentationDateGroup === "2026-10-15-ACTIVE")
         }
       ].filter((g) => g.items.length > 0);
@@ -1286,7 +1535,6 @@
               return `
                 <article class="bg-white rounded-2xl shadow-sm border ${isFav ? "border-amber-400 ring-2 ring-amber-200" : "border-slate-200"} overflow-hidden flex flex-col justify-between transition hover:shadow-md">
                   <div class="p-5 space-y-4">
-                    <!-- Top Badges & Favorite Button -->
                     <div class="flex items-start justify-between gap-2">
                       <div class="flex flex-wrap items-center gap-1.5">
                         <span class="px-2.5 py-1 rounded-md text-xs font-bold ${isHouse ? "bg-sky-100 text-sky-800" : "bg-emerald-100 text-emerald-800"}">
@@ -1304,7 +1552,6 @@
                       </button>
                     </div>
 
-                    <!-- Title & Address -->
                     <div>
                       <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
                         <a href="${item.listingUrl}" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-700 transition underline decoration-slate-300 hover:decoration-emerald-600">
@@ -1319,7 +1566,6 @@
                       </p>
                     </div>
 
-                    <!-- Property Specs Grid -->
                     <div class="grid grid-cols-4 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center">
                       <div>
                         <div class="text-[11px] text-slate-500">Área</div>
@@ -1339,7 +1585,6 @@
                       </div>
                     </div>
 
-                    <!-- Price Breakdown Box -->
                     <div class="rounded-xl bg-slate-900 text-white p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div>
                         <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Pacote Mensal Total (Tudo Incluso)</div>
@@ -1351,7 +1596,6 @@
                       </div>
                     </div>
 
-                    <!-- Highlighted Contact & Direct WhatsApp Box -->
                     <div class="rounded-xl bg-emerald-50 border-2 border-emerald-500/40 p-3.5 space-y-2.5">
                       <div class="flex items-start justify-between gap-2">
                         <div>
@@ -1373,13 +1617,11 @@
                       </div>
                     </div>
 
-                    <!-- Highlights Tags -->
                     <div class="flex flex-wrap gap-1.5">
                       ${item.highlights.map((h) => `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-medium">${h}</span>`).join("")}
                     </div>
                   </div>
 
-                  <!-- Card Footer Actions -->
                   <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
                     <div class="flex items-center gap-2">
                       <button type="button" data-map-id="${item.id}" class="btn-focus-map inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold transition">
@@ -1472,12 +1714,6 @@
       initMap();
       applyFiltersAndRender();
 
-      const btnSync = document.getElementById("btnSyncSheet");
-      if (btnSync) {
-        btnSync.addEventListener("click", () => syncFromGoogleSheets(true));
-      }
-
-      // Filter listeners
       ["filterDateGroup", "filterType", "filterNeighborhood", "filterMaxPrice", "filterMaxDrive", "sortBy"].forEach((id) => {
         const el = document.getElementById(id.trim());
         if (el) el.addEventListener("input", applyFiltersAndRender);
@@ -1548,7 +1784,6 @@
         }
       });
 
-      // Modal handlers
       const modal = document.getElementById("scheduleModal");
       const openModal = () => {
         modal.classList.remove("hidden");
@@ -1562,7 +1797,6 @@
       document.getElementById("btnCloseScheduleModal").addEventListener("click", closeModal);
       document.getElementById("btnAckScheduleModal").addEventListener("click", closeModal);
 
-      // Delegated events inside listingsSection
       document.getElementById("listingsSection").addEventListener("click", (e) => {
         const favBtn = e.target.closest(".btn-fav");
         if (favBtn) {
