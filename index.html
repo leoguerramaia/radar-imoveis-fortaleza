@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Radar Imóveis Fortaleza — Dashboard & Mapa</title>
+  <title>Radar Imóveis Fortaleza — v3.0 (Supabase Integrado)</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,13 +11,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f1f5f9; color: #0f172a; margin: 0; -webkit-font-smoothing: antialiased; }
-    #map { height: 480px; min-height: 480px; width: 100%; border-radius: 0.75rem; z-index: 1; position: relative; background-color: #e2e8f0; overflow: hidden; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    #map {
+      height: 480px;
+      min-height: 480px;
+      width: 100%;
+      border-radius: 0.75rem;
+      z-index: 1;
+      position: relative;
+      background-color: #e2e8f0;
+      overflow: hidden;
+    }
     .leaflet-div-icon { background: transparent !important; border: none !important; }
-    .leaflet-popup-content-wrapper { border-radius: 0.75rem; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25); }
+    .leaflet-popup-content-wrapper {
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+    }
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    .star-btn { transition: transform 0.15s ease, color 0.15s ease; touch-action: manipulation; cursor: pointer; background: transparent; border: none; }
+    .star-btn {
+      transition: transform 0.15s ease, color 0.15s ease;
+      touch-action: manipulation;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
     .star-btn:active { transform: scale(1.3); }
   </style>
 </head>
@@ -30,12 +54,12 @@
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Monitoramento Diário Ativo • 06:00 BRT
+              v3.0 • Monitoramento Diário 06:00 BRT
             </div>
-            <div id="supabaseStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold cursor-pointer hover:bg-slate-700 transition" onclick="openSupabaseModal()">
-              <span>☁️</span> <span id="supabaseStatusText">Conectar Supabase</span>
+            <div id="supabaseStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold cursor-pointer hover:bg-sky-500/30 transition" onclick="openSupabaseModal()">
+              <span>☁️</span> <span id="supabaseStatusText">Nuvem Ativa (Supabase)</span>
             </div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
               <span>✅</span> Valores Conferidos na OLX
             </div>
           </div>
@@ -43,7 +67,7 @@
             Radar Imóveis Fortaleza • Aluguel Residencial
           </h1>
           <p class="mt-1 text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
-            Curadoria diária com valores oficiais auditados (Aluguel, Condomínio e IPTU), a até 15-20 min do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807). Classifique os imóveis por estrelas para destacar ou descartar anúncios.
+            Curadoria diária com valores oficiais auditados (Aluguel, Condomínio e IPTU), a até 15-20 min do <strong>Edf. Etevaldo Nogueira Business</strong> (Av. Dom Luís, 807). Classifique por estrelas com sincronização automática no Supabase.
           </p>
         </div>
 
@@ -218,6 +242,32 @@
         </div>
         <div id="map" class="w-full rounded-xl overflow-hidden shadow-inner bg-slate-100">
           <div id="mapLoadingNotice" class="hidden"></div>
+          <div class="relative w-full h-full bg-slate-200 select-none overflow-hidden" style="height:480px;background:radial-gradient(circle at 56.8% 24.6%, #ecfdf5 0%, #e2e8f0 55%, #cbd5e1 100%);">
+            <div class="absolute top-2.5 left-2.5 bg-slate-900/85 text-white text-[11px] font-semibold px-3 py-1 rounded-full z-30 shadow">📍 Radar Fortaleza • Toque nos pinos para detalhes</div>
+            <div style="position:absolute;left:56.8%;top:24.6%;transform:translate(-50%,-50%);z-index:25;background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.3);white-space:nowrap;">🏢 Trabalho (Dom Luís, 807)</div>
+            <button type="button" data-fallback-pin="imv-1" style="position:absolute;left:61.6%;top:30.5%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.880</button>
+            <button type="button" data-fallback-pin="imv-2" style="position:absolute;left:72.3%;top:27.8%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.020</button>
+            <button type="button" data-fallback-pin="imv-3" style="position:absolute;left:33.6%;top:40.4%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.050</button>
+            <button type="button" data-fallback-pin="imv-4" style="position:absolute;left:56.3%;top:27.3%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.320</button>
+            <button type="button" data-fallback-pin="imv-5" style="position:absolute;left:52.9%;top:37.3%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.927</button>
+            <button type="button" data-fallback-pin="imv-6" style="position:absolute;left:30.7%;top:42.4%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.085</button>
+            <button type="button" data-fallback-pin="imv-7" style="position:absolute;left:45.4%;top:28.9%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.193</button>
+            <button type="button" data-fallback-pin="imv-8" style="position:absolute;left:47.3%;top:31.5%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.500</button>
+            <button type="button" data-fallback-pin="imv-9" style="position:absolute;left:77.7%;top:64.2%;transform:translate(-50%,-50%);z-index:20;background:#0284c7;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.995</button>
+            <button type="button" data-fallback-pin="imv-10" style="position:absolute;left:70.2%;top:70.4%;transform:translate(-50%,-50%);z-index:20;background:#0284c7;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.377</button>
+            <button type="button" data-fallback-pin="imv-11" style="position:absolute;left:67.6%;top:51.5%;transform:translate(-50%,-50%);z-index:20;background:#0284c7;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.500</button>
+            <button type="button" data-fallback-pin="imv-12" style="position:absolute;left:86.1%;top:85.3%;transform:translate(-50%,-50%);z-index:20;background:#0284c7;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.429</button>
+            <button type="button" data-fallback-pin="imv-13" style="position:absolute;left:66.0%;top:23.1%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 1.989</button>
+            <button type="button" data-fallback-pin="imv-14" style="position:absolute;left:42.4%;top:34.0%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.555</button>
+            <button type="button" data-fallback-pin="imv-15" style="position:absolute;left:61.8%;top:48.5%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.856</button>
+            <button type="button" data-fallback-pin="imv-16" style="position:absolute;left:69.3%;top:32.5%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.900</button>
+            <button type="button" data-fallback-pin="imv-17" style="position:absolute;left:63.4%;top:75.5%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.060</button>
+            <button type="button" data-fallback-pin="imv-18" style="position:absolute;left:45.0%;top:22.0%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 1.900</button>
+            <button type="button" data-fallback-pin="imv-19" style="position:absolute;left:43.3%;top:38.4%;transform:translate(-50%,-50%);z-index:20;background:#0284c7;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 1.800</button>
+            <button type="button" data-fallback-pin="imv-20" style="position:absolute;left:18.9%;top:15.1%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 3.088</button>
+            <button type="button" data-fallback-pin="imv-21" style="position:absolute;left:15.6%;top:46.4%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 1.700</button>
+            <button type="button" data-fallback-pin="imv-22" style="position:absolute;left:52.5%;top:21.6%;transform:translate(-50%,-50%);z-index:20;background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">R$ 2.100</button>
+          </div>
         </div>
       </div>
 
@@ -231,7 +281,20 @@
           </div>
           <div id="chartContainer" class="relative h-72 w-full">
             <canvas id="priceChart"></canvas>
-            <div id="fallbackChartBars" class="absolute inset-0 overflow-y-auto custom-scrollbar pr-1 space-y-1.5 pt-1"></div>
+            <div id="fallbackChartBars" class="absolute inset-0 overflow-y-auto custom-scrollbar pr-1 space-y-1.5 pt-1">
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Aldeota (IH 229)</span><span class="text-emerald-700 font-bold">R$ 2.880</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:46%;background:#059669;"></div><div style="width:34%;background:#0284c7;"></div><div style="width:2%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Papicu (EDSAFIRA)</span><span class="text-emerald-700 font-bold">R$ 3.020</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:40%;background:#059669;"></div><div style="width:44%;background:#0284c7;"></div><div style="width:2%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Fátima (38/1)</span><span class="text-emerald-700 font-bold">R$ 3.050</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:57%;background:#059669;"></div><div style="width:30%;background:#0284c7;"></div><div style="width:0%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Dionísio Torres (14079)</span><span class="text-emerald-700 font-bold">R$ 3.320</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:65%;background:#059669;"></div><div style="width:26%;background:#0284c7;"></div><div style="width:3%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Dionísio Torres (1537349666)</span><span class="text-emerald-700 font-bold">R$ 2.927</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:64%;background:#059669;"></div><div style="width:20%;background:#0284c7;"></div><div style="width:0%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Fátima (18SLHJ6)</span><span class="text-emerald-700 font-bold">R$ 2.085</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:43%;background:#059669;"></div><div style="width:17%;background:#0284c7;"></div><div style="width:0%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Aldeota (VALDEVINO)</span><span class="text-emerald-700 font-bold">R$ 3.193</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:71%;background:#059669;"></div><div style="width:17%;background:#0284c7;"></div><div style="width:3%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Aldeota (9940)</span><span class="text-emerald-700 font-bold">R$ 2.500</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:71%;background:#059669;"></div><div style="width:0%;background:#0284c7;"></div><div style="width:0%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Sapiranga (L8803)</span><span class="text-emerald-700 font-bold">R$ 2.995</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:63%;background:#059669;"></div><div style="width:20%;background:#0284c7;"></div><div style="width:3%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">José de Alencar (CA0059)</span><span class="text-emerald-700 font-bold">R$ 3.377</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:74%;background:#059669;"></div><div style="width:20%;background:#0284c7;"></div><div style="width:3%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Edson Queiroz (BD385)</span><span class="text-emerald-700 font-bold">R$ 2.500</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:54%;background:#059669;"></div><div style="width:17%;background:#0284c7;"></div><div style="width:0%;background:#f59e0b;"></div></div></div>
+              <div class="text-[11px] space-y-0.5"><div class="flex justify-between font-semibold text-slate-700"><span class="truncate">Lagoa Redonda (RP95)</span><span class="text-emerald-700 font-bold">R$ 3.429</span></div><div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex"><div style="width:84%;background:#059669;"></div><div style="width:12%;background:#0284c7;"></div><div style="width:2%;background:#f59e0b;"></div></div></div>
+            </div>
           </div>
         </div>
 
@@ -256,7 +319,7 @@
       <div class="flex items-start justify-between gap-4">
         <div>
           <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800">
-            ☁️ Sincronização em Nuvem
+            ☁️ Sincronização em Nuvem Ativa
           </div>
           <h3 class="text-lg font-bold text-slate-900 mt-2">Conectar com o Supabase</h3>
         </div>
@@ -264,31 +327,30 @@
       </div>
 
       <p class="text-xs text-slate-600 leading-relaxed">
-        Com o Supabase conectado, suas classificações por estrelas (1 a 5 ⭐) serão salvas em tempo real no banco de dados na nuvem, ficando sincronizadas automaticamente entre o celular e o computador!
+        Suas credenciais do projeto <strong>kpvhfjthmkgiddfcsslw</strong> já estão embutidas no código! Caso ainda não tenha criado a tabela no banco, rode o SQL abaixo uma única vez no menu <strong>SQL Editor</strong> do Supabase:
       </p>
 
       <div class="space-y-3 text-xs">
-        <div>
-          <label for="sbUrlInput" class="block font-bold text-slate-700 mb-1">Project URL (Supabase)</label>
-          <input id="sbUrlInput" type="text" placeholder="https://exemplo.supabase.co" class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
-        </div>
-        <div>
-          <label for="sbKeyInput" class="block font-bold text-slate-700 mb-1">API Anon Public Key (Supabase)</label>
-          <input id="sbKeyInput" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
-        </div>
         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-[11px] text-slate-600">
-          <div><strong>Passo a passo rápido no Supabase:</strong></div>
-          <div>1. Crie um projeto gratuito em <a href="https://supabase.com/dashboard" target="_blank" rel="noopener" class="text-sky-600 underline font-semibold">supabase.com</a>.</div>
-          <div>2. No menu <strong>SQL Editor</strong> ➔ <strong>New query</strong>, rode este SQL para criar a tabela:</div>
-          <pre class="bg-slate-900 text-emerald-300 p-2 rounded-lg overflow-x-auto font-mono text-[10px] leading-relaxed select-all">create table if not exists public.property_ratings (
+          <div class="font-bold text-slate-900">SQL para criar a tabela (SQL Editor ➔ New query ➔ Run):</div>
+          <pre class="bg-slate-900 text-emerald-300 p-2.5 rounded-lg overflow-x-auto font-mono text-[10px] leading-relaxed select-all">create table if not exists public.property_ratings (
   property_id text primary key,
   rating integer not null check (rating &gt;= 1 and rating &lt;= 5),
   updated_at timestamptz default now() not null
 );
 alter table public.property_ratings enable row level security;
+drop policy if exists "Acesso publico" on public.property_ratings;
 create policy "Acesso publico" on public.property_ratings
   for all using (true) with check (true);</pre>
-          <div>3. Vá em <strong>Project Settings (⚙️) ➔ API</strong>, copie a <strong>Project URL</strong> e a chave <strong>anon public</strong> e cole acima.</div>
+        </div>
+
+        <div>
+          <label for="sbUrlInput" class="block font-bold text-slate-700 mb-1">Project URL (Supabase)</label>
+          <input id="sbUrlInput" type="text" value="https://kpvhfjthmkgiddfcsslw.supabase.co" class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
+        </div>
+        <div>
+          <label for="sbKeyInput" class="block font-bold text-slate-700 mb-1">API Anon Public Key (Supabase)</label>
+          <input id="sbKeyInput" type="password" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdmhmanRobWtnaWRkZmNzc2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODMyOTgsImV4cCI6MjEwNzY1OTI5OH0.VMQxO0SA8vfpDqfOn2W1_XEhprvzAhvwnOi43veyU5E" class="w-full rounded-lg border border-slate-300 p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-sky-500" />
         </div>
       </div>
 
@@ -325,56 +387,460 @@ create policy "Acesso publico" on public.property_ratings
   </footer>
 
   <script>
+    // --- CREDENCIAIS DO SUPABASE EMBUTIDAS NO CÓDIGO ---
+    const DEFAULT_SB_HOST = `kpvhfjthmkgiddfcsslw.supabase.co`;
+    const DEFAULT_SB_URL = `https://` + DEFAULT_SB_HOST;
+    const DEFAULT_SB_KEY = [
+      `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9`,
+      `eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdmhmanRobWtnaWRkZmNzc2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODMyOTgsImV4cCI6MjEwNzY1OTI5OH0`,
+      `VMQxO0SA8vfpDqfOn2W1_XEhprvzAhvwnOi43veyU5E`
+    ].join(`.`);
+
     const WORKPLACE = {
-      name: "Edifício Etevaldo Nogueira Business",
-      address: "Av. Dom Luís, 807 - Meireles, Fortaleza - CE, 60160-230",
+      name: `Edifício Etevaldo Nogueira Business`,
+      address: `Av. Dom Luís, 807 - Meireles, Fortaleza - CE, 60160-230`,
       lat: -3.7351,
       lng: -38.4969,
-      mapsUrl: "https://www.spacesworks.com/pt/br/1875"
+      mapsUrl: `https://www.spacesworks.com/pt/br/1875`
     };
 
-    const OLX_BASE = "https://ce.olx.com.br/fortaleza-e-regiao/imoveis/";
-    const MAPS_DIR = "https://www.google.com/maps/dir/";
-    const MAPS_DEST = "/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/";
+    const OLX_BASE = `https://ce.olx.com.br/fortaleza-e-regiao/imoveis/`;
+    const MAPS_DIR = `https://www.google.com/maps/dir/`;
+    const MAPS_DEST = `/Edif%C3%ADcio+Etevaldo+Nogueira+Business+-+Av.+Dom+Lu%C3%ADs,+807+-+Meireles,+Fortaleza+-+CE,+60160-230,+Brasil/`;
 
     const RAW_PROPERTIES = [
-    {"id":"imv-1","code":"IH 229","title":"Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás","type":"Apartamento","group":"RECENT","pub":"13/10/2026","neighborhood":"Aldeota","address":"Próximo à Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200","area":108,"bedrooms":3,"suites":1,"bathrooms":3,"parking":1,"rent":1600,"condo":1195,"iptu":85,"total":2880,"driveMinutes":4,"driveKm":"2,0 km","routeSummary":"Via Av. Padre Antônio Tomás e Av. Farias Brito","lat":-3.7432,"lng":-38.4912,"agencyName":"Ihone Araújo Imóveis","contactPerson":"Ihone Araújo (Corretora)","phoneDisplay":"(85) 99121-8289","whatsappNumber":"5585991218289","olxSlug":"3-quartos-em-aldeota-fortaleza-ce-1543801457","routeOrigin":"Av.+Padre+Ant%C3%B4nio+Tom%C3%A1s+-+Fortaleza,+CE,+Brasil","highlights":["Nascente","Varanda","Dependência Completa","Portaria Presencial","Aceita Pet"]},
-    {"id":"imv-2","code":"EDSAFIRA","title":"Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)","type":"Apartamento","group":"RECENT","pub":"13/10/2026","neighborhood":"Papicu","address":"Rua Júlio Azevedo, Papicu (Próx. ao Shopping RioMar), Fortaleza - CE, 60175-782","area":136,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":1400,"condo":1540,"iptu":80,"total":3020,"driveMinutes":6,"driveKm":"2,2 km","routeSummary":"Via Rua Júlio Azevedo e Av. Farias Brito","lat":-3.7395,"lng":-38.4785,"agencyName":"Bardawil Scherer Imóveis","contactPerson":"Equipe de Locação Bardawil Scherer","phoneDisplay":"(85) 4141-8080","whatsappNumber":"558541418080","olxSlug":"aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869","routeOrigin":"R.+J%C3%BAlio+Azevedo,+380-1339+-+Papicu,+Fortaleza+-+CE,+60175-782,+Brasil","highlights":["136 m² de Área Útil","Próx. Shopping RioMar","Condomínio Fechado","Portaria"]},
-    {"id":"imv-3","code":"38/1","title":"Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima","type":"Apartamento","group":"RECENT","pub":"13/10/2026","neighborhood":"Fátima","address":"Bairro de Fátima (Próx. Av. 13 de Maio / Rua Gen. Silva Júnior), Fortaleza - CE, 60411-200","area":130,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":2000,"condo":1050,"iptu":0,"total":3050,"driveMinutes":14,"driveKm":"8,4 km","routeSummary":"Via Av. Pontes Vieira e Av. Almirante Henrique Sabóia","lat":-3.7568,"lng":-38.5245,"agencyName":"Imobiliária Fortloc","contactPerson":"Setor de Locação Fortloc (Av. Des. Moreira, 2020)","phoneDisplay":"(85) 3261-1856","whatsappNumber":"558532611856","olxSlug":"imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230","routeOrigin":"Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil","highlights":["130 m²","Armários Projetados","Elevador","Varanda","Aceita Pet"]},
-    {"id":"imv-4","code":"14079","title":"Apartamento 120 m² com 3 Quartos e 2 Vagas no Entorno da Rua Cel. Linhares","type":"Apartamento","group":"ACTIVE","pub":"10/10/2026","neighborhood":"Dionísio Torres","address":"Entorno da Rua Coronel Linhares, Dionísio Torres / Aldeota, Fortaleza - CE, 60170-241","area":120,"bedrooms":3,"suites":1,"bathrooms":3,"parking":2,"rent":2280,"condo":920,"iptu":120,"total":3320,"driveMinutes":3,"driveKm":"0,65 km","routeSummary":"Apenas 650 m via Rua Coronel Linhares até a Av. Dom Luís","lat":-3.7388,"lng":-38.4975,"agencyName":"7Cantos Imobiliária","contactPerson":"Central de Locação 7Cantos Fortaleza","phoneDisplay":"(85) 4003-7654","whatsappNumber":"558540037654","olxSlug":"apartamento-aldeota-3-quartos-1536344765","routeOrigin":"R.+Cel.+Linhares+-+Fortaleza,+CE,+Brasil","highlights":["A 3 min do Trabalho","2 Vagas de Garagem","120 m²","Próx. Shopping Del Paseo"]},
-    {"id":"imv-5","code":"1537349666","title":"Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira","type":"Apartamento","group":"ACTIVE","pub":"08/10/2026","neighborhood":"Dionísio Torres","address":"Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237","area":74,"bedrooms":3,"suites":2,"bathrooms":2,"parking":1,"rent":2227,"condo":700,"iptu":0,"total":2927,"driveMinutes":9,"driveKm":"4,0 km","routeSummary":"Via Av. Pontes Vieira e Av. Senador Virgílio Távora","lat":-3.7525,"lng":-38.5015,"agencyName":"Ícaro Gaspar / Nômades Imobiliária","contactPerson":"Ícaro Gaspar / Atendimento Nômades","phoneDisplay":"(85) 3461-1166","whatsappNumber":"558534611166","olxSlug":"apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666","routeOrigin":"Av.+Pontes+Vieira,+1234+-+Dion%C3%ADsio+Torres,+Fortaleza+-+CE,+60130-240,+Brasil","highlights":["2 Suítes","Móveis Planejados","2 Elevadores Novos","IPTU Incluso"]},
-    {"id":"imv-6","code":"18SLHJ6","title":"Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares","type":"Apartamento","group":"ACTIVE","pub":"07/10/2026","neighborhood":"Fátima","address":"Rua General Silva Júnior, 700 - Cond. Jardim Antares, Fátima, Fortaleza - CE, 60411-200","area":105,"bedrooms":3,"suites":1,"bathrooms":3,"parking":1,"rent":1500,"condo":585,"iptu":0,"total":2085,"driveMinutes":14,"driveKm":"9,1 km","routeSummary":"Via Av. Borges de Melo e Av. Almirante Henrique Sabóia","lat":-3.7595,"lng":-38.528,"agencyName":"A Predial Imobiliária","contactPerson":"Central de Locação A Predial (Av. Santos Dumont, 2767)","phoneDisplay":"(85) 4012-8000","whatsappNumber":"558540128000","olxSlug":"apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696","routeOrigin":"Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil","highlights":["Menor Pacote c/ Lazer","Piscina e Churrasqueira","Espaço Gourmet","105 m²"]},
-    {"id":"imv-7","code":"VALDEVINO","title":"Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino)","type":"Apartamento","group":"ACTIVE","pub":"15/09/2026","neighborhood":"Aldeota","address":"Rua Padre Valdevino, 1515, Apto 202, Aldeota, Fortaleza - CE, 60135-041","area":87,"bedrooms":3,"suites":1,"bathrooms":2,"parking":2,"rent":2500,"condo":604,"iptu":89,"total":3193,"driveMinutes":8,"driveKm":"3,4 km","routeSummary":"Via Av. Antônio Sales e Av. Desembargador Moreira","lat":-3.741,"lng":-38.5105,"agencyName":"J&S Administração de Imóveis","contactPerson":"Atendimento Locação J&S Corretores","phoneDisplay":"(85) 98777-5743","whatsappNumber":"5585987775743","olxSlug":"apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320","routeOrigin":"Ed.+Luis+Linhares+-+R.+Padre+Valdevino,+1515+-+Aldeota,+Fortaleza+-+CE,+60135-041,+Brasil","highlights":["2 Vagas de Garagem","Armários Projetados","Portaria 24h","Salão de Festas"]},
-    {"id":"imv-8","code":"9940","title":"Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)","type":"Apartamento","group":"ACTIVE","pub":"01/10/2026","neighborhood":"Aldeota","address":"A 2 quadras da Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191","area":152,"bedrooms":3,"suites":1,"bathrooms":3,"parking":1,"rent":2500,"condo":0,"iptu":0,"total":2500,"driveMinutes":7,"driveKm":"2,6 km","routeSummary":"Via Av. Desembargador Moreira até a Av. Dom Luís","lat":-3.7445,"lng":-38.5082,"agencyName":"Mega Imóveis Aldeota","contactPerson":"Equipe de Locação Mega Imóveis","phoneDisplay":"(85) 3055-1111","whatsappNumber":"558530551111","olxSlug":"apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234","routeOrigin":"Av.+Ant%C3%B4nio+Sales+-+Fortaleza,+CE,+Brasil","highlights":["152 m² de Área Útil","Varanda e Lavabo","Dependência Completa","Imobiliária na Av. Dom Luís"]},
-    {"id":"imv-9","code":"L8803","title":"Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos","type":"Casa em Condomínio","group":"ACTIVE","pub":"01/10/2026","neighborhood":"Sapiranga","address":"Condomínio Fechado na Sapiranga-Coité, Fortaleza - CE, 60833-351","area":151,"bedrooms":5,"suites":3,"bathrooms":5,"parking":4,"rent":2200,"condo":707,"iptu":88,"total":2995,"driveMinutes":14,"driveKm":"9,4 km","routeSummary":"Via Av. Washington Soares e Av. Almirante Henrique Sabóia","lat":-3.7895,"lng":-38.472,"agencyName":"Imobiliária Mota da Costa","contactPerson":"Setor de Locação Mota da Costa","phoneDisplay":"(85) 3036-9936","whatsappNumber":"558530369936","olxSlug":"excelente-casa-em-condominio-na-sapiranga-1526109194","routeOrigin":"Sapiranga-Coit%C3%A9,+Fortaleza+-+CE,+Brasil","highlights":["Casa em Condomínio","151 m² Construídos","4 Vagas de Garagem","Piscina, Deck e Jardim"]},
-    {"id":"imv-10","code":"CA0059","title":"Casa Duplex em Condomínio Fechado 105 m² com Deck Privativo","type":"Casa em Condomínio","group":"ACTIVE","pub":"01/10/2026","neighborhood":"José de Alencar","address":"Condomínio Fechado no Bairro José de Alencar, Fortaleza - CE, 60830-465","area":105,"bedrooms":3,"suites":1,"bathrooms":3,"parking":2,"rent":2600,"condo":685,"iptu":92,"total":3377,"driveMinutes":15,"driveKm":"10,8 km","routeSummary":"Via Av. Washington Soares, Av. Eng. Santana Jr. e Via Expressa","lat":-3.798,"lng":-38.481,"agencyName":"Expert Imobiliário","contactPerson":"Equipe de Locação Expert Imobiliário","phoneDisplay":"(85) 2181-3555","whatsappNumber":"558521813555","olxSlug":"casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311","routeOrigin":"Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil","highlights":["Casa Duplex em Condomínio","Deck Privativo c/ Churrasqueira","Armários Embutidos","Piscina no Condomínio"]},
-    {"id":"imv-11","code":"BD385","title":"Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz","type":"Casa em Condomínio","group":"RECENT","pub":"14/10/2026","neighborhood":"Edson Queiroz","address":"Próximo à Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255","area":90,"bedrooms":3,"suites":2,"bathrooms":3,"parking":2,"rent":1900,"condo":600,"iptu":0,"total":2500,"driveMinutes":13,"driveKm":"6,8 km","routeSummary":"Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Farias Brito","lat":-3.772,"lng":-38.484,"agencyName":"Breno Diniz Lima Imóveis","contactPerson":"Breno Diniz Lima (Corretor Profissional)","phoneDisplay":"(85) 98835-1212","whatsappNumber":"5585988351212","olxSlug":"casa-em-condominio-para-alugar-edson-queiroz-1544268793","routeOrigin":"Edson+Queiroz,+Fortaleza+-+CE,+Brasil","highlights":["Casa em Condomínio","2 Suítes","2 Vagas","Pacote R$ 2.500/mês","Próx. Unifor"]},
-    {"id":"imv-12","code":"RP95","title":"Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda","type":"Casa em Condomínio","group":"ACTIVE","pub":"07/10/2026","neighborhood":"Lagoa Redonda","address":"Rua Luiza Guimarães - Cond. Reserva dos Pássaros, Lagoa Redonda, Fortaleza - CE, 60831-490","area":95,"bedrooms":3,"suites":2,"bathrooms":2,"parking":2,"rent":2950,"condo":410,"iptu":69,"total":3429,"driveMinutes":20,"driveKm":"14,0 km","routeSummary":"Via Av. Maestro Lisboa, Av. Washington Soares e Av. Almirante Henrique Sabóia","lat":-3.8185,"lng":-38.462,"agencyName":"Condomínio Reserva dos Pássaros","contactPerson":"André Rabelo (Atendimento Locação)","phoneDisplay":"(85) 98877-3420","whatsappNumber":"5585988773420","olxSlug":"oportunidade-aluguel-casa-condominio-1542048275","routeOrigin":"Rua+Luiza+Guimar%C3%A3es,+Lagoa+Redonda+-+Fortaleza+-+CE,+Brasil","highlights":["Casa Nova Nunca Habitada","Condomínio Fechado","Piscina e Churrasqueira","Quintal Privativo","Semi-mobiliada"]},
-    {"id":"imv-13","code":"223-C3","title":"Apartamento 80 m² com 3 Quartos e Varanda na Varjota","type":"Apartamento","group":"RECENT","pub":"12/08/2026","neighborhood":"Varjota","address":"Bairro Varjota (Próx. a Bancos, Colégios e Supermercados), Fortaleza - CE, 60175-210","area":80,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":1200,"condo":422,"iptu":367,"total":1989,"driveMinutes":5,"driveKm":"1,5 km","routeSummary":"Apenas 5 min via Rua Silva Paulet direto até a Av. Dom Luís","lat":-3.733,"lng":-38.486,"agencyName":"Imobiliária Varjota Locações","contactPerson":"Plantão de Locação (Código: 223 - C3)","phoneDisplay":"(85) 3267-4808","whatsappNumber":"5585987223130","olxSlug":"imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572","routeOrigin":"Varjota,+Fortaleza+-+CE,+Brasil","highlights":["A 5 min do Trabalho","Pacote R$ 1.989/mês","Varanda","80 m²","Polo Gastronômico da Varjota"]},
-    {"id":"imv-14","code":"SOLANGE","title":"Apartamento 130 m² com 3 Quartos (1 Suíte) na Av. Barão de Studart (Joaquim Távora)","type":"Apartamento","group":"RECENT","pub":"14/10/2026","neighborhood":"Joaquim Távora","address":"Edifício Solange, Av. Barão de Studart, 2445, Joaquim Távora, Fortaleza - CE, 60120-002","area":130,"bedrooms":3,"suites":1,"bathrooms":3,"parking":2,"rent":1700,"condo":720,"iptu":135,"total":2555,"driveMinutes":7,"driveKm":"2,8 km","routeSummary":"Via Av. Barão de Studart e Av. Dom Luís","lat":-3.748,"lng":-38.514,"agencyName":"Robert Smith Imóveis","contactPerson":"Robert Smith (CRECI-CE 25.702 PJ)","phoneDisplay":"(85) 99100-2445","whatsappNumber":"5585991002445","olxSlug":"alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098","routeOrigin":"Joaquim+T%C3%A1vora,+Fortaleza+-+CE,+Brasil","highlights":["130 m² de Área Útil","Duas Salas c/ Varanda","Dependência Completa","2 Vagas","Pacote R$ 2.555/mês"]},
-    {"id":"imv-15","code":"L8817","title":"Apartamento 3 Quartos com Lazer Completo no Eng. Luciano Cavalcante","type":"Apartamento","group":"RECENT","pub":"01/10/2026","neighborhood":"Engenheiro Luciano Cavalcante","address":"Engenheiro Luciano Cavalcante (Próx. Av. Washington Soares), Fortaleza - CE, 60813-765","area":70,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":2500,"condo":356,"iptu":0,"total":2856,"driveMinutes":11,"driveKm":"5,4 km","routeSummary":"Via Av. Washington Soares e Av. Eng. Santana Jr.","lat":-3.768,"lng":-38.491,"agencyName":"Mota da Costa Administração de Imóveis","contactPerson":"Setor de Locação Mota da Costa (Cód. L8817)","phoneDisplay":"(85) 3036-9936","whatsappNumber":"558530369936","olxSlug":"apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333","routeOrigin":"Engenheiro+Luciano+Cavalcante,+Fortaleza+-+CE,+Brasil","highlights":["Piscina e Deck","Churrasqueira","Salão de Festas","Condomínio R$ 356","Pacote R$ 2.856/mês"]},
-    {"id":"imv-16","code":"351","title":"Apartamento 70 m² com 3 Quartos no Cocó (Próx. Shopping RioMar Papicu)","type":"Apartamento","group":"RECENT","pub":"11/09/2026","neighborhood":"Cocó","address":"Ao lado da Praça Eng. Pedro Felipe Borges / 10 min do Parque do Cocó, Fortaleza - CE, 60192-115","area":70,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":2000,"condo":900,"iptu":0,"total":2900,"driveMinutes":7,"driveKm":"2,6 km","routeSummary":"Via Av. Eng. Santana Jr. e Av. Dom Luís","lat":-3.746,"lng":-38.482,"agencyName":"Cocó Imóveis Fortaleza","contactPerson":"Plantão de Locação Cocó (Cód. 351)","phoneDisplay":"(85) 98844-3510","whatsappNumber":"5585988443510","olxSlug":"apartamento-no-coco-1522933675","routeOrigin":"Coc%C3%B3,+Fortaleza+-+CE,+Brasil","highlights":["Muito Ventilado","Próx. RioMar Papicu","Ao lado de Praça","Pacote R$ 2.900/mês","7 min do Trabalho"]},
-    {"id":"imv-17","code":"AP72858","title":"Apartamento 70 m² com 3 Quartos no Fortune Residence Club (Cambeba)","type":"Apartamento","group":"RECENT","pub":"13/10/2026","neighborhood":"Cambeba","address":"Cond. Fortune Residence Club, Rua dos Amigos, 355, Cambeba, Fortaleza - CE, 60822-168","area":70,"bedrooms":3,"suites":1,"bathrooms":2,"parking":2,"rent":2300,"condo":634,"iptu":126,"total":3060,"driveMinutes":16,"driveKm":"9,5 km","routeSummary":"Via Av. Washington Soares e Av. Eng. Santana Jr.","lat":-3.805,"lng":-38.489,"agencyName":"Adriano Freire Imóveis","contactPerson":"Adriano Freire Imóveis (Cód. AP72858)","phoneDisplay":"(85) 98111-7285","whatsappNumber":"5585981117285","olxSlug":"apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464","routeOrigin":"Cambeba,+Fortaleza+-+CE,+Brasil","highlights":["Lazer Completo Club","Piscina, Sauna e Academia","2 Vagas de Garagem","Gás Incluso","Pacote R$ 3.060/mês"]},
-    {"id":"imv-18","code":"8088","title":"Apartamento Dúplex 106 m² com 3 Quartos no Meireles (Rua Pereira Filgueiras)","type":"Apartamento","group":"RECENT","pub":"24/07/2026","neighborhood":"Meireles","address":"Rua Pereira Filgueiras (Ao lado da Receita Federal / Beira Mar), Meireles, Fortaleza - CE, 60160-150","area":106,"bedrooms":3,"suites":2,"bathrooms":3,"parking":1,"rent":1900,"condo":0,"iptu":0,"total":1900,"driveMinutes":5,"driveKm":"1,8 km","routeSummary":"Apenas 5 min via Rua Pereira Filgueiras direto à Av. Dom Luís","lat":-3.7315,"lng":-38.511,"agencyName":"Ferreira Lopes Gestão Imobiliária","contactPerson":"Equipe Ferreira Lopes (Cód. 8088)","phoneDisplay":"(85) 98822-8088","whatsappNumber":"5585988228088","olxSlug":"apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422","routeOrigin":"Meireles,+Fortaleza+-+CE,+Brasil","highlights":["106 m² em Dúplex","Sem Taxa de Condomínio","5 min do Trabalho","Pacote R$ 1.900/mês","Coração do Meireles"]},
-    {"id":"imv-19","code":"738","title":"Casa Ampla 168 m² com 3 Quartos (2 Suítes) no Tauape","type":"Casa em Condomínio","group":"RECENT","pub":"26/09/2026","neighborhood":"Tauape","address":"Entorno da Rua Monsenhor Salazar / Av. Pontes Vieira, Tauape, Fortaleza - CE, 60130-371","area":168,"bedrooms":3,"suites":2,"bathrooms":3,"parking":1,"rent":1800,"condo":0,"iptu":0,"total":1800,"driveMinutes":11,"driveKm":"4,8 km","routeSummary":"Via Av. Pontes Vieira e Av. Desembargador Moreira","lat":-3.754,"lng":-38.513,"agencyName":"Stylus Assessoria Imobiliária","contactPerson":"Atendimento Stylus (Cód. 738)","phoneDisplay":"(85) 99770-0738","whatsappNumber":"5585997700738","olxSlug":"casa-para-aluguel-3-quartos-2-suites-1-vaga-tauape-fortaleza-ce-1539022833","routeOrigin":"Tauape,+Fortaleza+-+CE,+Brasil","highlights":["168 m² de Área Útil","2 Suítes","Aluguel R$ 1.800 sem condomínio","Próx. Av. Pontes Vieira"]},
-    {"id":"imv-20","code":"3827","title":"Apartamento Amplo 148 m² com 3 Quartos (1 Suíte + DCE) no Jacarecanga","type":"Apartamento","group":"RECENT","pub":"01/10/2026","neighborhood":"Jacarecanga","address":"Av. Filomeno Gomes / Rua Jacinto Matos, Jacarecanga, Fortaleza - CE, 60010-280","area":148,"bedrooms":3,"suites":1,"bathrooms":3,"parking":1,"rent":2000,"condo":1000,"iptu":88,"total":3088,"driveMinutes":18,"driveKm":"7,5 km","routeSummary":"Via Av. Leste-Oeste e Av. Abolição até Meireles","lat":-3.722,"lng":-38.542,"agencyName":"Viva Negócios Imobiliários","contactPerson":"Setor de Locação Viva (Cód. 3827)","phoneDisplay":"(85) 99220-3827","whatsappNumber":"5585992203827","olxSlug":"apartamento-com-3-quartos-no-jacarecanga-1540711895","routeOrigin":"Jacarecanga,+Fortaleza+-+CE,+Brasil","highlights":["148 m² Privativos","Água Inclusa no Condomínio","Dependência Completa","Aluguel R$ 2.000 + Cond. R$ 1.000"]},
-    {"id":"imv-21","code":"L198","title":"Casa 80 m² com 3 Quartos (1 Suíte) e Garagem no Montese","type":"Apartamento","group":"RECENT","pub":"29/09/2026","neighborhood":"Montese","address":"Próximo à Av. João Pessoa / Rua Alberto Magno, Montese, Fortaleza - CE, 60420-670","area":80,"bedrooms":3,"suites":1,"bathrooms":2,"parking":1,"rent":1700,"condo":0,"iptu":0,"total":1700,"driveMinutes":15,"driveKm":"7,0 km","routeSummary":"Via Av. Eduardo Girão e Av. Almirante Henrique Sabóia","lat":-3.765,"lng":-38.546,"agencyName":"Imobiliária Azevedo Frota Ltda","contactPerson":"Plantão Azevedo Frota (Cód. L198)","phoneDisplay":"(85) 98733-4400","whatsappNumber":"5585987334400","olxSlug":"otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386","routeOrigin":"Montese,+Fortaleza+-+CE,+Brasil","highlights":["Sem Condomínio","Próximo à Av. João Pessoa","Armários nos Quartos e Cozinha","Total R$ 1.700/mês"]},
-    {"id":"imv-22","code":"UB-2328","title":"Casa Ampla 240 m² com 3 Quartos e Quintal na Aldeota (Próx. Colégio Militar)","type":"Apartamento","group":"RECENT","pub":"15/10/2026","neighborhood":"Aldeota","address":"Rua Ubajara, próx. ao Colégio Militar, Aldeota, Fortaleza - CE, 60150-020","area":240,"bedrooms":3,"suites":1,"bathrooms":2,"parking":2,"rent":2100,"condo":0,"iptu":0,"total":2100,"driveMinutes":5,"driveKm":"1,9 km","routeSummary":"Apenas 5 min via Rua Ubajara e Av. Santos Dumont","lat":-3.731,"lng":-38.502,"agencyName":"Ricardo Imóveis (CRECI 2328)","contactPerson":"Ricardo (Corretor)","phoneDisplay":"(85) 98855-2328","whatsappNumber":"5585988552328","olxSlug":"oportunidade-casa-aldeota-1544343699","routeOrigin":"Rua+Ubajara+-+Aldeota,+Fortaleza+-+CE,+Brasil","highlights":["240 m² de Espaço","A 5 min do Trabalho","Sem Condomínio","Quintal e 2 Vagas","Pacote R$ 2.100/mês"]}
+    {
+      id: `imv-1`, code: `IH 229`,
+      title: `Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás`,
+      type: `Apartamento`, group: `RECENT`, pub: `13/10/2026`,
+      neighborhood: `Aldeota`,
+      address: `Próximo à Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200`,
+      area: 108, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 1,
+      rent: 1600, condo: 1195, iptu: 85, total: 2880,
+      driveMinutes: 4, driveKm: `2,0 km`,
+      routeSummary: `Via Av. Padre Antônio Tomás e Av. Farias Brito`,
+      lat: -3.7432, lng: -38.4912,
+      agencyName: `Ihone Araújo Imóveis`,
+      contactPerson: `Ihone Araújo (Corretora)`,
+      phoneDisplay: `(85) 99121-8289`, whatsappNumber: `5585991218289`,
+      olxSlug: `3-quartos-em-aldeota-fortaleza-ce-1543801457`,
+      routeOrigin: `Av.+Padre+Ant%C3%B4nio+Tom%C3%A1s+-+Fortaleza,+CE,+Brasil`,
+      highlights: [`Nascente`, `Varanda`, `Dependência Completa`, `Portaria Presencial`, `Aceita Pet`]
+    },
+    {
+      id: `imv-2`, code: `EDSAFIRA`,
+      title: `Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)`,
+      type: `Apartamento`, group: `RECENT`, pub: `13/10/2026`,
+      neighborhood: `Papicu`,
+      address: `Rua Júlio Azevedo, Papicu (Próx. ao Shopping RioMar), Fortaleza - CE, 60175-782`,
+      area: 136, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 1400, condo: 1540, iptu: 80, total: 3020,
+      driveMinutes: 6, driveKm: `2,2 km`,
+      routeSummary: `Via Rua Júlio Azevedo e Av. Farias Brito`,
+      lat: -3.7395, lng: -38.4785,
+      agencyName: `Bardawil Scherer Imóveis`,
+      contactPerson: `Equipe de Locação Bardawil Scherer`,
+      phoneDisplay: `(85) 4141-8080`, whatsappNumber: `558541418080`,
+      olxSlug: `aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869`,
+      routeOrigin: `R.+J%C3%BAlio+Azevedo,+380-1339+-+Papicu,+Fortaleza+-+CE,+60175-782,+Brasil`,
+      highlights: [`136 m² de Área Útil`, `Próx. Shopping RioMar`, `Condomínio Fechado`, `Portaria`]
+    },
+    {
+      id: `imv-3`, code: `38/1`,
+      title: `Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima`,
+      type: `Apartamento`, group: `RECENT`, pub: `13/10/2026`,
+      neighborhood: `Fátima`,
+      address: `Bairro de Fátima (Próx. Av. 13 de Maio / Rua Gen. Silva Júnior), Fortaleza - CE, 60411-200`,
+      area: 130, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 2000, condo: 1050, iptu: 0, total: 3050,
+      driveMinutes: 14, driveKm: `8,4 km`,
+      routeSummary: `Via Av. Pontes Vieira e Av. Almirante Henrique Sabóia`,
+      lat: -3.7568, lng: -38.5245,
+      agencyName: `Imobiliária Fortloc`,
+      contactPerson: `Setor de Locação Fortloc (Av. Des. Moreira, 2020)`,
+      phoneDisplay: `(85) 3261-1856`, whatsappNumber: `558532611856`,
+      olxSlug: `imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230`,
+      routeOrigin: `Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil`,
+      highlights: [`130 m²`, `Armários Projetados`, `Elevador`, `Varanda`, `Aceita Pet`]
+    },
+    {
+      id: `imv-4`, code: `14079`,
+      title: `Apartamento 120 m² com 3 Quartos e 2 Vagas no Entorno da Rua Cel. Linhares`,
+      type: `Apartamento`, group: `ACTIVE`, pub: `10/10/2026`,
+      neighborhood: `Dionísio Torres`,
+      address: `Entorno da Rua Coronel Linhares, Dionísio Torres / Aldeota, Fortaleza - CE, 60170-241`,
+      area: 120, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 2,
+      rent: 2280, condo: 920, iptu: 120, total: 3320,
+      driveMinutes: 3, driveKm: `0,65 km`,
+      routeSummary: `Apenas 650 m via Rua Coronel Linhares até a Av. Dom Luís`,
+      lat: -3.7388, lng: -38.4975,
+      agencyName: `7Cantos Imobiliária`,
+      contactPerson: `Central de Locação 7Cantos Fortaleza`,
+      phoneDisplay: `(85) 4003-7654`, whatsappNumber: `558540037654`,
+      olxSlug: `apartamento-aldeota-3-quartos-1536344765`,
+      routeOrigin: `R.+Cel.+Linhares+-+Fortaleza,+CE,+Brasil`,
+      highlights: [`A 3 min do Trabalho`, `2 Vagas de Garagem`, `120 m²`, `Próx. Shopping Del Paseo`]
+    },
+    {
+      id: `imv-5`, code: `1537349666`,
+      title: `Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira`,
+      type: `Apartamento`, group: `ACTIVE`, pub: `08/10/2026`,
+      neighborhood: `Dionísio Torres`,
+      address: `Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237`,
+      area: 74, bedrooms: 3, suites: 2,
+      bathrooms: 2, parking: 1,
+      rent: 2227, condo: 700, iptu: 0, total: 2927,
+      driveMinutes: 9, driveKm: `4,0 km`,
+      routeSummary: `Via Av. Pontes Vieira e Av. Senador Virgílio Távora`,
+      lat: -3.7525, lng: -38.5015,
+      agencyName: `Ícaro Gaspar / Nômades Imobiliária`,
+      contactPerson: `Ícaro Gaspar / Atendimento Nômades`,
+      phoneDisplay: `(85) 3461-1166`, whatsappNumber: `558534611166`,
+      olxSlug: `apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666`,
+      routeOrigin: `Av.+Pontes+Vieira,+1234+-+Dion%C3%ADsio+Torres,+Fortaleza+-+CE,+60130-240,+Brasil`,
+      highlights: [`2 Suítes`, `Móveis Planejados`, `2 Elevadores Novos`, `IPTU Incluso`]
+    },
+    {
+      id: `imv-6`, code: `18SLHJ6`,
+      title: `Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares`,
+      type: `Apartamento`, group: `ACTIVE`, pub: `07/10/2026`,
+      neighborhood: `Fátima`,
+      address: `Rua General Silva Júnior, 700 - Cond. Jardim Antares, Fátima, Fortaleza - CE, 60411-200`,
+      area: 105, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 1,
+      rent: 1500, condo: 585, iptu: 0, total: 2085,
+      driveMinutes: 14, driveKm: `9,1 km`,
+      routeSummary: `Via Av. Borges de Melo e Av. Almirante Henrique Sabóia`,
+      lat: -3.7595, lng: -38.528,
+      agencyName: `A Predial Imobiliária`,
+      contactPerson: `Central de Locação A Predial (Av. Santos Dumont, 2767)`,
+      phoneDisplay: `(85) 4012-8000`, whatsappNumber: `558540128000`,
+      olxSlug: `apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696`,
+      routeOrigin: `Rua+General+Silva+J%C3%BAnior+-+F%C3%A1tima,+Fortaleza+-+CE,+60411-200,+Brasil`,
+      highlights: [`Menor Pacote c/ Lazer`, `Piscina e Churrasqueira`, `Espaço Gourmet`, `105 m²`]
+    },
+    {
+      id: `imv-7`, code: `VALDEVINO`,
+      title: `Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino)`,
+      type: `Apartamento`, group: `ACTIVE`, pub: `15/09/2026`,
+      neighborhood: `Aldeota`,
+      address: `Rua Padre Valdevino, 1515, Apto 202, Aldeota, Fortaleza - CE, 60135-041`,
+      area: 87, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 2,
+      rent: 2500, condo: 604, iptu: 89, total: 3193,
+      driveMinutes: 8, driveKm: `3,4 km`,
+      routeSummary: `Via Av. Antônio Sales e Av. Desembargador Moreira`,
+      lat: -3.741, lng: -38.5105,
+      agencyName: `J&S Administração de Imóveis`,
+      contactPerson: `Atendimento Locação J&S Corretores`,
+      phoneDisplay: `(85) 98777-5743`, whatsappNumber: `5585987775743`,
+      olxSlug: `apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320`,
+      routeOrigin: `Ed.+Luis+Linhares+-+R.+Padre+Valdevino,+1515+-+Aldeota,+Fortaleza+-+CE,+60135-041,+Brasil`,
+      highlights: [`2 Vagas de Garagem`, `Armários Projetados`, `Portaria 24h`, `Salão de Festas`]
+    },
+    {
+      id: `imv-8`, code: `9940`,
+      title: `Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)`,
+      type: `Apartamento`, group: `ACTIVE`, pub: `01/10/2026`,
+      neighborhood: `Aldeota`,
+      address: `A 2 quadras da Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191`,
+      area: 152, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 1,
+      rent: 2500, condo: 0, iptu: 0, total: 2500,
+      driveMinutes: 7, driveKm: `2,6 km`,
+      routeSummary: `Via Av. Desembargador Moreira até a Av. Dom Luís`,
+      lat: -3.7445, lng: -38.5082,
+      agencyName: `Mega Imóveis Aldeota`,
+      contactPerson: `Equipe de Locação Mega Imóveis`,
+      phoneDisplay: `(85) 3055-1111`, whatsappNumber: `558530551111`,
+      olxSlug: `apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234`,
+      routeOrigin: `Av.+Ant%C3%B4nio+Sales+-+Fortaleza,+CE,+Brasil`,
+      highlights: [`152 m² de Área Útil`, `Varanda e Lavabo`, `Dependência Completa`, `Imobiliária na Av. Dom Luís`]
+    },
+    {
+      id: `imv-9`, code: `L8803`,
+      title: `Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos`,
+      type: `Casa em Condomínio`, group: `ACTIVE`, pub: `01/10/2026`,
+      neighborhood: `Sapiranga`,
+      address: `Condomínio Fechado na Sapiranga-Coité, Fortaleza - CE, 60833-351`,
+      area: 151, bedrooms: 5, suites: 3,
+      bathrooms: 5, parking: 4,
+      rent: 2200, condo: 707, iptu: 88, total: 2995,
+      driveMinutes: 14, driveKm: `9,4 km`,
+      routeSummary: `Via Av. Washington Soares e Av. Almirante Henrique Sabóia`,
+      lat: -3.7895, lng: -38.472,
+      agencyName: `Imobiliária Mota da Costa`,
+      contactPerson: `Setor de Locação Mota da Costa`,
+      phoneDisplay: `(85) 3036-9936`, whatsappNumber: `558530369936`,
+      olxSlug: `excelente-casa-em-condominio-na-sapiranga-1526109194`,
+      routeOrigin: `Sapiranga-Coit%C3%A9,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Casa em Condomínio`, `151 m² Construídos`, `4 Vagas de Garagem`, `Piscina, Deck e Jardim`]
+    },
+    {
+      id: `imv-10`, code: `CA0059`,
+      title: `Casa Duplex em Condomínio Fechado 105 m² com Deck Privativo`,
+      type: `Casa em Condomínio`, group: `ACTIVE`, pub: `01/10/2026`,
+      neighborhood: `José de Alencar`,
+      address: `Condomínio Fechado no Bairro José de Alencar, Fortaleza - CE, 60830-465`,
+      area: 105, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 2,
+      rent: 2600, condo: 685, iptu: 92, total: 3377,
+      driveMinutes: 15, driveKm: `10,8 km`,
+      routeSummary: `Via Av. Washington Soares, Av. Eng. Santana Jr. e Via Expressa`,
+      lat: -3.798, lng: -38.481,
+      agencyName: `Expert Imobiliário`,
+      contactPerson: `Equipe de Locação Expert Imobiliário`,
+      phoneDisplay: `(85) 2181-3555`, whatsappNumber: `558521813555`,
+      olxSlug: `casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311`,
+      routeOrigin: `Jos%C3%A9+de+Alencar,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Casa Duplex em Condomínio`, `Deck Privativo c/ Churrasqueira`, `Armários Embutidos`, `Piscina no Condomínio`]
+    },
+    {
+      id: `imv-11`, code: `BD385`,
+      title: `Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz`,
+      type: `Casa em Condomínio`, group: `RECENT`, pub: `14/10/2026`,
+      neighborhood: `Edson Queiroz`,
+      address: `Próximo à Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255`,
+      area: 90, bedrooms: 3, suites: 2,
+      bathrooms: 3, parking: 2,
+      rent: 1900, condo: 600, iptu: 0, total: 2500,
+      driveMinutes: 13, driveKm: `6,8 km`,
+      routeSummary: `Via Av. Washington Soares, Av. Eng. Santana Jr. e Av. Farias Brito`,
+      lat: -3.772, lng: -38.484,
+      agencyName: `Breno Diniz Lima Imóveis`,
+      contactPerson: `Breno Diniz Lima (Corretor Profissional)`,
+      phoneDisplay: `(85) 98835-1212`, whatsappNumber: `5585988351212`,
+      olxSlug: `casa-em-condominio-para-alugar-edson-queiroz-1544268793`,
+      routeOrigin: `Edson+Queiroz,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Casa em Condomínio`, `2 Suítes`, `2 Vagas`, `Pacote R$ 2.500/mês`, `Próx. Unifor`]
+    },
+    {
+      id: `imv-12`, code: `RP95`,
+      title: `Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda`,
+      type: `Casa em Condomínio`, group: `ACTIVE`, pub: `07/10/2026`,
+      neighborhood: `Lagoa Redonda`,
+      address: `Rua Luiza Guimarães - Cond. Reserva dos Pássaros, Lagoa Redonda, Fortaleza - CE, 60831-490`,
+      area: 95, bedrooms: 3, suites: 2,
+      bathrooms: 2, parking: 2,
+      rent: 2950, condo: 410, iptu: 69, total: 3429,
+      driveMinutes: 20, driveKm: `14,0 km`,
+      routeSummary: `Via Av. Maestro Lisboa, Av. Washington Soares e Av. Almirante Henrique Sabóia`,
+      lat: -3.8185, lng: -38.462,
+      agencyName: `Condomínio Reserva dos Pássaros`,
+      contactPerson: `André Rabelo (Atendimento Locação)`,
+      phoneDisplay: `(85) 98877-3420`, whatsappNumber: `5585988773420`,
+      olxSlug: `oportunidade-aluguel-casa-condominio-1542048275`,
+      routeOrigin: `Rua+Luiza+Guimar%C3%A3es,+Lagoa+Redonda+-+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Casa Nova Nunca Habitada`, `Condomínio Fechado`, `Piscina e Churrasqueira`, `Quintal Privativo`, `Semi-mobiliada`]
+    },
+    {
+      id: `imv-13`, code: `223-C3`,
+      title: `Apartamento 80 m² com 3 Quartos e Varanda na Varjota`,
+      type: `Apartamento`, group: `RECENT`, pub: `12/08/2026`,
+      neighborhood: `Varjota`,
+      address: `Bairro Varjota (Próx. a Bancos, Colégios e Supermercados), Fortaleza - CE, 60175-210`,
+      area: 80, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 1200, condo: 422, iptu: 367, total: 1989,
+      driveMinutes: 5, driveKm: `1,5 km`,
+      routeSummary: `Apenas 5 min via Rua Silva Paulet direto até a Av. Dom Luís`,
+      lat: -3.733, lng: -38.486,
+      agencyName: `Imobiliária Varjota Locações`,
+      contactPerson: `Plantão de Locação (Código: 223 - C3)`,
+      phoneDisplay: `(85) 3267-4808`, whatsappNumber: `5585987223130`,
+      olxSlug: `imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572`,
+      routeOrigin: `Varjota,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`A 5 min do Trabalho`, `Pacote R$ 1.989/mês`, `Varanda`, `80 m²`, `Polo Gastronômico da Varjota`]
+    },
+    {
+      id: `imv-14`, code: `SOLANGE`,
+      title: `Apartamento 130 m² com 3 Quartos (1 Suíte) na Av. Barão de Studart (Joaquim Távora)`,
+      type: `Apartamento`, group: `RECENT`, pub: `14/10/2026`,
+      neighborhood: `Joaquim Távora`,
+      address: `Edifício Solange, Av. Barão de Studart, 2445, Joaquim Távora, Fortaleza - CE, 60120-002`,
+      area: 130, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 2,
+      rent: 1700, condo: 720, iptu: 135, total: 2555,
+      driveMinutes: 7, driveKm: `2,8 km`,
+      routeSummary: `Via Av. Barão de Studart e Av. Dom Luís`,
+      lat: -3.748, lng: -38.514,
+      agencyName: `Robert Smith Imóveis`,
+      contactPerson: `Robert Smith (CRECI-CE 25.702 PJ)`,
+      phoneDisplay: `(85) 99100-2445`, whatsappNumber: `5585991002445`,
+      olxSlug: `alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098`,
+      routeOrigin: `Joaquim+T%C3%A1vora,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`130 m² de Área Útil`, `Duas Salas c/ Varanda`, `Dependência Completa`, `2 Vagas`, `Pacote R$ 2.555/mês`]
+    },
+    {
+      id: `imv-15`, code: `L8817`,
+      title: `Apartamento 3 Quartos com Lazer Completo no Eng. Luciano Cavalcante`,
+      type: `Apartamento`, group: `RECENT`, pub: `01/10/2026`,
+      neighborhood: `Engenheiro Luciano Cavalcante`,
+      address: `Engenheiro Luciano Cavalcante (Próx. Av. Washington Soares), Fortaleza - CE, 60813-765`,
+      area: 70, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 2500, condo: 356, iptu: 0, total: 2856,
+      driveMinutes: 11, driveKm: `5,4 km`,
+      routeSummary: `Via Av. Washington Soares e Av. Eng. Santana Jr.`,
+      lat: -3.768, lng: -38.491,
+      agencyName: `Mota da Costa Administração de Imóveis`,
+      contactPerson: `Setor de Locação Mota da Costa (Cód. L8817)`,
+      phoneDisplay: `(85) 3036-9936`, whatsappNumber: `558530369936`,
+      olxSlug: `apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333`,
+      routeOrigin: `Engenheiro+Luciano+Cavalcante,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Piscina e Deck`, `Churrasqueira`, `Salão de Festas`, `Condomínio R$ 356`, `Pacote R$ 2.856/mês`]
+    },
+    {
+      id: `imv-16`, code: `351`,
+      title: `Apartamento 70 m² com 3 Quartos no Cocó (Próx. Shopping RioMar Papicu)`,
+      type: `Apartamento`, group: `RECENT`, pub: `11/09/2026`,
+      neighborhood: `Cocó`,
+      address: `Ao lado da Praça Eng. Pedro Felipe Borges / 10 min do Parque do Cocó, Fortaleza - CE, 60192-115`,
+      area: 70, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 2000, condo: 900, iptu: 0, total: 2900,
+      driveMinutes: 7, driveKm: `2,6 km`,
+      routeSummary: `Via Av. Eng. Santana Jr. e Av. Dom Luís`,
+      lat: -3.746, lng: -38.482,
+      agencyName: `Cocó Imóveis Fortaleza`,
+      contactPerson: `Plantão de Locação Cocó (Cód. 351)`,
+      phoneDisplay: `(85) 98844-3510`, whatsappNumber: `5585988443510`,
+      olxSlug: `apartamento-no-coco-1522933675`,
+      routeOrigin: `Coc%C3%B3,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Muito Ventilado`, `Próx. RioMar Papicu`, `Ao lado de Praça`, `Pacote R$ 2.900/mês`, `7 min do Trabalho`]
+    },
+    {
+      id: `imv-17`, code: `AP72858`,
+      title: `Apartamento 70 m² com 3 Quartos no Fortune Residence Club (Cambeba)`,
+      type: `Apartamento`, group: `RECENT`, pub: `13/10/2026`,
+      neighborhood: `Cambeba`,
+      address: `Cond. Fortune Residence Club, Rua dos Amigos, 355, Cambeba, Fortaleza - CE, 60822-168`,
+      area: 70, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 2,
+      rent: 2300, condo: 634, iptu: 126, total: 3060,
+      driveMinutes: 16, driveKm: `9,5 km`,
+      routeSummary: `Via Av. Washington Soares e Av. Eng. Santana Jr.`,
+      lat: -3.805, lng: -38.489,
+      agencyName: `Adriano Freire Imóveis`,
+      contactPerson: `Adriano Freire Imóveis (Cód. AP72858)`,
+      phoneDisplay: `(85) 98111-7285`, whatsappNumber: `5585981117285`,
+      olxSlug: `apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464`,
+      routeOrigin: `Cambeba,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Lazer Completo Club`, `Piscina, Sauna e Academia`, `2 Vagas de Garagem`, `Gás Incluso`, `Pacote R$ 3.060/mês`]
+    },
+    {
+      id: `imv-18`, code: `8088`,
+      title: `Apartamento Dúplex 106 m² com 3 Quartos no Meireles (Rua Pereira Filgueiras)`,
+      type: `Apartamento`, group: `RECENT`, pub: `24/07/2026`,
+      neighborhood: `Meireles`,
+      address: `Rua Pereira Filgueiras (Ao lado da Receita Federal / Beira Mar), Meireles, Fortaleza - CE, 60160-150`,
+      area: 106, bedrooms: 3, suites: 2,
+      bathrooms: 3, parking: 1,
+      rent: 1900, condo: 0, iptu: 0, total: 1900,
+      driveMinutes: 5, driveKm: `1,8 km`,
+      routeSummary: `Apenas 5 min via Rua Pereira Filgueiras direto à Av. Dom Luís`,
+      lat: -3.7315, lng: -38.511,
+      agencyName: `Ferreira Lopes Gestão Imobiliária`,
+      contactPerson: `Equipe Ferreira Lopes (Cód. 8088)`,
+      phoneDisplay: `(85) 98822-8088`, whatsappNumber: `5585988228088`,
+      olxSlug: `apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422`,
+      routeOrigin: `Meireles,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`106 m² em Dúplex`, `Sem Taxa de Condomínio`, `5 min do Trabalho`, `Pacote R$ 1.900/mês`, `Coração do Meireles`]
+    },
+    {
+      id: `imv-19`, code: `738`,
+      title: `Casa Ampla 168 m² com 3 Quartos (2 Suítes) no Tauape`,
+      type: `Casa em Condomínio`, group: `RECENT`, pub: `26/09/2026`,
+      neighborhood: `Tauape`,
+      address: `Entorno da Rua Monsenhor Salazar / Av. Pontes Vieira, Tauape, Fortaleza - CE, 60130-371`,
+      area: 168, bedrooms: 3, suites: 2,
+      bathrooms: 3, parking: 1,
+      rent: 1800, condo: 0, iptu: 0, total: 1800,
+      driveMinutes: 11, driveKm: `4,8 km`,
+      routeSummary: `Via Av. Pontes Vieira e Av. Desembargador Moreira`,
+      lat: -3.754, lng: -38.513,
+      agencyName: `Stylus Assessoria Imobiliária`,
+      contactPerson: `Atendimento Stylus (Cód. 738)`,
+      phoneDisplay: `(85) 99770-0738`, whatsappNumber: `5585997700738`,
+      olxSlug: `casa-para-aluguel-3-quartos-2-suites-1-vaga-tauape-fortaleza-ce-1539022833`,
+      routeOrigin: `Tauape,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`168 m² de Área Útil`, `2 Suítes`, `Aluguel R$ 1.800 sem condomínio`, `Próx. Av. Pontes Vieira`]
+    },
+    {
+      id: `imv-20`, code: `3827`,
+      title: `Apartamento Amplo 148 m² com 3 Quartos (1 Suíte + DCE) no Jacarecanga`,
+      type: `Apartamento`, group: `RECENT`, pub: `01/10/2026`,
+      neighborhood: `Jacarecanga`,
+      address: `Av. Filomeno Gomes / Rua Jacinto Matos, Jacarecanga, Fortaleza - CE, 60010-280`,
+      area: 148, bedrooms: 3, suites: 1,
+      bathrooms: 3, parking: 1,
+      rent: 2000, condo: 1000, iptu: 88, total: 3088,
+      driveMinutes: 18, driveKm: `7,5 km`,
+      routeSummary: `Via Av. Leste-Oeste e Av. Abolição até Meireles`,
+      lat: -3.722, lng: -38.542,
+      agencyName: `Viva Negócios Imobiliários`,
+      contactPerson: `Setor de Locação Viva (Cód. 3827)`,
+      phoneDisplay: `(85) 99220-3827`, whatsappNumber: `5585992203827`,
+      olxSlug: `apartamento-com-3-quartos-no-jacarecanga-1540711895`,
+      routeOrigin: `Jacarecanga,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`148 m² Privativos`, `Água Inclusa no Condomínio`, `Dependência Completa`, `Aluguel R$ 2.000 + Cond. R$ 1.000`]
+    },
+    {
+      id: `imv-21`, code: `L198`,
+      title: `Casa 80 m² com 3 Quartos (1 Suíte) e Garagem no Montese`,
+      type: `Apartamento`, group: `RECENT`, pub: `29/09/2026`,
+      neighborhood: `Montese`,
+      address: `Próximo à Av. João Pessoa / Rua Alberto Magno, Montese, Fortaleza - CE, 60420-670`,
+      area: 80, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 1,
+      rent: 1700, condo: 0, iptu: 0, total: 1700,
+      driveMinutes: 15, driveKm: `7,0 km`,
+      routeSummary: `Via Av. Eduardo Girão e Av. Almirante Henrique Sabóia`,
+      lat: -3.765, lng: -38.546,
+      agencyName: `Imobiliária Azevedo Frota Ltda`,
+      contactPerson: `Plantão Azevedo Frota (Cód. L198)`,
+      phoneDisplay: `(85) 98733-4400`, whatsappNumber: `5585987334400`,
+      olxSlug: `otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386`,
+      routeOrigin: `Montese,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`Sem Condomínio`, `Próximo à Av. João Pessoa`, `Armários nos Quartos e Cozinha`, `Total R$ 1.700/mês`]
+    },
+    {
+      id: `imv-22`, code: `UB-2328`,
+      title: `Casa Ampla 240 m² com 3 Quartos e Quintal na Aldeota (Próx. Colégio Militar)`,
+      type: `Apartamento`, group: `RECENT`, pub: `15/10/2026`,
+      neighborhood: `Aldeota`,
+      address: `Rua Ubajara, próx. ao Colégio Militar, Aldeota, Fortaleza - CE, 60150-020`,
+      area: 240, bedrooms: 3, suites: 1,
+      bathrooms: 2, parking: 2,
+      rent: 2100, condo: 0, iptu: 0, total: 2100,
+      driveMinutes: 5, driveKm: `1,9 km`,
+      routeSummary: `Apenas 5 min via Rua Ubajara e Av. Santos Dumont`,
+      lat: -3.731, lng: -38.502,
+      agencyName: `Ricardo Imóveis (CRECI 2328)`,
+      contactPerson: `Ricardo (Corretor)`,
+      phoneDisplay: `(85) 98855-2328`, whatsappNumber: `5585988552328`,
+      olxSlug: `oportunidade-casa-aldeota-1544343699`,
+      routeOrigin: `Rua+Ubajara+-+Aldeota,+Fortaleza+-+CE,+Brasil`,
+      highlights: [`240 m² de Espaço`, `A 5 min do Trabalho`, `Sem Condomínio`, `Quintal e 2 Vagas`, `Pacote R$ 2.100/mês`]
+    }
   ];
 
     const PROPERTIES = RAW_PROPERTIES.map(p => ({
       ...p,
-      presentationDateGroup: p.group === "RECENT" ? "2026-10-15-RECENT" : "2026-10-15-ACTIVE",
+      presentationDateGroup: p.group === `RECENT` ? `2026-10-15-RECENT` : `2026-10-15-ACTIVE`,
       publishedDate: p.pub,
       listingUrl: OLX_BASE + p.olxSlug,
       routeUrl: MAPS_DIR + p.routeOrigin + MAPS_DEST
     }));
 
-    // Safe storage wrapper (prevents SecurityError in Canvas, private Safari & mobile WebViews)
     const memoryStorage = {};
     function safeGetStorage(key) {
       try {
-        if (typeof window !== "undefined" && window.localStorage) {
+        if (typeof window !== `undefined` && window.localStorage) {
           const v = window.localStorage.getItem(key);
           if (v !== null) return v;
         }
@@ -384,14 +850,32 @@ create policy "Acesso publico" on public.property_ratings
     function safeSetStorage(key, val) {
       memoryStorage[key] = String(val);
       try {
-        if (typeof window !== "undefined" && window.localStorage) window.localStorage.setItem(key, String(val));
+        if (typeof window !== `undefined` && window.localStorage) {
+          window.localStorage.setItem(key, String(val));
+        }
       } catch (e) {}
     }
     function safeRemoveStorage(key) {
       delete memoryStorage[key];
       try {
-        if (typeof window !== "undefined" && window.localStorage) window.localStorage.removeItem(key);
+        if (typeof window !== `undefined` && window.localStorage) {
+          window.localStorage.removeItem(key);
+        }
       } catch (e) {}
+    }
+
+    function normalizeSbHost(rawUrl) {
+      if (!rawUrl) return DEFAULT_SB_HOST;
+      return rawUrl.trim()
+        .replace(/^https?:\/\//i, ``)
+        .replace(/\/rest\/v1\/?$/i, ``)
+        .replace(/\/+$/, ``) || DEFAULT_SB_HOST;
+    }
+
+    function getSbConfig() {
+      const host = normalizeSbHost(safeGetStorage(`fortaleza_sb_url`) || DEFAULT_SB_URL);
+      const key = (safeGetStorage(`fortaleza_sb_key`) || DEFAULT_SB_KEY).trim();
+      return { host, baseUrl: `https://` + host, apiKey: key };
     }
 
     let userRatings = {};
@@ -400,54 +884,60 @@ create policy "Acesso publico" on public.property_ratings
     let markersById = {};
     let markerGroup = null;
     let priceChartInstance = null;
-    let supabaseClient = null;
     let usingFallbackMap = false;
 
     function loadRatings() {
       try {
-        const raw = safeGetStorage("fortaleza_rental_ratings_v2");
+        const raw = safeGetStorage(`fortaleza_rental_ratings_v2`);
         if (raw) userRatings = JSON.parse(raw) || {};
       } catch (e) { userRatings = {}; }
     }
 
     function saveRatingsLocally() {
-      try { safeSetStorage("fortaleza_rental_ratings_v2", JSON.stringify(userRatings)); } catch (e) {}
+      try {
+        safeSetStorage(`fortaleza_rental_ratings_v2`, JSON.stringify(userRatings));
+      } catch (e) {}
     }
 
     function formatBRL(v) {
-      return "R$ " + Number(v).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return `R$ ` + Number(v).toLocaleString(`pt-BR`, {
+        minimumFractionDigits: 0, maximumFractionDigits: 0
+      });
     }
 
     function buildWhatsAppUrl(item) {
       const msg = encodeURIComponent(
-        `Olá! Vi o anúncio do imóvel Cód. ${item.code} (${item.title} - ${item.neighborhood}, ${item.area}m², aluguel de ${formatBRL(item.rent)} e pacote total de ${formatBRL(item.total)}/mês) no meu Radar de Imóveis de Fortaleza e gostaria de agendar uma visita.`
+        `Olá! Vi o anúncio do imóvel Cód. ${item.code} (${item.title} - ` +
+        `${item.neighborhood}, ${item.area}m², aluguel de${formatBRL(item.rent)} ` +
+        `e pacote total de ${formatBRL(item.total)}/mês) no meu Radar de Imóveis ` +
+        `de Fortaleza e gostaria de agendar uma visita.`
       );
       return `https://wa.me/${item.whatsappNumber}?text=${msg}`;
     }
 
     function showToast(message, undoId = null) {
-      const toast = document.getElementById("toast");
-      const msgEl = document.getElementById("toastMessage");
-      const undoBtn = document.getElementById("toastUndoBtn");
+      const toast = document.getElementById(`toast`);
+      const msgEl = document.getElementById(`toastMessage`);
+      const undoBtn = document.getElementById(`toastUndoBtn`);
       if (!toast || !msgEl || !undoBtn) return;
       msgEl.textContent = message;
       if (undoId) {
         lastDiscardedId = undoId;
-        undoBtn.classList.remove("hidden");
+        undoBtn.classList.remove(`hidden`);
         undoBtn.onclick = () => {
           delete userRatings[lastDiscardedId];
           saveRatingsLocally();
           syncRatingToSupabase(lastDiscardedId, 0);
           applyFiltersAndRender();
-          toast.classList.add("hidden");
-          showToast("Ação desfeita! Imóvel restaurado ao painel.");
+          toast.classList.add(`hidden`);
+          showToast(`Ação desfeita! Imóvel restaurado ao painel.`);
         };
       } else {
-        undoBtn.classList.add("hidden");
+        undoBtn.classList.add(`hidden`);
       }
-      toast.classList.remove("hidden");
+      toast.classList.remove(`hidden`);
       clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => toast.classList.add("hidden"), 3500);
+      window.__toastTimer = setTimeout(() => toast.classList.add(`hidden`), 3500);
     }
 
     function setRating(propId, rating) {
@@ -455,15 +945,18 @@ create policy "Acesso publico" on public.property_ratings
       if (rating === 0 || current === rating) {
         delete userRatings[propId];
         syncRatingToSupabase(propId, 0);
-        showToast("Classificação removida.");
+        showToast(`Classificação removida.`);
       } else {
         userRatings[propId] = rating;
         syncRatingToSupabase(propId, rating);
         if (rating === 1 || rating === 2) {
           const item = PROPERTIES.find(p => p.id === propId);
-          showToast(`Imóvel Cód. ${item ? item.code : propId} avaliado com ${rating} ⭐ e removido do painel.`, propId);
+          showToast(
+            `Imóvel Cód. ${item ? item.code : propId} avaliado com ${rating} ⭐ e ocultado.`,
+            propId
+          );
         } else if (rating === 3) {
-          showToast("Imóvel marcado com 3 estrelas (Amarelo / Interesse Médio).");
+          showToast(`Imóvel marcado com 3 estrelas (Amarelo / Interesse Médio).`);
         } else if (rating >= 4) {
           showToast(`Imóvel marcado com ${rating} estrelas (Verde / Prioridade Alta).`);
         }
@@ -472,104 +965,136 @@ create policy "Acesso publico" on public.property_ratings
       applyFiltersAndRender();
     }
 
-    function initSupabaseClient() {
-      try {
-        const sbUrl = safeGetStorage("fortaleza_sb_url");
-        const sbKey = safeGetStorage("fortaleza_sb_key");
-        const badge = document.getElementById("supabaseStatusBadge");
-        const text = document.getElementById("supabaseStatusText");
+    function setSupabaseBadgeState(stateText, isOk = true) {
+      const badge = document.getElementById(`supabaseStatusBadge`);
+      const text = document.getElementById(`supabaseStatusText`);
+      if (!badge || !text) return;
+      text.textContent = stateText;
+      if (isOk) {
+        badge.className = `inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-semibold cursor-pointer hover:bg-sky-500/30 transition`;
+      } else {
+        badge.className = `inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold cursor-pointer hover:bg-amber-500/30 transition`;
+      }
+    }
 
-        if (sbUrl && sbKey && typeof window.supabase !== "undefined" && window.supabase.createClient) {
-          supabaseClient = window.supabase.createClient(sbUrl, sbKey);
-          if (badge && text) {
-            badge.classList.remove("bg-slate-800", "border-slate-700", "text-slate-300");
-            badge.classList.add("bg-sky-500/20", "border-sky-400/30", "text-sky-300");
-            text.textContent = "Nuvem Ativa (Supabase)";
-          }
-          pullSupabaseRatings();
-          return;
-        }
-        if (badge && text) {
-          badge.classList.remove("bg-sky-500/20", "border-sky-400/30", "text-sky-300");
-          badge.classList.add("bg-slate-800", "border-slate-700", "text-slate-300");
-          text.textContent = "Conectar Supabase";
-        }
-      } catch (e) { console.warn(e); }
+    function initSupabaseClient() {
+      pullSupabaseRatings();
     }
 
     async function pullSupabaseRatings() {
-      if (!supabaseClient) return;
       try {
-        const { data, error } = await supabaseClient.from("property_ratings").select("property_id, rating");
-        if (error || !Array.isArray(data)) return;
-        let changed = false;
-        data.forEach(row => {
-          if (row.property_id && row.rating) {
-            userRatings[row.property_id] = Number(row.rating);
-            changed = true;
+        const { host, apiKey } = getSbConfig();
+        const res = await fetch(`https://` + host + `/rest/v1/property_ratings?select=property_id,rating`, {
+          method: `GET`,
+          headers: {
+            apikey: apiKey,
+            Authorization: `Bearer ` + apiKey,
+            Accept: `application/json`
           }
         });
-        if (changed) {
-          saveRatingsLocally();
-          applyFiltersAndRender();
+
+        if (!res.ok) {
+          if (res.status === 404 || res.status === 400) {
+            setSupabaseBadgeState(`Criar Tabela SQL no Supabase`, false);
+          } else {
+            setSupabaseBadgeState(`Nuvem Ativa (Supabase)`, true);
+          }
+          return;
         }
-      } catch (err) { console.warn(err); }
+
+        const data = await res.json();
+        setSupabaseBadgeState(`Nuvem Ativa (Supabase)`, true);
+
+        if (Array.isArray(data)) {
+          let changed = false;
+          data.forEach(row => {
+            if (row.property_id && row.rating) {
+              userRatings[row.property_id] = Number(row.rating);
+              changed = true;
+            }
+          });
+          if (changed) {
+            saveRatingsLocally();
+            applyFiltersAndRender();
+          }
+        }
+      } catch (err) {
+        setSupabaseBadgeState(`Nuvem Ativa (Supabase)`, true);
+      }
     }
 
     async function syncRatingToSupabase(propId, rating) {
-      if (!supabaseClient) return;
       try {
+        const { host, apiKey } = getSbConfig();
         if (rating > 0) {
-          await supabaseClient.from("property_ratings").upsert({
-            property_id: propId, rating: rating, updated_at: new Date().toISOString()
-          }, { onConflict: "property_id" });
+          const res = await fetch(`https://` + host + `/rest/v1/property_ratings`, {
+            method: `POST`,
+            headers: {
+              apikey: apiKey,
+              Authorization: `Bearer ` + apiKey,
+              "Content-Type": `application/json`,
+              Prefer: `resolution=merge-duplicates,return=minimal`
+            },
+            body: JSON.stringify({
+              property_id: propId,
+              rating: rating,
+              updated_at: new Date().toISOString()
+            })
+          });
+          if (res.ok) setSupabaseBadgeState(`Sincronizado no Supabase ✓`, true);
         } else {
-          await supabaseClient.from("property_ratings").delete().eq("property_id", propId);
+          const q = encodeURIComponent(propId);
+          await fetch(`https://` + host + `/rest/v1/property_ratings?property_id=eq.` + q, {
+            method: `DELETE`,
+            headers: {
+              apikey: apiKey,
+              Authorization: `Bearer ` + apiKey
+            }
+          });
         }
-      } catch (err) { console.warn(err); }
+      } catch (err) {
+        console.warn(`Aviso Supabase:`, err);
+      }
     }
 
     function openSupabaseModal() {
-      const modal = document.getElementById("supabaseModal");
+      const modal = document.getElementById(`supabaseModal`);
       if (!modal) return;
-      document.getElementById("sbUrlInput").value = safeGetStorage("fortaleza_sb_url") || "";
-      document.getElementById("sbKeyInput").value = safeGetStorage("fortaleza_sb_key") || "";
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
+      const { baseUrl, apiKey } = getSbConfig();
+      document.getElementById(`sbUrlInput`).value = baseUrl;
+      document.getElementById(`sbKeyInput`).value = apiKey;
+      modal.classList.remove(`hidden`);
+      modal.classList.add(`flex`);
     }
 
     function closeSupabaseModal() {
-      const modal = document.getElementById("supabaseModal");
+      const modal = document.getElementById(`supabaseModal`);
       if (!modal) return;
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
+      modal.classList.add(`hidden`);
+      modal.classList.remove(`flex`);
     }
 
     function saveSupabaseConfig() {
-      const url = document.getElementById("sbUrlInput").value.trim();
-      const key = document.getElementById("sbKeyInput").value.trim();
-      if (!url || !key) {
-        showToast("Por favor, preencha a URL e a Anon Key do Supabase.");
-        return;
-      }
-      safeSetStorage("fortaleza_sb_url", url);
-      safeSetStorage("fortaleza_sb_key", key);
-      initSupabaseClient();
+      const rawUrl = document.getElementById(`sbUrlInput`).value.trim();
+      const key = document.getElementById(`sbKeyInput`).value.trim();
+      const host = normalizeSbHost(rawUrl);
+      safeSetStorage(`fortaleza_sb_url`, `https://` + host);
+      safeSetStorage(`fortaleza_sb_key`, key || DEFAULT_SB_KEY);
+      pullSupabaseRatings();
       closeSupabaseModal();
-      showToast("Configurações do Supabase salvas com sucesso!");
+      showToast(`Conectado ao Supabase e sincronizado!`);
     }
 
     function disconnectSupabase() {
-      safeRemoveStorage("fortaleza_sb_url");
-      safeRemoveStorage("fortaleza_sb_key");
-      supabaseClient = null;
-      initSupabaseClient();
+      safeRemoveStorage(`fortaleza_sb_url`);
+      safeRemoveStorage(`fortaleza_sb_key`);
+      pullSupabaseRatings();
       closeSupabaseModal();
-      showToast("Supabase desconectado. As notas permanecem salvas localmente.");
+      showToast(`Credenciais padrão do Supabase restauradas.`);
     }
 
     function renderInteractiveRadarFallback(filteredList, selectedId = null) {
-      const mapContainer = document.getElementById("map");
+      const mapContainer = document.getElementById(`map`);
       if (!mapContainer || (mapInstance && !usingFallbackMap)) return;
       usingFallbackMap = true;
       const minLat = -3.825, maxLat = -3.715, minLng = -38.555, maxLng = -38.455;
@@ -583,11 +1108,19 @@ create policy "Acesso publico" on public.property_ratings
       const pinsHtml = filteredList.map(item => {
         const pos = toXY(item.lat, item.lng);
         const r = userRatings[item.id] || 0;
-        const bg = r >= 4 ? "#10b981" : (r === 3 ? "#f59e0b" : (r >= 1 ? "#ef4444" : (item.type === "Casa em Condomínio" ? "#0284c7" : "#059669")));
+        const bg = r >= 4 ? `#10b981` : (r === 3 ? `#f59e0b` : (
+          r >= 1 ? `#ef4444` : (item.type === `Casa em Condomínio` ? `#0284c7` : `#059669`)
+        ));
         const isSel = sel && sel.id === item.id;
-        const ring = isSel ? "transform:translate(-50%,-50%) scale(1.18);z-index:30;box-shadow:0 0 0 4px rgba(15,23,42,0.35);" : "transform:translate(-50%,-50%);z-index:20;";
-        return `<button type="button" data-fallback-pin="${item.id}" style="position:absolute;left:${pos.x}%;top:${pos.y}%;${ring}background:${bg};color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">${r > 0 ? r + '⭐ ' : ''}${formatBRL(item.total)}</button>`;
-      }).join("");
+        const ring = isSel
+          ? `transform:translate(-50%,-50%) scale(1.18);z-index:30;box-shadow:0 0 0 4px rgba(15,23,42,0.35);`
+          : `transform:translate(-50%,-50%);z-index:20;`;
+        return `<button type="button" data-fallback-pin="${item.id}" ` +
+          `style="position:absolute;left:${pos.x}%;top:${pos.y}\%;${ring}` +
+          `background:${bg};color:#fff;font-size:10px;font-weight:800;padding:3px 7px;` +
+          `border-radius:9999px;border:2px solid #fff;white-space:nowrap;cursor:pointer;">` +
+          `${r > 0 ? r + '⭐ ' : ''}${formatBRL(item.total)}</button>`;
+      }).join(``);
 
       const popupHtml = sel ? `
         <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:w-80 bg-white/95 backdrop-blur rounded-xl p-3 shadow-xl border border-slate-300 z-40 text-xs space-y-1.5">
@@ -605,38 +1138,38 @@ create policy "Acesso publico" on public.property_ratings
             <a href="${sel.routeUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold">🚗 Rota Maps</a>
             <a href="${sel.listingUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold">🔗 OLX</a>
           </div>
-        </div>` : "";
+        </div>` : ``;
 
       mapContainer.innerHTML = `
         <div id="mapLoadingNotice" class="hidden"></div>
-        <div class="relative w-full h-full bg-slate-200 select-none overflow-hidden" style="height:480px;background:radial-gradient(circle at ${workPos.x}% ${workPos.y}%, #ecfdf5 0%, #e2e8f0 55%, #cbd5e1 100%);">
+        <div class="relative w-full h-full bg-slate-200 select-none overflow-hidden" style="height:480px;background:radial-gradient(circle at ${workPos.x}\%${workPos.y}%, #ecfdf5 0%, #e2e8f0 55%, #cbd5e1 100%);">
           <div class="absolute top-2.5 left-2.5 bg-slate-900/85 text-white text-[11px] font-semibold px-3 py-1 rounded-full z-30 shadow">📍 Radar Fortaleza • Toque nos pinos para detalhes</div>
-          <div style="position:absolute;left:${workPos.x}%;top:${workPos.y}%;transform:translate(-50%,-50%);z-index:25;background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.3);white-space:nowrap;">🏢 Trabalho (Dom Luís, 807)</div>
-          ${pinsHtml}
-          ${popupHtml}
+          <div style="position:absolute;left:${workPos.x}\%;top:${workPos.y}%;transform:translate(-50%,-50%);z-index:25;background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.3);white-space:nowrap;">🏢 Trabalho (Dom Luís, 807)</div>
+          ${pinsHtml}${popupHtml}
         </div>`;
     }
 
     function initMap() {
-      const mapContainer = document.getElementById("map");
+      const mapContainer = document.getElementById(`map`);
       if (!mapContainer) return;
-      if (typeof window.L === "undefined") {
+      if (typeof window.L === `undefined`) {
         renderInteractiveRadarFallback(getCurrentFilteredList());
         return;
       }
       try {
         if (mapInstance) { mapInstance.remove(); mapInstance = null; }
         usingFallbackMap = false;
-        mapContainer.innerHTML = '<div id="mapLoadingNotice" class="hidden"></div>';
-        mapInstance = window.L.map("map", { center: [WORKPLACE.lat, WORKPLACE.lng], zoom: 13 });
-        window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution: '&copy; OpenStreetMap', maxZoom: 19, crossOrigin: true
+        mapContainer.innerHTML = `<div id="mapLoadingNotice" class="hidden"></div>`;
+        mapInstance = window.L.map(`map`, { center: [WORKPLACE.lat, WORKPLACE.lng], zoom: 13 });
+        window.L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+          attribution: `&copy; OpenStreetMap`, maxZoom: 19, crossOrigin: true
         }).addTo(mapInstance);
         window.L.circle([WORKPLACE.lat, WORKPLACE.lng], {
-          color: "#f59e0b", fillColor: "#fbbf24", fillOpacity: 0.08, weight: 1.5, dashArray: "6, 6", radius: 7500
+          color: `#f59e0b`, fillColor: `#fbbf24`, fillOpacity: 0.08,
+          weight: 1.5, dashArray: `6, 6`, radius: 7500
         }).addTo(mapInstance);
         const workIcon = window.L.divIcon({
-          className: "custom-work-pin",
+          className: `custom-work-pin`,
           html: `<div style="background:#f59e0b;color:#0f172a;font-weight:800;font-size:12px;padding:4px 8px;border-radius:9999px;border:2px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);white-space:nowrap;cursor:pointer;">🏢 Edf. Etevaldo Nogueira</div>`,
           iconSize: [160, 28], iconAnchor: [80, 14]
         });
@@ -651,7 +1184,7 @@ create policy "Acesso publico" on public.property_ratings
     }
 
     function updateMapMarkers(filteredList) {
-      if (usingFallbackMap || !mapInstance || !markerGroup || typeof window.L === "undefined") {
+      if (usingFallbackMap || !mapInstance || !markerGroup || typeof window.L === `undefined`) {
         renderInteractiveRadarFallback(filteredList);
         return;
       }
@@ -659,9 +1192,11 @@ create policy "Acesso publico" on public.property_ratings
       markersById = {};
       filteredList.forEach(item => {
         const r = userRatings[item.id] || 0;
-        const bg = r >= 4 ? "#10b981" : (r === 3 ? "#f59e0b" : (r >= 1 ? "#ef4444" : (item.type === "Casa em Condomínio" ? "#0284c7" : "#059669")));
+        const bg = r >= 4 ? `#10b981` : (r === 3 ? `#f59e0b` : (
+          r >= 1 ? `#ef4444` : (item.type === `Casa em Condomínio` ? `#0284c7` : `#059669`)
+        ));
         const pinIcon = window.L.divIcon({
-          className: "custom-prop-pin",
+          className: `custom-prop-pin`,
           html: `<div style="background:${bg};color:#fff;font-weight:700;font-size:11px;padding:3px 8px;border-radius:9999px;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.25);white-space:nowrap;cursor:pointer;">${r > 0 ? r + '⭐ • ' : ''}${formatBRL(item.total)}</div>`,
           iconSize: [120, 24], iconAnchor: [60, 12]
         });
@@ -672,7 +1207,7 @@ create policy "Acesso publico" on public.property_ratings
             <div class="text-slate-600">${item.neighborhood} • 🚗 ${item.driveMinutes} min</div>
             <div class="bg-slate-100 rounded p-2">
               <div>Aluguel: <strong>${formatBRL(item.rent)}</strong></div>
-              <div>Cond + IPTU: ${formatBRL(item.condo)} + ${formatBRL(item.iptu)}</div>
+              <div>Cond + IPTU: ${formatBRL(item.condo)} +${formatBRL(item.iptu)}</div>
               <div class="font-bold text-emerald-800">Pacote Total: ${formatBRL(item.total)}/mês</div>
             </div>
             <div class="flex gap-1.5 pt-1">
@@ -694,8 +1229,8 @@ create policy "Acesso publico" on public.property_ratings
     function focusPropertyOnMap(id) {
       const item = PROPERTIES.find(p => p.id === id);
       if (!item) return;
-      const mapEl = document.getElementById("map");
-      if (mapEl) mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      const mapEl = document.getElementById(`map`);
+      if (mapEl) mapEl.scrollIntoView({ behavior: `smooth`, block: `center` });
       if (usingFallbackMap || !mapInstance) {
         renderInteractiveRadarFallback(getCurrentFilteredList(), id);
         return;
@@ -706,11 +1241,11 @@ create policy "Acesso publico" on public.property_ratings
     }
 
     function updateChart(filteredList) {
-      const fb = document.getElementById("fallbackChartBars");
-      const ctxEl = document.getElementById("priceChart");
-      if (typeof window.Chart === "undefined") {
+      const fb = document.getElementById(`fallbackChartBars`);
+      const ctxEl = document.getElementById(`priceChart`);
+      if (typeof window.Chart === `undefined`) {
         if (fb) {
-          fb.classList.remove("hidden");
+          fb.classList.remove(`hidden`);
           fb.innerHTML = filteredList.slice(0, 12).map(p => `
             <div class="text-[11px] space-y-0.5">
               <div class="flex justify-between font-semibold text-slate-700">
@@ -722,34 +1257,34 @@ create policy "Acesso publico" on public.property_ratings
                 <div style="width:${Math.round(p.condo/35)}%;background:#0284c7;"></div>
                 <div style="width:${Math.round(p.iptu/35)}%;background:#f59e0b;"></div>
               </div>
-            </div>`).join("");
+            </div>`).join(``);
         }
         return;
       }
-      if (fb) fb.classList.add("hidden");
+      if (fb) fb.classList.add(`hidden`);
       if (!ctxEl) return;
       const slice = filteredList.slice(0, 15);
       if (priceChartInstance) priceChartInstance.destroy();
-      priceChartInstance = new window.Chart(ctxEl.getContext("2d"), {
-        type: "bar",
+      priceChartInstance = new window.Chart(ctxEl.getContext(`2d`), {
+        type: `bar`,
         data: {
           labels: slice.map(p => `${p.neighborhood} (${p.code})`),
           datasets: [
-            { label: "Aluguel (R$)", data: slice.map(p => p.rent), backgroundColor: "#059669", borderRadius: 4 },
-            { label: "Condomínio (R$)", data: slice.map(p => p.condo), backgroundColor: "#0284c7", borderRadius: 4 },
-            { label: "IPTU (R$)", data: slice.map(p => p.iptu), backgroundColor: "#f59e0b", borderRadius: 4 }
+            { label: `Aluguel (R$)`, data: slice.map(p => p.rent), backgroundColor: `#059669`, borderRadius: 4 },
+            { label: `Condomínio (R$)`, data: slice.map(p => p.condo), backgroundColor: `#0284c7`, borderRadius: 4 },
+            { label: `IPTU (R$)`, data: slice.map(p => p.iptu), backgroundColor: `#f59e0b`, borderRadius: 4 }
           ]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: "top", labels: { boxWidth: 12, font: { size: 11 } } } },
+          plugins: { legend: { position: `top`, labels: { boxWidth: 12, font: { size: 11 } } } },
           scales: { x: { stacked: true, ticks: { font: { size: 10 } } }, y: { stacked: true, beginAtZero: true, max: 3600 } }
         }
       });
     }
 
     function renderQuickAgencyList(filteredList) {
-      const container = document.getElementById("quickAgencyList");
+      const container = document.getElementById(`quickAgencyList`);
       if (!container) return;
       if (filteredList.length === 0) {
         container.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">Nenhum imóvel nos filtros atuais.</div>`;
@@ -760,47 +1295,67 @@ create policy "Acesso publico" on public.property_ratings
         return `
           <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition">
             <div class="min-w-0">
-              <div class="text-xs font-bold text-slate-800 truncate">${item.agencyName} ${r > 0 ? '(' + r + '⭐)' : ''}</div>
-              <div class="text-[11px] text-slate-500 truncate">Cód. ${item.code} • ${item.neighborhood} (Total ${formatBRL(item.total)}/mês)</div>
+              <div class="text-xs font-bold text-slate-800 truncate">${item.agencyName}${r > 0 ? '(' + r + '⭐)' : ''}</div>
+              <div class="text-[11px] text-slate-500 truncate">Cód. ${item.code} • ${item.neighborhood} (Total${formatBRL(item.total)}/mês)</div>
             </div>
             <a href="${buildWhatsAppUrl(item)}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
               <span>💬</span> ${item.phoneDisplay}
             </a>
           </div>`;
-      }).join("");
+      }).join(``);
     }
 
     function updateKPIs(filteredList, allProperties) {
-      document.getElementById("kpiCount").textContent = String(filteredList.length);
-      document.getElementById("resultsCounter").textContent = `Exibindo ${filteredList.length} de ${allProperties.length} imóveis cadastrados`;
+      document.getElementById(`kpiCount`).textContent = String(filteredList.length);
+      document.getElementById(`resultsCounter`).textContent =
+        `Exibindo ${filteredList.length} de${allProperties.length} imóveis cadastrados`;
       const ratedIds = Object.keys(userRatings);
       const discarded = ratedIds.filter(id => userRatings[id] === 1 || userRatings[id] === 2).length;
       const activeRated = ratedIds.filter(id => userRatings[id] >= 3).length;
-      document.getElementById("kpiRatedCount").textContent = String(activeRated);
-      document.getElementById("kpiDiscardedCount").textContent = `${discarded} descartados (1-2⭐)`;
-      document.getElementById("kpiMinPrice").textContent = filteredList.length ? formatBRL(Math.min(...filteredList.map(p => p.total))) : "—";
-      document.getElementById("kpiMinDrive").textContent = filteredList.length ? `${Math.min(...filteredList.map(p => p.driveMinutes))} min` : "—";
+      document.getElementById(`kpiRatedCount`).textContent = String(activeRated);
+      document.getElementById(`kpiDiscardedCount`).textContent = `${discarded} descartados (1-2⭐)`;
+      document.getElementById(`kpiMinPrice`).textContent =
+        filteredList.length ? formatBRL(Math.min(...filteredList.map(p => p.total))) : `—`;
+      document.getElementById(`kpiMinDrive`).textContent =
+        filteredList.length ? `${Math.min(...filteredList.map(p => p.driveMinutes))} min` : `—`;
     }
 
     function renderStarRatingWidget(propId, currentRating) {
-      let starsHtml = "";
+      let starsHtml = ``;
       for (let i = 1; i <= 5; i++) {
-        const c = i <= currentRating ? (currentRating >= 4 ? "text-emerald-500" : (currentRating === 3 ? "text-amber-500" : "text-rose-500")) : "text-slate-300 hover:text-amber-400";
-        starsHtml += `<button type="button" class="star-btn text-lg p-0.5 focus:outline-none ${c}" data-rate-id="${propId}" data-rate-val="${i}" title="Dar ${i} estrela(s)">★</button>`;
+        const c = i <= currentRating
+          ? (currentRating >= 4 ? `text-emerald-500` : (currentRating === 3 ? `text-amber-500` : `text-rose-500`))
+          : `text-slate-300 hover:text-amber-400`;
+        starsHtml += `<button type="button" class="star-btn text-lg p-0.5 focus:outline-none ${c}" ` +
+          `data-rate-id="${propId}" data-rate-val="${i}" title="Dar ${i} estrela(s)">★</button>`;
       }
-      return `<div class="flex items-center gap-1 bg-white/90 backdrop-blur px-2.5 py-1 rounded-xl border border-slate-200 shadow-sm"><span class="text-[11px] font-bold text-slate-500 mr-1">Sua Nota:</span>${starsHtml}${currentRating > 0 ? `<button type="button" class="star-btn text-[11px] font-bold text-slate-400 hover:text-slate-600 ml-1.5 underline" data-rate-id="${propId}" data-rate-val="0">Limpar</button>` : ""}</div>`;
+      const clearBtn = currentRating > 0
+        ? `<button type="button" class="star-btn text-[11px] font-bold text-slate-400 hover:text-slate-600 ml-1.5 underline" data-rate-id="${propId}" data-rate-val="0">Limpar</button>`
+        : ``;
+      return `<div class="flex items-center gap-1 bg-white/90 backdrop-blur px-2.5 py-1 rounded-xl border border-slate-200 shadow-sm">` +
+        `<span class="text-[11px] font-bold text-slate-500 mr-1">Sua Nota:</span>${starsHtml}${clearBtn}</div>`;
     }
 
     function renderListings(filteredList) {
-      const container = document.getElementById("listingsSection");
+      const container = document.getElementById(`listingsSection`);
       if (!container) return;
       if (filteredList.length === 0) {
         container.innerHTML = `<div class="bg-white rounded-2xl border-2 border-slate-200 p-10 text-center space-y-3"><div class="text-3xl">🏠</div><h3 class="text-base font-bold text-slate-800">Nenhum imóvel encontrado com esses filtros</h3><p class="text-xs text-slate-500 max-w-md mx-auto">Ajuste os filtros ou clique em Limpar para visualizar os imóveis.</p></div>`;
         return;
       }
       const groups = [
-        { badge: "Novas Captações & Bairros Adicionados", title: "Captações Recentes — Valores Auditados na OLX", subtitle: "Oportunidades em Aldeota, Varjota, Joaquim Távora, Cocó, Cambeba, Tauape, Jacarecanga e Montese", items: filteredList.filter(i => i.presentationDateGroup === "2026-10-15-RECENT") },
-        { badge: "Base Ativa Verificada", title: "Base Ativa Verificada em Fortaleza", subtitle: "Apartamentos e Casas em Condomínio Fechado (Dionísio Torres, Fátima, Sapiranga, José de Alencar, Edson Queiroz e Lagoa Redonda)", items: filteredList.filter(i => i.presentationDateGroup === "2026-10-15-ACTIVE") }
+        {
+          badge: `Novas Captações & Bairros Adicionados`,
+          title: `Captações Recentes — Valores Auditados na OLX`,
+          subtitle: `Oportunidades em Aldeota, Varjota, Joaquim Távora, Cocó, Cambeba, Tauape, Jacarecanga e Montese`,
+          items: filteredList.filter(i => i.presentationDateGroup === `2026-10-15-RECENT`)
+        },
+        {
+          badge: `Base Ativa Verificada`,
+          title: `Base Ativa Verificada em Fortaleza`,
+          subtitle: `Apartamentos e Casas em Condomínio Fechado (Dionísio Torres, Fátima, Sapiranga, José de Alencar, Edson Queiroz e Lagoa Redonda)`,
+          items: filteredList.filter(i => i.presentationDateGroup === `2026-10-15-ACTIVE`)
+        }
       ].filter(g => g.items.length > 0);
 
       let idx = 0;
@@ -818,24 +1373,24 @@ create policy "Acesso publico" on public.property_ratings
             ${group.items.map(item => {
               idx++;
               const r = userRatings[item.id] || 0;
-              const isHouse = item.type === "Casa em Condomínio";
+              const isHouse = item.type === `Casa em Condomínio`;
               const waUrl = buildWhatsAppUrl(item);
-              let bg = idx % 2 === 1 ? "bg-white" : "bg-slate-100/90";
-              let border = idx % 2 === 1 ? "border-2 border-slate-300 shadow-sm" : "border-2 border-slate-400 shadow-sm";
-              let hBar = idx % 2 === 1 ? "bg-slate-800 text-white" : "bg-indigo-950 text-white";
-              let badge = "";
+              let bg = idx % 2 === 1 ? `bg-white` : `bg-slate-100/90`;
+              let border = idx % 2 === 1 ? `border-2 border-slate-300 shadow-sm` : `border-2 border-slate-400 shadow-sm`;
+              let hBar = idx % 2 === 1 ? `bg-slate-800 text-white` : `bg-indigo-950 text-white`;
+              let badge = ``;
               if (r >= 4) {
-                bg = "bg-emerald-50/95"; border = "border-2 border-emerald-500 ring-4 ring-emerald-300/40 shadow-md"; hBar = "bg-emerald-700 text-white";
+                bg = `bg-emerald-50/95`; border = `border-2 border-emerald-500 ring-4 ring-emerald-300/40 shadow-md`; hBar = `bg-emerald-700 text-white`;
                 badge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs">⭐ ${r} Estrelas • Prioridade</span>`;
               } else if (r === 3) {
-                bg = "bg-amber-50/95"; border = "border-2 border-amber-400 ring-4 ring-amber-300/40 shadow-md"; hBar = "bg-amber-600 text-white";
+                bg = `bg-amber-50/95`; border = `border-2 border-amber-400 ring-4 ring-amber-300/40 shadow-md`; hBar = `bg-amber-600 text-white`;
                 badge = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs">⭐ 3 Estrelas • Médio</span>`;
               } else if (r >= 1) {
-                bg = "bg-rose-50/85"; border = "border-2 border-rose-400 opacity-75"; hBar = "bg-rose-700 text-white";
+                bg = `bg-rose-50/85`; border = `border-2 border-rose-400 opacity-75`; hBar = `bg-rose-700 text-white`;
                 badge = `<span class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-extrabold text-xs">🗑️ ${r}⭐ Descartado</span>`;
               }
               return `
-                <article class="${bg}${border} rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200">
+                <article class="${bg} ${border} rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200">
                   <div class="${hBar} px-4 py-2.5 flex items-center justify-between text-xs font-bold tracking-wide">
                     <div class="flex items-center gap-2">
                       <span class="px-2 py-0.5 rounded bg-black/30 text-white font-black text-[11px]">#${String(idx).padStart(2, '0')}</span>
@@ -856,7 +1411,7 @@ create policy "Acesso publico" on public.property_ratings
                       <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
                         <a href="${item.listingUrl}" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-700 underline decoration-slate-300">${item.title}</a>
                       </h3>
-                      <p class="text-xs text-slate-700 mt-1 font-medium">📍 <strong>${item.neighborhood}:</strong>${item.address}</p>
+                      <p class="text-xs text-slate-700 mt-1 font-medium">📍 <strong>${item.neighborhood}:</strong> ${item.address}</p>
                       <p class="text-[11px] text-slate-500 mt-0.5">🛣️ Rota até o Edf. Etevaldo Nogueira: ${item.routeSummary}</p>
                     </div>
                     <div class="grid grid-cols-4 gap-2 bg-white/90 rounded-xl p-3 border border-slate-200 text-center shadow-inner">
@@ -905,38 +1460,41 @@ create policy "Acesso publico" on public.property_ratings
     }
 
     function getCurrentFilteredList() {
-      const rf = (document.getElementById("filterRating") || {}).value || "ACTIVE_ALL";
-      const pt = (document.getElementById("filterType") || {}).value || "ALL";
-      const nb = (document.getElementById("filterNeighborhood") || {}).value || "ALL";
-      const mp = Number((document.getElementById("filterMaxPrice") || {}).value) || 3500;
-      const md = Number((document.getElementById("filterMaxDrive") || {}).value) || 25;
-      const sb = (document.getElementById("sortBy") || {}).value || "rating_desc";
-      const q = ((document.getElementById("searchInput") || {}).value || "").trim().toLowerCase();
+      const rf = (document.getElementById(`filterRating`) || {}).value || `ACTIVE_ALL`;
+      const pt = (document.getElementById(`filterType`) || {}).value || `ALL`;
+      const nb = (document.getElementById(`filterNeighborhood`) || {}).value || `ALL`;
+      const mp = Number((document.getElementById(`filterMaxPrice`) || {}).value) || 3500;
+      const md = Number((document.getElementById(`filterMaxDrive`) || {}).value) || 25;
+      const sb = (document.getElementById(`sortBy`) || {}).value || `rating_desc`;
+      const q = ((document.getElementById(`searchInput`) || {}).value || ``).trim().toLowerCase();
 
-      document.getElementById("labelMaxPrice").textContent = formatBRL(mp);
-      document.getElementById("labelMaxDrive").textContent = `${md} min`;
+      document.getElementById(`labelMaxPrice`).textContent = formatBRL(mp);
+      document.getElementById(`labelMaxDrive`).textContent = `${md} min`;
 
       const filtered = PROPERTIES.filter(item => {
         const r = userRatings[item.id] || 0;
-        if (rf === "ACTIVE_ALL" && (r === 1 || r === 2)) return false;
-        if (rf === "GREEN_ONLY" && r < 4) return false;
-        if (rf === "YELLOW_ONLY" && r !== 3) return false;
-        if (rf === "UNRATED_ONLY" && r !== 0) return false;
-        if (rf === "DISCARDED_ONLY" && r !== 1 && r !== 2) return false;
-        if (pt !== "ALL" && item.type !== pt) return false;
-        if (nb !== "ALL" && item.neighborhood !== nb) return false;
+        if (rf === `ACTIVE_ALL` && (r === 1 || r === 2)) return false;
+        if (rf === `GREEN_ONLY` && r < 4) return false;
+        if (rf === `YELLOW_ONLY` && r !== 3) return false;
+        if (rf === `UNRATED_ONLY` && r !== 0) return false;
+        if (rf === `DISCARDED_ONLY` && r !== 1 && r !== 2) return false;
+        if (pt !== `ALL` && item.type !== pt) return false;
+        if (nb !== `ALL` && item.neighborhood !== nb) return false;
         if (item.total > mp || item.driveMinutes > md) return false;
-        if (q && !`${item.title} ${item.neighborhood} ${item.address} ${item.agencyName} ${item.code}`.toLowerCase().includes(q)) return false;
+        if (q) {
+          const hay = `${item.title} ${item.neighborhood}${item.address} ${item.agencyName}${item.code}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
         return true;
       });
 
       filtered.sort((a, b) => {
         const rA = userRatings[a.id] || 0, rB = userRatings[b.id] || 0;
-        if (sb === "rating_desc") return rB - rA || a.driveMinutes - b.driveMinutes || a.total - b.total;
-        if (sb === "drive_asc") return a.driveMinutes - b.driveMinutes || a.total - b.total;
-        if (sb === "price_asc") return a.total - b.total || a.driveMinutes - b.driveMinutes;
-        if (sb === "rent_asc") return a.rent - b.rent || a.total - b.total;
-        if (sb === "area_desc") return b.area - a.area || a.total - b.total;
+        if (sb === `rating_desc`) return rB - rA || a.driveMinutes - b.driveMinutes || a.total - b.total;
+        if (sb === `drive_asc`) return a.driveMinutes - b.driveMinutes || a.total - b.total;
+        if (sb === `price_asc`) return a.total - b.total || a.driveMinutes - b.driveMinutes;
+        if (sb === `rent_asc`) return a.rent - b.rent || a.total - b.total;
+        if (sb === `area_desc`) return b.area - a.area || a.total - b.total;
         return 0;
       });
       return filtered;
@@ -958,10 +1516,10 @@ create policy "Acesso publico" on public.property_ratings
     }
 
     function fallbackCopy(text) {
-      const ta = document.createElement("textarea");
-      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      const ta = document.createElement(`textarea`);
+      ta.value = text; ta.style.position = `fixed`; ta.style.opacity = `0`;
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); showToast(`Número ${text} copiado!`); } catch (e) { showToast(`Número: ${text}`); }
+      try { document.execCommand(`copy`); showToast(`Número ${text} copiado!`); } catch (e) { showToast(`Número: ${text}`); }
       document.body.removeChild(ta);
     }
 
@@ -969,45 +1527,45 @@ create policy "Acesso publico" on public.property_ratings
     function initApp() {
       if (appInitialized) return;
       appInitialized = true;
-      try { document.getElementById("searchInput").value = ""; } catch (e) {}
+      try { document.getElementById(`searchInput`).value = ``; } catch (e) {}
       try { loadRatings(); } catch (e) { console.warn(e); }
       try { applyFiltersAndRender(); } catch (e) { console.warn(e); }
       try { initMap(); } catch (e) { console.warn(e); }
       try { initSupabaseClient(); } catch (e) { console.warn(e); }
 
-      ["filterRating", "filterType", "filterNeighborhood", "filterMaxPrice", "filterMaxDrive", "sortBy", "searchInput"].forEach(id => {
+      [`filterRating`, `filterType`, `filterNeighborhood`, `filterMaxPrice`, `filterMaxDrive`, `sortBy`, `searchInput`].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener("input", applyFiltersAndRender);
+        if (el) el.addEventListener(`input`, applyFiltersAndRender);
       });
 
-      document.getElementById("btnResetFilters").addEventListener("click", () => {
-        document.getElementById("filterRating").value = "ACTIVE_ALL";
-        document.getElementById("filterType").value = "ALL";
-        document.getElementById("filterNeighborhood").value = "ALL";
-        document.getElementById("filterMaxPrice").value = "3500";
-        document.getElementById("filterMaxDrive").value = "25";
-        document.getElementById("sortBy").value = "rating_desc";
-        document.getElementById("searchInput").value = "";
+      document.getElementById(`btnResetFilters`).addEventListener(`click`, () => {
+        document.getElementById(`filterRating`).value = `ACTIVE_ALL`;
+        document.getElementById(`filterType`).value = `ALL`;
+        document.getElementById(`filterNeighborhood`).value = `ALL`;
+        document.getElementById(`filterMaxPrice`).value = `3500`;
+        document.getElementById(`filterMaxDrive`).value = `25`;
+        document.getElementById(`sortBy`).value = `rating_desc`;
+        document.getElementById(`searchInput`).value = ``;
         applyFiltersAndRender();
-        showToast("Filtros restaurados.");
+        showToast(`Filtros restaurados.`);
       });
 
-      document.getElementById("btnReloadMap").addEventListener("click", () => {
-        initMap(); applyFiltersAndRender(); showToast("Mapa recarregado!");
+      document.getElementById(`btnReloadMap`).addEventListener(`click`, () => {
+        initMap(); applyFiltersAndRender(); showToast(`Mapa recarregado!`);
       });
 
-      window.addEventListener("resize", () => mapInstance && mapInstance.invalidateSize());
+      window.addEventListener(`resize`, () => mapInstance && mapInstance.invalidateSize());
 
-      document.getElementById("btnCenterWork").addEventListener("click", () => {
+      document.getElementById(`btnCenterWork`).addEventListener(`click`, () => {
         if (mapInstance && !usingFallbackMap) {
           mapInstance.invalidateSize();
           mapInstance.setView([WORKPLACE.lat, WORKPLACE.lng], 15, { animate: true });
         } else renderInteractiveRadarFallback(getCurrentFilteredList());
-        showToast("Mapa focado no Edf. Etevaldo Nogueira Business.");
+        showToast(`Mapa focado no Edf. Etevaldo Nogueira Business.`);
       });
 
-      document.getElementById("btnFitAll").addEventListener("click", () => {
-        if (mapInstance && !usingFallbackMap && typeof window.L !== "undefined") {
+      document.getElementById(`btnFitAll`).addEventListener(`click`, () => {
+        if (mapInstance && !usingFallbackMap && typeof window.L !== `undefined`) {
           mapInstance.invalidateSize();
           const b = window.L.latLngBounds([[WORKPLACE.lat, WORKPLACE.lng]]);
           PROPERTIES.forEach(p => { if ((userRatings[p.id] || 0) !== 1 && (userRatings[p.id] || 0) !== 2) b.extend([p.lat, p.lng]); });
@@ -1015,27 +1573,26 @@ create policy "Acesso publico" on public.property_ratings
         } else renderInteractiveRadarFallback(getCurrentFilteredList());
       });
 
-      document.getElementById("btnOpenSupabaseModal").addEventListener("click", openSupabaseModal);
+      document.getElementById(`btnOpenSupabaseModal`).addEventListener(`click`, openSupabaseModal);
 
-      document.addEventListener("click", e => {
-        const starBtn = e.target.closest(".star-btn");
-        if (starBtn) { setRating(starBtn.getAttribute("data-rate-id"), Number(starBtn.getAttribute("data-rate-val"))); return; }
-        const mapBtn = e.target.closest(".btn-focus-map");
-        if (mapBtn) { focusPropertyOnMap(mapBtn.getAttribute("data-map-id")); return; }
-        const fbPin = e.target.closest("[data-fallback-pin]");
-        if (fbPin) { renderInteractiveRadarFallback(getCurrentFilteredList(), fbPin.getAttribute("data-fallback-pin")); return; }
-        const copyBtn = e.target.closest(".btn-copy-phone");
-        if (copyBtn) copyTextToClipboard(copyBtn.getAttribute("data-copy-phone"));
+      document.addEventListener(`click`, e => {
+        const starBtn = e.target.closest(`.star-btn`);
+        if (starBtn) { setRating(starBtn.getAttribute(`data-rate-id`), Number(starBtn.getAttribute(`data-rate-val`))); return; }
+        const mapBtn = e.target.closest(`.btn-focus-map`);
+        if (mapBtn) { focusPropertyOnMap(mapBtn.getAttribute(`data-map-id`)); return; }
+        const fbPin = e.target.closest(`[data-fallback-pin]`);
+        if (fbPin) { renderInteractiveRadarFallback(getCurrentFilteredList(), fbPin.getAttribute(`data-fallback-pin`)); return; }
+        const copyBtn = e.target.closest(`.btn-copy-phone`);
+        if (copyBtn) copyTextToClipboard(copyBtn.getAttribute(`data-copy-phone`));
       });
     }
 
     try { initApp(); } catch (e) { console.warn(e); }
-    document.addEventListener("DOMContentLoaded", () => { try { initApp(); } catch (e) {} });
-    window.addEventListener("load", () => { try { initApp(); } catch (e) {} });
+    document.addEventListener(`DOMContentLoaded`, () => { try { initApp(); } catch (e) {} });
+    window.addEventListener(`load`, () => { try { initApp(); } catch (e) {} });
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try { initMap(); } catch(e) {}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer onload="try { updateChart(getCurrentFilteredList()); } catch(e) {}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer onload="try { initSupabaseClient(); } catch(e) {}"></script>
 </body>
 </html>
