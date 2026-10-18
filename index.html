@@ -7,163 +7,639 @@
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<style>body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}.lbl{display:block;font-size:11px;font-weight:700;color:#334155;margin-bottom:3px}.inp{width:100%;border-radius:8px;border:1px solid #cbd5e1;background:#f8fafc;padding:6px 9px;font-size:12px;color:#0f172a}.dd-menu{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 12px 28px rgba(15,23,42,.18);z-index:50;display:none}.dd-menu.open{display:block}.ref-map{height:160px;width:100%;border-radius:8px;background:#e2e8f0;border:1px solid #cbd5e1;position:relative;z-index:1}</style>
+<style>
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
+.lbl{display:block;font-size:11px;font-weight:700;color:#334155;margin-bottom:3px}
+.inp{width:100%;border-radius:8px;border:1px solid #cbd5e1;background:#f8fafc;padding:6px 9px;font-size:12px;color:#0f172a}
+.dd-menu{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 12px 28px rgba(15,23,42,.18);z-index:50;display:none}
+.dd-menu.open{display:block}
+.ref-map{height:175px;width:100%;border-radius:8px;background:#e2e8f0;border:1px solid #cbd5e1;position:relative;z-index:1}
+.leaflet-div-icon{background:transparent!important;border:none!important}
+</style>
 </head>
 <body class="min-h-screen flex flex-col">
-<header class="bg-slate-900 text-white border-b border-slate-800"><div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"><div><span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">🏡 Radar Imóveis Fortaleza • Multi-Páginas</span><h1 class="text-2xl font-black mt-1">Buscador de Imóveis Fortaleza</h1><p class="text-xs text-slate-300">Configure os filtros opcionais para <strong>Aluguel</strong> ou <strong>Compra</strong>, defina o ponto de referência no mapa e os horários de busca.</p></div><div class="flex gap-2"><a href="aluguel/index.html" class="px-3 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow">🏠 Painel Aluguel (22)</a><a href="compra/index.html" class="px-3 py-2 rounded-xl bg-sky-600 text-white font-bold text-xs shadow">🔑 Painel Compra (14)</a></div></div></header>
+<header class="bg-slate-900 text-white border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div>
+      <div class="flex flex-wrap items-center gap-2 mb-1.5">
+        <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">🏡 Radar Imóveis Fortaleza • Multi-Páginas</span>
+        <div id="consultationBadge" class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700 text-xs font-semibold text-slate-200">
+          <span class="flex items-center gap-1.5 text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase text-[10px]">Consulta Automática</span>
+          </span>
+          <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">16/10/2026 às 06:00</strong></span>
+          <span class="text-slate-500 hidden sm:inline">•</span>
+          <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-[11px] shadow-sm">+7 novos imóveis adicionados</span>
+        </div>
+      </div>
+      <h1 class="text-2xl font-black">Buscador de Imóveis Fortaleza</h1>
+      <p class="text-xs text-slate-300">Configure os filtros para <strong>Aluguel</strong> ou <strong>Compra</strong>, defina o ponto de referência no Google Maps (por CEP ou clique no mapa) e horários de busca.</p>
+    </div>
+    <div class="flex gap-2">
+      <a href="aluguel/index.html" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">🏠 Painel Aluguel (22)</a>
+      <a href="compra/index.html" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow transition">🔑 Painel Compra (14)</a>
+    </div>
+  </div>
+</header>
+
 <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+<!-- ================= BLOCO 1: ALUGUEL ================= -->
 <section class="bg-white rounded-2xl shadow border-2 border-emerald-500/30 overflow-hidden flex flex-col justify-between">
-<div class="bg-slate-900 text-white p-4 flex items-center justify-between">
-<div><span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">🏠 BLOCO 1 • LOCAÇÃO</span><h2 class="text-lg font-extrabold mt-0.5">Aluguel de Imóveis</h2></div>
-<a href="aluguel/index.html" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">Abrir Painel &rarr;</a>
-</div>
-<form id="rentForm" class="p-4 space-y-3 flex-1">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-<div><label class="lbl">1. Tipo de Imóvel</label><select id="rent_type" class="inp"><option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option><option value="Apartamento">Apartamento</option><option value="Casa em Condomínio">Casa de Condomínio</option><option value="Casa">Casa</option></select></div>
-<div class="relative"><label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label><button type="button" id="rent_bairros_btn" class="inp text-left flex justify-between items-center"><span id="rent_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span></button>
-<div id="rent_bairros_dd" class="dd-menu"><div class="p-2 border-b bg-slate-50 flex gap-1"><input type="text" id="rent_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" /><button type="button" id="rent_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button></div><div id="rent_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div></div>
-</div>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-<div><label class="lbl">3. Valor Mín. do Aluguel</label><input type="number" id="rent_min_val" placeholder="R$ 1200" class="inp" /></div>
-<div><label class="lbl">4. Valor Máx. do Aluguel</label><input type="number" id="rent_max_val" placeholder="R$ 3500" class="inp" /></div>
-<div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="rent_condo" placeholder="R$ 1000" class="inp" /></div>
-<div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="rent_iptu" placeholder="R$ 200" class="inp" /></div>
-</div>
-<div class="grid grid-cols-3 gap-2">
-<div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="rent_rooms" placeholder="Ex: 3" class="inp" /></div>
-<div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="rent_min_area" placeholder="Ex: 70" class="inp" /></div>
-<div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="rent_max_area" placeholder="Ex: 250" class="inp" /></div>
-</div>
-<div class="relative"><label class="lbl">10. Detalhes do Imóvel (Múltipla Escolha)</label><button type="button" id="rent_details_btn" class="inp text-left flex justify-between items-center"><span id="rent_details_lbl" class="truncate">Qualquer detalhe</span><span>▾</span></button>
-<div id="rent_details_dd" class="dd-menu p-2"><div class="flex justify-between items-center pb-1 mb-1 border-b"><span class="text-[11px] font-bold text-slate-500">Selecione:</span><button type="button" id="rent_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button></div><div id="rent_details_list" class="grid grid-cols-2 gap-1 text-xs"></div></div>
-</div>
-<div class="bg-slate-50 p-2.5 rounded-xl border space-y-2">
-<div class="flex flex-wrap items-center justify-between gap-1"><label class="lbl !mb-0">11. Ponto de Referência no Mapa</label>
-<select id="rent_ref_preset" class="text-[11px] border rounded px-1.5 py-0.5 bg-white font-semibold"><option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option><option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option><option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option><option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option></select>
-</div>
-<div id="rent_map" class="ref-map"></div>
-<div class="grid grid-cols-3 gap-2">
-<div><label class="lbl">Referência</label><input type="text" id="rent_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
-<div><label class="lbl">Coordenadas</label><input type="text" id="rent_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
-<div><label class="lbl">12. Distância (min)</label><input type="number" id="rent_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
-</div>
-</div>
-<div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-200 space-y-1.5">
-<label class="lbl !mb-0">13. Horário de Busca Automática</label>
-<div class="flex gap-4 text-xs font-semibold">
-<label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="fixed" checked /> Horários fixos</label>
-<label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
-</div>
-<div id="rent_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
-<div id="rent_times_chips" class="flex flex-wrap gap-1"></div>
-<input type="time" id="rent_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" /><button type="button" id="rent_add_time" class="px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-bold">+ Horário</button>
-</div>
-<div id="rent_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
-<span>Atualizar</span><input type="number" id="rent_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" /><span>vezes por dia</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm shadow">🔍 Gerar Busca de Aluguel de Imóveis &rarr;</button>
-<button type="button" id="rent_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold">Limpar</button>
-</div>
-</form>
+  <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+    <div>
+      <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">🏠 BLOCO 1 • LOCAÇÃO</span>
+      <h2 class="text-lg font-extrabold mt-0.5">Aluguel de Imóveis</h2>
+    </div>
+    <a href="aluguel/index.html" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Abrir Painel &rarr;</a>
+  </div>
+
+  <form id="rentForm" class="p-4 space-y-3 flex-1">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div>
+        <label class="lbl">1. Tipo de Imóvel</label>
+        <select id="rent_type" class="inp">
+          <option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option>
+          <option value="Apartamento">Apartamento</option>
+          <option value="Casa em Condomínio">Casa de Condomínio</option>
+          <option value="Casa">Casa</option>
+        </select>
+      </div>
+      <div class="relative">
+        <label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label>
+        <button type="button" id="rent_bairros_btn" class="inp text-left flex justify-between items-center">
+          <span id="rent_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span>
+        </button>
+        <div id="rent_bairros_dd" class="dd-menu">
+          <div class="p-2 border-b bg-slate-50 flex gap-1">
+            <input type="text" id="rent_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" />
+            <button type="button" id="rent_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button>
+          </div>
+          <div id="rent_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div><label class="lbl">3. Valor Mín. Aluguel</label><input type="number" id="rent_min_val" placeholder="R$ 1200" class="inp" /></div>
+      <div><label class="lbl">4. Valor Máx. Aluguel</label><input type="number" id="rent_max_val" placeholder="R$ 3500" class="inp" /></div>
+      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="rent_condo" placeholder="R$ 1000" class="inp" /></div>
+      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="rent_iptu" placeholder="R$ 200" class="inp" /></div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2">
+      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="rent_rooms" placeholder="Ex: 3" class="inp" /></div>
+      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="rent_min_area" placeholder="Ex: 70" class="inp" /></div>
+      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="rent_max_area" placeholder="Ex: 250" class="inp" /></div>
+    </div>
+
+    <div class="relative">
+      <label class="lbl">10. Detalhes do Imóvel (Múltipla Escolha)</label>
+      <button type="button" id="rent_details_btn" class="inp text-left flex justify-between items-center">
+        <span id="rent_details_lbl" class="truncate">Qualquer detalhe</span><span>▾</span>
+      </button>
+      <div id="rent_details_dd" class="dd-menu p-2">
+        <div class="flex justify-between items-center pb-1 mb-1 border-b">
+          <span class="text-[11px] font-bold text-slate-500">Selecione:</span>
+          <button type="button" id="rent_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button>
+        </div>
+        <div id="rent_details_list" class="grid grid-cols-2 gap-1 text-xs"></div>
+      </div>
+    </div>
+
+    <!-- ITEM 11: PONTO DE REFERENCIA NO MAPS (DUAS FORMAS) -->
+    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2.5">
+      <div class="flex flex-wrap items-center justify-between gap-1">
+        <label class="lbl !mb-0 font-extrabold text-slate-900 text-xs">11. PONTO DE REFERÊNCIA NO MAPS</label>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">2 Formas de Preenchimento</span>
+      </div>
+
+      <!-- FORMA 1: INFORMAR CEP -->
+      <div class="bg-white p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-emerald-800 flex items-center gap-1"><span>📮</span> Forma 1: Informando o CEP</span>
+          <span class="text-[10px] text-slate-400">Busca automática via ViaCEP</span>
+        </div>
+        <div class="flex gap-1.5">
+          <input type="text" id="rent_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold" />
+          <button type="button" id="rent_btn_cep" class="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shrink-0 cursor-pointer">Buscar CEP</button>
+        </div>
+        <div id="rent_cep_status" class="text-[11px] text-slate-600 flex items-center gap-1">
+          <span>💡 Digite o CEP desejado em Fortaleza ou use os atalhos abaixo:</span>
+        </div>
+      </div>
+
+      <!-- ATALHOS RAPIDOS -->
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold text-slate-600">Ou Atalhos de Referência:</span>
+        <select id="rent_ref_preset" class="text-[11px] border rounded-lg px-2 py-1 bg-white font-semibold">
+          <option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
+          <option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option>
+          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option>
+          <option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option>
+        </select>
+      </div>
+
+      <!-- FORMA 2: SELECIONAR NO GOOGLE MAPS -->
+      <div class="space-y-1">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1"><span>🗺️</span> Forma 2: Selecionando no Google Maps (Clique ou arraste o pino)</span>
+          <span class="text-[10px] text-emerald-700 font-bold">Google Maps</span>
+        </div>
+        <div id="rent_map" class="ref-map"></div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <div><label class="lbl">Local / Endereço</label><input type="text" id="rent_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
+        <div><label class="lbl">Coordenadas</label><input type="text" id="rent_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
+        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="rent_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
+      </div>
+    </div>
+
+    <!-- HORARIOS DE BUSCA -->
+    <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-200 space-y-1.5">
+      <label class="lbl !mb-0">13. Horário de Busca Automática</label>
+      <div class="flex gap-4 text-xs font-semibold">
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="fixed" checked /> Horários fixos</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
+      </div>
+      <div id="rent_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
+        <div id="rent_times_chips" class="flex flex-wrap gap-1"></div>
+        <input type="time" id="rent_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" />
+        <button type="button" id="rent_add_time" class="px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-bold cursor-pointer">+ Horário</button>
+      </div>
+      <div id="rent_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
+        <span>Atualizar</span>
+        <input type="number" id="rent_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" />
+        <span>vezes por dia</span>
+      </div>
+    </div>
+
+    <div class="flex gap-2 pt-1">
+      <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm shadow transition cursor-pointer">
+        🔍 Gerar Busca de Aluguel de Imóveis &rarr;
+      </button>
+      <button type="button" id="rent_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold cursor-pointer">Limpar</button>
+    </div>
+  </form>
 </section>
+
+<!-- ================= BLOCO 2: COMPRA ================= -->
 <section class="bg-white rounded-2xl shadow border-2 border-sky-500/30 overflow-hidden flex flex-col justify-between">
-<div class="bg-slate-900 text-white p-4 flex items-center justify-between">
-<div><span class="px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[11px] font-bold">🔑 BLOCO 2 • COMPRA</span><h2 class="text-lg font-extrabold mt-0.5">Compra de Imóveis</h2></div>
-<a href="compra/index.html" class="px-3 py-1.5 rounded-lg bg-sky-600 text-white text-xs font-bold">Abrir Painel &rarr;</a>
-</div>
-<form id="buyForm" class="p-4 space-y-3 flex-1">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-<div><label class="lbl">1. Tipo de Imóvel</label><select id="buy_type" class="inp"><option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option><option value="Apartamento">Apartamento</option><option value="Casa em Condomínio">Casa de Condomínio</option><option value="Casa">Casa</option></select></div>
-<div class="relative"><label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label><button type="button" id="buy_bairros_btn" class="inp text-left flex justify-between items-center"><span id="buy_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span></button>
-<div id="buy_bairros_dd" class="dd-menu"><div class="p-2 border-b bg-slate-50 flex gap-1"><input type="text" id="buy_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" /><button type="button" id="buy_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button></div><div id="buy_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div></div>
-</div>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-<div><label class="lbl">3. Valor Mín. da Compra</label><input type="number" id="buy_min_val" placeholder="R$ 250000" class="inp" /></div>
-<div><label class="lbl">4. Valor Máx. da Compra</label><input type="number" id="buy_max_val" placeholder="R$ 950000" class="inp" /></div>
-<div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="buy_condo" placeholder="R$ 1000" class="inp" /></div>
-<div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="buy_iptu" placeholder="R$ 200" class="inp" /></div>
-</div>
-<div class="grid grid-cols-3 gap-2">
-<div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="buy_rooms" placeholder="Ex: 3" class="inp" /></div>
-<div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="buy_min_area" placeholder="Ex: 70" class="inp" /></div>
-<div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="buy_max_area" placeholder="Ex: 250" class="inp" /></div>
-</div>
-<div class="relative"><label class="lbl">10. Detalhes do Imóvel (Múltipla Escolha)</label><button type="button" id="buy_details_btn" class="inp text-left flex justify-between items-center"><span id="buy_details_lbl" class="truncate">Qualquer detalhe</span><span>▾</span></button>
-<div id="buy_details_dd" class="dd-menu p-2"><div class="flex justify-between items-center pb-1 mb-1 border-b"><span class="text-[11px] font-bold text-slate-500">Selecione:</span><button type="button" id="buy_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button></div><div id="buy_details_list" class="grid grid-cols-2 gap-1 text-xs"></div></div>
-</div>
-<div class="bg-slate-50 p-2.5 rounded-xl border space-y-2">
-<div class="flex flex-wrap items-center justify-between gap-1"><label class="lbl !mb-0">11. Ponto de Referência no Mapa</label>
-<select id="buy_ref_preset" class="text-[11px] border rounded px-1.5 py-0.5 bg-white font-semibold"><option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option><option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option><option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option><option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option></select>
-</div>
-<div id="buy_map" class="ref-map"></div>
-<div class="grid grid-cols-3 gap-2">
-<div><label class="lbl">Referência</label><input type="text" id="buy_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
-<div><label class="lbl">Coordenadas</label><input type="text" id="buy_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
-<div><label class="lbl">12. Distância (min)</label><input type="number" id="buy_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
-</div>
-</div>
-<div class="bg-sky-50/60 p-2.5 rounded-xl border border-sky-200 space-y-1.5">
-<label class="lbl !mb-0">13. Horário de Busca Automática</label>
-<div class="flex gap-4 text-xs font-semibold">
-<label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="fixed" checked /> Horários fixos</label>
-<label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
-</div>
-<div id="buy_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
-<div id="buy_times_chips" class="flex flex-wrap gap-1"></div>
-<input type="time" id="buy_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" /><button type="button" id="buy_add_time" class="px-2 py-0.5 rounded bg-sky-600 text-white text-xs font-bold">+ Horário</button>
-</div>
-<div id="buy_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
-<span>Atualizar</span><input type="number" id="buy_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" /><span>vezes por dia</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm shadow">🔍 Gerar Busca de Compra de Imóveis &rarr;</button>
-<button type="button" id="buy_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold">Limpar</button>
-</div>
-</form>
+  <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+    <div>
+      <span class="px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[11px] font-bold">🔑 BLOCO 2 • COMPRA</span>
+      <h2 class="text-lg font-extrabold mt-0.5">Compra de Imóveis</h2>
+    </div>
+    <a href="compra/index.html" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">Abrir Painel &rarr;</a>
+  </div>
+
+  <form id="buyForm" class="p-4 space-y-3 flex-1">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div>
+        <label class="lbl">1. Tipo de Imóvel</label>
+        <select id="buy_type" class="inp">
+          <option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option>
+          <option value="Apartamento">Apartamento</option>
+          <option value="Casa em Condomínio">Casa de Condomínio</option>
+          <option value="Casa">Casa</option>
+        </select>
+      </div>
+      <div class="relative">
+        <label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label>
+        <button type="button" id="buy_bairros_btn" class="inp text-left flex justify-between items-center">
+          <span id="buy_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span>
+        </button>
+        <div id="buy_bairros_dd" class="dd-menu">
+          <div class="p-2 border-b bg-slate-50 flex gap-1">
+            <input type="text" id="buy_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" />
+            <button type="button" id="buy_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button>
+          </div>
+          <div id="buy_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div><label class="lbl">3. Valor Mín. Compra</label><input type="number" id="buy_min_val" placeholder="R$ 250000" class="inp" /></div>
+      <div><label class="lbl">4. Valor Máx. Compra</label><input type="number" id="buy_max_val" placeholder="R$ 950000" class="inp" /></div>
+      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="buy_condo" placeholder="R$ 1000" class="inp" /></div>
+      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="buy_iptu" placeholder="R$ 200" class="inp" /></div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2">
+      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="buy_rooms" placeholder="Ex: 3" class="inp" /></div>
+      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="buy_min_area" placeholder="Ex: 70" class="inp" /></div>
+      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="buy_max_area" placeholder="Ex: 250" class="inp" /></div>
+    </div>
+
+    <div class="relative">
+      <label class="lbl">10. Detalhes do Imóvel (Múltipla Escolha)</label>
+      <button type="button" id="buy_details_btn" class="inp text-left flex justify-between items-center">
+        <span id="buy_details_lbl" class="truncate">Qualquer detalhe</span><span>▾</span>
+      </button>
+      <div id="buy_details_dd" class="dd-menu p-2">
+        <div class="flex justify-between items-center pb-1 mb-1 border-b">
+          <span class="text-[11px] font-bold text-slate-500">Selecione:</span>
+          <button type="button" id="buy_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button>
+        </div>
+        <div id="buy_details_list" class="grid grid-cols-2 gap-1 text-xs"></div>
+      </div>
+    </div>
+
+    <!-- ITEM 11: PONTO DE REFERENCIA NO MAPS (DUAS FORMAS) -->
+    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2.5">
+      <div class="flex flex-wrap items-center justify-between gap-1">
+        <label class="lbl !mb-0 font-extrabold text-slate-900 text-xs">11. PONTO DE REFERÊNCIA NO MAPS</label>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 font-bold">2 Formas de Preenchimento</span>
+      </div>
+
+      <!-- FORMA 1: INFORMAR CEP -->
+      <div class="bg-white p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-sky-800 flex items-center gap-1"><span>📮</span> Forma 1: Informando o CEP</span>
+          <span class="text-[10px] text-slate-400">Busca automática via ViaCEP</span>
+        </div>
+        <div class="flex gap-1.5">
+          <input type="text" id="buy_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold" />
+          <button type="button" id="buy_btn_cep" class="px-3 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition shrink-0 cursor-pointer">Buscar CEP</button>
+        </div>
+        <div id="buy_cep_status" class="text-[11px] text-slate-600 flex items-center gap-1">
+          <span>💡 Digite o CEP desejado em Fortaleza ou use os atalhos abaixo:</span>
+        </div>
+      </div>
+
+      <!-- ATALHOS RAPIDOS -->
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold text-slate-600">Ou Atalhos de Referência:</span>
+        <select id="buy_ref_preset" class="text-[11px] border rounded-lg px-2 py-1 bg-white font-semibold">
+          <option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
+          <option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option>
+          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option>
+          <option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option>
+        </select>
+      </div>
+
+      <!-- FORMA 2: SELECIONAR NO GOOGLE MAPS -->
+      <div class="space-y-1">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1"><span>🗺️</span> Forma 2: Selecionando no Google Maps (Clique ou arraste o pino)</span>
+          <span class="text-[10px] text-sky-700 font-bold">Google Maps</span>
+        </div>
+        <div id="buy_map" class="ref-map"></div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <div><label class="lbl">Local / Endereço</label><input type="text" id="buy_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
+        <div><label class="lbl">Coordenadas</label><input type="text" id="buy_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
+        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="buy_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
+      </div>
+    </div>
+
+    <!-- HORARIOS DE BUSCA -->
+    <div class="bg-sky-50/60 p-2.5 rounded-xl border border-sky-200 space-y-1.5">
+      <label class="lbl !mb-0">13. Horário de Busca Automática</label>
+      <div class="flex gap-4 text-xs font-semibold">
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="fixed" checked /> Horários fixos</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
+      </div>
+      <div id="buy_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
+        <div id="buy_times_chips" class="flex flex-wrap gap-1"></div>
+        <input type="time" id="buy_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" />
+        <button type="button" id="buy_add_time" class="px-2 py-0.5 rounded bg-sky-600 text-white text-xs font-bold cursor-pointer">+ Horário</button>
+      </div>
+      <div id="buy_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
+        <span>Atualizar</span>
+        <input type="number" id="buy_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" />
+        <span>vezes por dia</span>
+      </div>
+    </div>
+
+    <div class="flex gap-2 pt-1">
+      <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm shadow transition cursor-pointer">
+        🔍 Gerar Busca de Compra de Imóveis &rarr;
+      </button>
+      <button type="button" id="buy_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold cursor-pointer">Limpar</button>
+    </div>
+  </form>
 </section>
+
 </div>
 </main>
+
 <script>
-const $=id=>document.getElementById(id),BAIRROS=["Aerolândia","Aeroporto","Aldeota","Alagadiço Novo","Alto da Balança","Álvaro Weyne","Amadeu Furtado","Ancuri","Antônio Bezerra","Aracapé","Autran Nunes","Barra do Ceará","Barroso","Bela Vista","Benfica","Bom Futuro","Bom Jardim","Bonsucesso","Cais do Porto","Cajazeiras","Cambeba","Canindezinho","Carlito Pamplona","Castelão","Centro","Cidade 2000","Cidade dos Funcionários","Coaçu","Cocó","Conjunto Ceará I","Conjunto Ceará II","Conjunto Esperança","Conjunto Palmeiras","Couto Fernandes","Cristo Redentor","Curió","Damas","De Lourdes","Demócrito Rocha","Dendê","Dias Macedo","Dionísio Torres","Dom Lustosa","Edson Queiroz","Ellery","Engenheiro Luciano Cavalcante","Farias Brito","Fátima","Floresta","Genibaú","Gentilândia","Granja Lisboa","Granja Portugal","Guajeru","Guararapes","Henrique Jorge","Itaoca","Itaperi","Jacarecanga","Jangurussu","Jardim América","Jardim Cearense","Jardim das Oliveiras","Jardim Guanabara","Jardim Iracema","João XXIII","Joaquim Távora","Jóquei Clube","José Bonifácio","José de Alencar","Lagoa Redonda","Manuel Dias Branco","Maraponga","Mata Galinha","Meireles","Messejana","Mondubim","Monte Castelo","Montese","Moura Brasil","Mucuripe","Novo Mondubim","Olavo Oliveira","Padre Andrade","Panamericano","Paupina","Papicu","Parangaba","Parque Araxá","Parque Dois Irmãos","Parque Iracema","Parque Manibura","Parque Presidente Vargas","Parque Santa Maria","Parque Santa Rosa","Parque São José","Parquelândia","Parreão","Passaré","Pedras","Pici","Pirambu","Planalto Ayrton Senna","Praia de Iracema","Praia do Futuro I","Praia do Futuro II","Prefeito José Walter","Presidente Kennedy","Presidente Tancredo Neves","Quintino Cunha","Rodolfo Teófilo","Sabiaguaba","Salinas","Santa Filomena","São Gerardo","São João do Tauape","Sapiranga","Serrinha","Siqueira","Tauape","Varjota","Vicente Pinzón","Vila Ellery","Vila Peri","Vila União","Vila Velha"],DETAILS=["Nascente","Varanda","Varanda Gourmet","Móveis Projetados","Mobiliado","Piscina","Churrasqueira","Academia","Salão de Festas","Portaria 24h","Elevador","Aceita Pet","Dependência Completa","Quintal","2 Vagas","Condomínio Fechado","Sem Condomínio"];
-const state={rent:{bairros:new Set(),details:new Set(),lat:-3.7351,lng:-38.4969,times:["06:00","14:00"],map:null,marker:null},buy:{bairros:new Set(),details:new Set(),lat:-3.7351,lng:-38.4969,times:["07:00","19:00"],map:null,marker:null}};
-function setupBlock(p,targetUrl,sKey){const st=state[p];let sv=null;try{sv=JSON.parse(localStorage.getItem(sKey));}catch(e){}if(sv){if(sv.type)$(p+"_type").value=sv.type;
-["min_val:minVal","max_val:maxVal","condo:condo","iptu:iptu","rooms:rooms","min_area:minArea","max_area:maxArea","max_drive:maxDrive","ref_name:refName","freq_x:freqX"].forEach(pair=>{const[a,b]=pair.split(":");if(sv[b])$(p+"_"+a).value=sv[b];});
-if(sv.lat&&sv.lng){st.lat=Number(sv.lat);st.lng=Number(sv.lng);$(p+"_ref_coords").value=st.lat.toFixed(4)+", "+st.lng.toFixed(4);}if(Array.isArray(sv.bairros))st.bairros=new Set(sv.bairros);if(Array.isArray(sv.details))st.details=new Set(sv.details);
-if(Array.isArray(sv.times)&&sv.times.length)st.times=sv.times;if(sv.schedMode){const r=document.querySelector(`input[name="${p}_sched_mode"][value="${sv.schedMode}"]`);if(r)r.checked=true;}}const bList=$(p+"_bairros_list"),bLbl=$(p+"_bairros_lbl");
-function rBairros(q=""){const ql=q.toLowerCase();
-bList.innerHTML=BAIRROS.filter(b=>b.toLowerCase().includes(ql)).map(b=>`<label class="flex items-center gap-1.5 py-0.5 cursor-pointer"><input type="checkbox" value="${b}" ${st.bairros.has(b)?"checked":""} class="b-chk"/><span>${b}</span></label>`).join("");
-bLbl.textContent=st.bairros.size?Array.from(st.bairros).join(", "):"Todos os bairros (121)";}rBairros();
-bList.addEventListener("change",e=>{if(e.target.classList.contains("b-chk")){e.target.checked?st.bairros.add(e.target.value):st.bairros.delete(e.target.value);bLbl.textContent=st.bairros.size?Array.from(st.bairros).join(", "):"Todos os bairros (121)";}});
-$(p+"_bairros_q").addEventListener("input",e=>rBairros(e.target.value));$(p+"_bairros_clr").addEventListener("click",()=>{st.bairros.clear();rBairros($(p+"_bairros_q").value);});const dList=$(p+"_details_list"),dLbl=$(p+"_details_lbl");function rDetails(){
-dList.innerHTML=DETAILS.map(d=>`<label class="flex items-center gap-1.5 py-0.5 cursor-pointer"><input type="checkbox" value="${d}" ${st.details.has(d)?"checked":""} class="d-chk"/><span>${d}</span></label>`).join("");
-dLbl.textContent=st.details.size?Array.from(st.details).join(", "):"Qualquer detalhe";}rDetails();
-dList.addEventListener("change",e=>{if(e.target.classList.contains("d-chk")){e.target.checked?st.details.add(e.target.value):st.details.delete(e.target.value);dLbl.textContent=st.details.size?Array.from(st.details).join(", "):"Qualquer detalhe";}});
-$(p+"_details_clr").addEventListener("click",()=>{st.details.clear();rDetails();});$(p+"_ref_preset").addEventListener("change",e=>{const pt=e.target.value.split(",");st.lat=Number(pt[0]);st.lng=Number(pt[1]);
-$(p+"_ref_name").value=pt.slice(2).join(",");$(p+"_ref_coords").value=st.lat.toFixed(4)+", "+st.lng.toFixed(4);if(st.map&&st.marker){st.marker.setLatLng([st.lat,st.lng]);st.map.setView([st.lat,st.lng],14);}});const chips=$(p+"_times_chips");
-function rTimes(){chips.innerHTML=st.times.map((t,i)=>`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ ${t} <button type="button" data-rm="${i}" class="text-rose-300">&times;</button></span>`).join("");}
-rTimes();chips.addEventListener("click",e=>{const rm=e.target.getAttribute("data-rm");if(rm!==null){st.times.splice(Number(rm),1);rTimes();}});
-$(p+"_add_time").addEventListener("click",()=>{const v=$(p+"_new_time").value;if(v&&!st.times.includes(v)){st.times.push(v);st.times.sort();rTimes();}});function syncM(){
-const m=(document.querySelector(`input[name="${p}_sched_mode"]:checked`)||{}).value||"fixed";$(p+"_sched_fixed_box").classList.toggle("hidden",m!=="fixed");
-$(p+"_sched_freq_box").classList.toggle("hidden",m==="fixed");$(p+"_sched_freq_box").classList.toggle("flex",m!=="fixed");}document.querySelectorAll(`input[name="${p}_sched_mode"]`).forEach(r=>r.addEventListener("change",syncM));syncM();
-$(p+"_clear_all").addEventListener("click",()=>{$(p+"Form").reset();st.bairros.clear();st.details.clear();st.lat=-3.7351;st.lng=-38.4969;$(p+"_ref_coords").value="-3.7351, -38.4969";rBairros();rDetails();syncM();try{localStorage.removeItem(sKey);}catch(e){}});
-$(p+"Form").addEventListener("submit",e=>{e.preventDefault();
-const cfg={type:$(p+"_type").value,bairros:Array.from(st.bairros),minVal:$(p+"_min_val").value,maxVal:$(p+"_max_val").value,condo:$(p+"_condo").value,iptu:$(p+"_iptu").value,rooms:$(p+"_rooms").value,minArea:$(p+"_min_area").value,maxArea:$(p+"_max_area").value,details:Array.from(st.details),refName:$(p+"_ref_name").value,lat:st.lat,lng:st.lng,maxDrive:$(p+"_max_drive").value,schedMode:(document.querySelector(`input[name="${p}_sched_mode"]:checked`)||{}).value||"fixed",times:st.times,freqX:$(p+"_freq_x").value};
-try{localStorage.setItem(sKey,JSON.stringify(cfg));}catch(err){}const qs=new URLSearchParams();if(cfg.type&&cfg.type!=="ALL")qs.set("type",cfg.type);if(cfg.bairros.length)qs.set("bairros",cfg.bairros.join(","));
-["minVal","maxVal","condo","iptu","rooms","minArea","maxArea","refName","maxDrive","schedMode","freqX"].forEach(k=>{if(cfg[k])qs.set(k,cfg[k]);});if(cfg.details.length)qs.set("details",cfg.details.join(","));
-qs.set("lat",String(cfg.lat));qs.set("lng",String(cfg.lng));if(cfg.times.length)qs.set("times",cfg.times.join(","));window.location.href=targetUrl+"?"+qs.toString();});}function initRefMaps(){if(typeof window.L==="undefined")return;["rent","buy"].forEach(p=>{
-const st=state[p];st.map=window.L.map(p+"_map",{center:[st.lat,st.lng],zoom:13});window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(st.map);st.marker=window.L.marker([st.lat,st.lng],{draggable:true}).addTo(st.map);
-st.map.on("click",e=>{st.lat=e.latlng.lat;st.lng=e.latlng.lng;st.marker.setLatLng([st.lat,st.lng]);$(p+"_ref_coords").value=st.lat.toFixed(4)+", "+st.lng.toFixed(4);$(p+"_ref_name").value="Ponto no Mapa";});
-st.marker.on("dragend",()=>{const pos=st.marker.getLatLng();st.lat=pos.lat;st.lng=pos.lng;$(p+"_ref_coords").value=st.lat.toFixed(4)+", "+st.lng.toFixed(4);$(p+"_ref_name").value="Ponto no Mapa";});});}
-setupBlock("rent","aluguel/index.html","fortaleza_search_rent_cfg");setupBlock("buy","compra/index.html","fortaleza_search_buy_cfg");$("rent_bairros_btn").addEventListener("click",e=>{e.stopPropagation();$("rent_bairros_dd").classList.toggle("open");});
-$("rent_details_btn").addEventListener("click",e=>{e.stopPropagation();$("rent_details_dd").classList.toggle("open");});$("buy_bairros_btn").addEventListener("click",e=>{e.stopPropagation();$("buy_bairros_dd").classList.toggle("open");});
-$("buy_details_btn").addEventListener("click",e=>{e.stopPropagation();$("buy_details_dd").classList.toggle("open");});
-document.addEventListener("click",e=>{["rent_bairros_dd","rent_details_dd","buy_bairros_dd","buy_details_dd"].forEach(id=>{const d=$(id);if(d&&!d.contains(e.target))d.classList.remove("open");});});
+const $=id=>document.getElementById(id);
+const BAIRROS=["Aerolândia","Aeroporto","Aldeota","Alagadiço Novo","Alto da Balança","Álvaro Weyne","Amadeu Furtado","Ancuri","Antônio Bezerra","Aracapé","Autran Nunes","Barra do Ceará","Barroso","Bela Vista","Benfica","Bom Futuro","Bom Jardim","Bonsucesso","Cais do Porto","Cajazeiras","Cambeba","Canindezinho","Carlito Pamplona","Castelão","Centro","Cidade 2000","Cidade dos Funcionários","Coaçu","Cocó","Conjunto Ceará I","Conjunto Ceará II","Conjunto Esperança","Conjunto Palmeiras","Couto Fernandes","Cristo Redentor","Curió","Damas","De Lourdes","Demócrito Rocha","Dendê","Dias Macedo","Dionísio Torres","Dom Lustosa","Edson Queiroz","Ellery","Engenheiro Luciano Cavalcante","Farias Brito","Fátima","Floresta","Genibaú","Gentilândia","Granja Lisboa","Granja Portugal","Guajeru","Guararapes","Henrique Jorge","Itaoca","Itaperi","Jacarecanga","Jangurussu","Jardim América","Jardim Cearense","Jardim das Oliveiras","Jardim Guanabara","Jardim Iracema","João XXIII","Joaquim Távora","Jóquei Clube","José Bonifácio","José de Alencar","Lagoa Redonda","Manuel Dias Branco","Maraponga","Mata Galinha","Meireles","Messejana","Mondubim","Monte Castelo","Montese","Moura Brasil","Mucuripe","Novo Mondubim","Olavo Oliveira","Padre Andrade","Panamericano","Paupina","Papicu","Parangaba","Parque Araxá","Parque Dois Irmãos","Parque Iracema","Parque Manibura","Parque Presidente Vargas","Parque Santa Maria","Parque Santa Rosa","Parque São José","Parquelândia","Parreão","Passaré","Pedras","Pici","Pirambu","Planalto Ayrton Senna","Praia de Iracema","Praia do Futuro I","Praia do Futuro II","Prefeito José Walter","Presidente Kennedy","Presidente Tancredo Neves","Quintino Cunha","Rodolfo Teófilo","Sabiaguaba","Salinas","Santa Filomena","São Gerardo","São João do Tauape","Sapiranga","Serrinha","Siqueira","Tauape","Varjota","Vicente Pinzón","Vila Ellery","Vila Peri","Vila União","Vila Velha"];
+const DETAILS=["Nascente","Varanda","Varanda Gourmet","Móveis Projetados","Mobiliado","Piscina","Churrasqueira","Academia","Salão de Festas","Portaria 24h","Elevador","Aceita Pet","Dependência Completa","Quintal","2 Vagas","Condomínio Fechado","Sem Condomínio"];
+
+const BAIRRO_COORDS = {
+  "aldeota": [-3.7432, -38.4912], "meireles": [-3.7315, -38.5110], "papicu": [-3.7395, -38.4785],
+  "coco": [-3.7460, -38.4820], "dionisio torres": [-3.7480, -38.5015], "fatima": [-3.7568, -38.5245],
+  "varjota": [-3.7330, -38.4860], "joaquim tavora": [-3.7480, -38.5140], "sapiranga": [-3.7895, -38.4720],
+  "jose de alencar": [-3.7980, -38.4810], "edson queiroz": [-3.7720, -38.4840], "cidade dos funcionarios": [-3.7840, -38.4980],
+  "lagoa redonda": [-3.8185, -38.4620], "cambeba": [-3.8050, -38.4890], "montese": [-3.7650, -38.5460],
+  "jacarecanga": [-3.7220, -38.5420], "benfica": [-3.7435, -38.5385], "centro": [-3.7275, -38.5275],
+  "praia de iracema": [-3.7215, -38.5165], "praia do futuro": [-3.7410, -38.4480], "maraponga": [-3.7915, -38.5685],
+  "engenheiro luciano cavalcante": [-3.7680, -38.4910], "tauape": [-3.7540, -38.5130]
+};
+
+const state = {
+  rent: { bairros: new Set(), details: new Set(), lat: -3.7351, lng: -38.4969, times: ["06:00","14:00"], map: null, marker: null },
+  buy:  { bairros: new Set(), details: new Set(), lat: -3.7351, lng: -38.4969, times: ["07:00","19:00"], map: null, marker: null }
+};
+
+// Sync consultation badge from localStorage
+function syncConsultationBadge() {
+  let info = null;
+  try {
+    info = JSON.parse(localStorage.getItem('fortaleza_last_scan_info'));
+  } catch(e) {}
+  if (!info) {
+    info = { timestamp: "16/10/2026 às 06:00", type: "Automática", newCount: 7 };
+  }
+  const tTag = $("badgeScanTypeTag");
+  const timeTag = $("badgeLastScanTime");
+  const countTag = $("badgeNewListingsTag");
+  if (tTag) tTag.textContent = info.type === "Manual" ? "Consulta Manual" : "Consulta Automática";
+  if (timeTag) timeTag.textContent = info.timestamp || "16/10/2026 às 06:00";
+  if (countTag) {
+    const n = Number(info.newCount) || 0;
+    countTag.textContent = n > 0 ? `+${n} novos imóveis adicionados` : `0 novos imóveis adicionados`;
+  }
+}
+
+// CEP Resolver via ViaCEP + Fortaleza Coordinates
+async function searchCEP(prefix) {
+  const input = $(prefix + "_cep");
+  const status = $(prefix + "_cep_status");
+  const st = state[prefix];
+  if (!input) return;
+  const raw = input.value.replace(/\D/g, "");
+  if (raw.length !== 8) {
+    status.innerHTML = `<span class="text-rose-600 font-bold">⚠️ Digite um CEP válido com 8 dígitos (ex: 60160-230).</span>`;
+    return;
+  }
+  status.innerHTML = `<span class="text-emerald-700 font-semibold">🔄 Consultando ViaCEP...</span>`;
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${raw}/json/`);
+    if (!res.ok) throw new Error("Erro de rede");
+    const data = await res.json();
+    if (data.erro) {
+      status.innerHTML = `<span class="text-rose-600 font-bold">❌ CEP ${raw} não encontrado nos Correios.</span>`;
+      return;
+    }
+    const logradouro = data.logradouro || "";
+    const bairro = data.bairro || "";
+    const localidade = data.localidade || "Fortaleza";
+    const uf = data.uf || "CE";
+    
+    // Resolve lat/lng
+    let lat = -3.7351, lng = -38.4969;
+    const cleanBairro = bairro.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (BAIRRO_COORDS[cleanBairro]) {
+      [lat, lng] = BAIRRO_COORDS[cleanBairro];
+    } else if (raw === "60160230") {
+      lat = -3.7351; lng = -38.4969; // Av Dom Luis 807
+    } else {
+      // Nominatim search
+      try {
+        const query = encodeURIComponent(`${logradouro}, ${bairro}, Fortaleza, CE, Brasil`);
+        const nRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
+        if (nRes.ok) {
+          const nData = await nRes.json();
+          if (nData && nData.length > 0) {
+            lat = parseFloat(nData[0].lat);
+            lng = parseFloat(nData[0].lon);
+          }
+        }
+      } catch(err) {}
+    }
+
+    st.lat = lat;
+    st.lng = lng;
+    $(prefix + "_ref_coords").value = lat.toFixed(4) + ", " + lng.toFixed(4);
+    const fullName = `${logradouro ? logradouro + ' - ' : ''}${bairro} (${data.cep})`;
+    $(prefix + "_ref_name").value = fullName;
+    status.innerHTML = `<span class="text-emerald-700 font-bold">✅ Localizado: ${logradouro ? logradouro + ', ' : ''}${bairro} - ${localidade}/${uf}</span>`;
+    
+    if (st.map && st.marker) {
+      st.marker.setLatLng([lat, lng]);
+      st.map.setView([lat, lng], 15);
+      st.marker.bindPopup(`<strong>${fullName}</strong><br>Ponto de referência configurado!`).openPopup();
+    }
+  } catch(e) {
+    status.innerHTML = `<span class="text-rose-600 font-bold">⚠️ Erro ao consultar CEP. Tente selecionar diretamente no mapa.</span>`;
+  }
+}
+
+function setupBlock(p, targetUrl, sKey) {
+  const st = state[p];
+  let sv = null;
+  try { sv = JSON.parse(localStorage.getItem(sKey)); } catch(e) {}
+  if (sv) {
+    if (sv.type) $(p + "_type").value = sv.type;
+    ["min_val:minVal","max_val:maxVal","condo:condo","iptu:iptu","rooms:rooms","min_area:minArea","max_area:maxArea","max_drive:maxDrive","ref_name:refName","freq_x:freqX"].forEach(pair => {
+      const [a, b] = pair.split(":");
+      if (sv[b]) $(p + "_" + a).value = sv[b];
+    });
+    if (sv.lat && sv.lng) {
+      st.lat = Number(sv.lat);
+      st.lng = Number(sv.lng);
+      $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
+    }
+    if (Array.isArray(sv.bairros)) st.bairros = new Set(sv.bairros);
+    if (Array.isArray(sv.details)) st.details = new Set(sv.details);
+    if (Array.isArray(sv.times) && sv.times.length) st.times = sv.times;
+    if (sv.schedMode) {
+      const r = document.querySelector(`input[name="${p}_sched_mode"][value="${sv.schedMode}"]`);
+      if (r) r.checked = true;
+    }
+  }
+
+  // Bairros dropdown
+  const bList = $(p + "_bairros_list"), bLbl = $(p + "_bairros_lbl");
+  function rBairros(q = "") {
+    const ql = q.toLowerCase();
+    bList.innerHTML = BAIRROS.filter(b => b.toLowerCase().includes(ql)).map(b =>
+      `<label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="${b}" ${st.bairros.has(b) ? "checked" : ""} class="b-chk"/><span>${b}</span></label>`
+    ).join("");
+    bLbl.textContent = st.bairros.size ? Array.from(st.bairros).join(", ") : "Todos os bairros (121)";
+  }
+  rBairros();
+  bList.addEventListener("change", e => {
+    if (e.target.classList.contains("b-chk")) {
+      e.target.checked ? st.bairros.add(e.target.value) : st.bairros.delete(e.target.value);
+      bLbl.textContent = st.bairros.size ? Array.from(st.bairros).join(", ") : "Todos os bairros (121)";
+    }
+  });
+  $(p + "_bairros_q").addEventListener("input", e => rBairros(e.target.value));
+  $(p + "_bairros_clr").addEventListener("click", () => { st.bairros.clear(); rBairros($(p + "_bairros_q").value); });
+
+  // Details dropdown
+  const dList = $(p + "_details_list"), dLbl = $(p + "_details_lbl");
+  function rDetails() {
+    dList.innerHTML = DETAILS.map(d =>
+      `<label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="${d}" ${st.details.has(d) ? "checked" : ""} class="d-chk"/><span>${d}</span></label>`
+    ).join("");
+    dLbl.textContent = st.details.size ? Array.from(st.details).join(", ") : "Qualquer detalhe";
+  }
+  rDetails();
+  dList.addEventListener("change", e => {
+    if (e.target.classList.contains("d-chk")) {
+      e.target.checked ? st.details.add(e.target.value) : st.details.delete(e.target.value);
+      dLbl.textContent = st.details.size ? Array.from(st.details).join(", ") : "Qualquer detalhe";
+    }
+  });
+  $(p + "_details_clr").addEventListener("click", () => { st.details.clear(); rDetails(); });
+
+  // CEP Search listener
+  $(p + "_btn_cep").addEventListener("click", () => searchCEP(p));
+  $(p + "_cep").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); searchCEP(p); } });
+
+  // Preset selector
+  $(p + "_ref_preset").addEventListener("change", e => {
+    const pt = e.target.value.split(",");
+    st.lat = Number(pt[0]);
+    st.lng = Number(pt[1]);
+    $(p + "_ref_name").value = pt.slice(2).join(",");
+    $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
+    if (st.map && st.marker) {
+      st.marker.setLatLng([st.lat, st.lng]);
+      st.map.setView([st.lat, st.lng], 14);
+    }
+  });
+
+  // Schedule times
+  const chips = $(p + "_times_chips");
+  function rTimes() {
+    chips.innerHTML = st.times.map((t, i) =>
+      `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ ${t} <button type="button" data-rm="${i}" class="text-rose-300 font-bold">&times;</button></span>`
+    ).join("");
+  }
+  rTimes();
+  chips.addEventListener("click", e => {
+    const rm = e.target.getAttribute("data-rm");
+    if (rm !== null) { st.times.splice(Number(rm), 1); rTimes(); }
+  });
+  $(p + "_add_time").addEventListener("click", () => {
+    const v = $(p + "_new_time").value;
+    if (v && !st.times.includes(v)) { st.times.push(v); st.times.sort(); rTimes(); }
+  });
+
+  function syncM() {
+    const m = (document.querySelector(`input[name="${p}_sched_mode"]:checked`) || {}).value || "fixed";
+    $(p + "_sched_fixed_box").classList.toggle("hidden", m !== "fixed");
+    $(p + "_sched_freq_box").classList.toggle("hidden", m === "fixed");
+    $(p + "_sched_freq_box").classList.toggle("flex", m !== "fixed");
+  }
+  document.querySelectorAll(`input[name="${p}_sched_mode"]`).forEach(r => r.addEventListener("change", syncM));
+  syncM();
+
+  $(p + "_clear_all").addEventListener("click", () => {
+    $(p + "Form").reset();
+    st.bairros.clear(); st.details.clear();
+    st.lat = -3.7351; st.lng = -38.4969;
+    $(p + "_ref_coords").value = "-3.7351, -38.4969";
+    $(p + "_ref_name").value = "Edf. Etevaldo Nogueira (Dom Luís 807)";
+    rBairros(); rDetails(); syncM();
+    try { localStorage.removeItem(sKey); } catch(e) {}
+  });
+
+  $(p + "Form").addEventListener("submit", e => {
+    e.preventDefault();
+    const cfg = {
+      type: $(p + "_type").value,
+      bairros: Array.from(st.bairros),
+      minVal: $(p + "_min_val").value,
+      maxVal: $(p + "_max_val").value,
+      condo: $(p + "_condo").value,
+      iptu: $(p + "_iptu").value,
+      rooms: $(p + "_rooms").value,
+      minArea: $(p + "_min_area").value,
+      maxArea: $(p + "_max_area").value,
+      details: Array.from(st.details),
+      refName: $(p + "_ref_name").value,
+      lat: st.lat, lng: st.lng,
+      maxDrive: $(p + "_max_drive").value,
+      schedMode: (document.querySelector(`input[name="${p}_sched_mode"]:checked`) || {}).value || "fixed",
+      times: st.times,
+      freqX: $(p + "_freq_x").value
+    };
+    try { localStorage.setItem(sKey, JSON.stringify(cfg)); } catch(err) {}
+    const qs = new URLSearchParams();
+    if (cfg.type && cfg.type !== "ALL") qs.set("type", cfg.type);
+    if (cfg.bairros.length) qs.set("bairros", cfg.bairros.join(","));
+    ["minVal","maxVal","condo","iptu","rooms","minArea","maxArea","refName","maxDrive","schedMode","freqX"].forEach(k => {
+      if (cfg[k]) qs.set(k, cfg[k]);
+    });
+    if (cfg.details.length) qs.set("details", cfg.details.join(","));
+    qs.set("lat", String(cfg.lat));
+    qs.set("lng", String(cfg.lng));
+    if (cfg.times.length) qs.set("times", cfg.times.join(","));
+    window.location.href = targetUrl + "?" + qs.toString();
+  });
+}
+
+// Initialize Leaflet with Google Maps tile layer
+function initRefMaps() {
+  if (typeof window.L === "undefined") return;
+  ["rent", "buy"].forEach(p => {
+    const st = state[p];
+    if (st.map) return;
+    st.map = window.L.map(p + "_map", { center: [st.lat, st.lng], zoom: 13 });
+    
+    // Google Maps Roadmap tiles
+    window.L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+      maxZoom: 20,
+      subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      attribution: "&copy; Google Maps"
+    }).addTo(st.map);
+
+    const pinIcon = window.L.divIcon({
+      className: "custom-ref-pin",
+      html: `<div style="background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:99px;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.3);white-space:nowrap;cursor:grab;">📍 Ponto Ref.</div>`,
+      iconSize: [100, 24], iconAnchor: [50, 12]
+    });
+
+    st.marker = window.L.marker([st.lat, st.lng], { draggable: true, icon: pinIcon }).addTo(st.map);
+
+    st.map.on("click", e => {
+      st.lat = e.latlng.lat;
+      st.lng = e.latlng.lng;
+      st.marker.setLatLng([st.lat, st.lng]);
+      $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
+      $(p + "_ref_name").value = "Ponto Selecionado no Google Maps";
+      $(p + "_cep_status").innerHTML = `<span class="text-sky-700 font-bold">📍 Ponto marcado no Google Maps (${st.lat.toFixed(4)}, ${st.lng.toFixed(4)})</span>`;
+    });
+
+    st.marker.on("dragend", () => {
+      const pos = st.marker.getLatLng();
+      st.lat = pos.lat;
+      st.lng = pos.lng;
+      $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
+      $(p + "_ref_name").value = "Ponto Selecionado no Google Maps";
+      $(p + "_cep_status").innerHTML = `<span class="text-sky-700 font-bold">📍 Ponto arrastado no Google Maps (${st.lat.toFixed(4)}, ${st.lng.toFixed(4)})</span>`;
+    });
+  });
+}
+
+setupBlock("rent", "aluguel/index.html", "fortaleza_search_rent_cfg");
+setupBlock("buy", "compra/index.html", "fortaleza_search_buy_cfg");
+syncConsultationBadge();
+
+$("rent_bairros_btn").addEventListener("click", e => { e.stopPropagation(); $("rent_bairros_dd").classList.toggle("open"); });
+$("rent_details_btn").addEventListener("click", e => { e.stopPropagation(); $("rent_details_dd").classList.toggle("open"); });
+$("buy_bairros_btn").addEventListener("click", e => { e.stopPropagation(); $("buy_bairros_dd").classList.toggle("open"); });
+$("buy_details_btn").addEventListener("click", e => { e.stopPropagation(); $("buy_details_dd").classList.toggle("open"); });
+
+document.addEventListener("click", e => {
+  ["rent_bairros_dd","rent_details_dd","buy_bairros_dd","buy_details_dd"].forEach(id => {
+    const d = $(id);
+    if (d && !d.contains(e.target)) d.classList.remove("open");
+  });
+});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try{initRefMaps();}catch(e){}"></script>
 </body>
