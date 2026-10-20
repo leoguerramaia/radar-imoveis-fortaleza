@@ -1,10 +1,12 @@
-<html lang="pt-BR"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Buscador de Imóveis Fortaleza — Aluguel e Compra</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>
 body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 .lbl{display:block;font-size:11px;font-weight:700;color:#334155;margin-bottom:3px}
@@ -26,7 +28,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase text-[10px]">Consulta Automática</span>
           </span>
-          <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">18/10/2026 às 06:13</strong></span>
+          <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">16/10/2026 às 06:00</strong></span>
           <span class="text-slate-500 hidden sm:inline">•</span>
           <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-[11px] shadow-sm">+7 novos imóveis adicionados</span>
         </div>
@@ -35,8 +37,9 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <p class="text-xs text-slate-300">Configure os filtros para <strong>Aluguel</strong> ou <strong>Compra</strong>, defina o ponto de referência no Google Maps (por CEP ou clique no mapa) e horários de busca.</p>
     </div>
     <div class="flex gap-2">
-      <a href="aluguel/index.html" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">🏠 Painel Aluguel (26)</a>
-      <a href="compra/index.html" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow transition">🔑 Painel Compra (14)</a>
+      <a href="https://leoguerramaia.github.io/aluguel/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">🏠 Painel Aluguel (22)</a>
+      <a href="https://leoguerramaia.github.io/compra/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow transition">🔑 Painel Compra (14)</a>
+      <a href="https://leoguerramaia.github.io/veiculos/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition">🚗 Painel Veículos (18)</a>
     </div>
   </div>
 </header>
@@ -51,7 +54,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">🏠 BLOCO 1 • LOCAÇÃO</span>
       <h2 class="text-lg font-extrabold mt-0.5">Aluguel de Imóveis</h2>
     </div>
-    <a href="aluguel/index.html" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Abrir Painel →</a>
+    <a href="https://leoguerramaia.github.io/aluguel/" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Abrir Painel &rarr;</a>
   </div>
 
   <form id="rentForm" class="p-4 space-y-3 flex-1">
@@ -59,7 +62,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div>
         <label class="lbl">1. Tipo de Imóvel</label>
         <select id="rent_type" class="inp">
-          <option value="ALL" selected="">Todos (Casa, Condomínio, Apto)</option>
+          <option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option>
           <option value="Apartamento">Apartamento</option>
           <option value="Casa em Condomínio">Casa de Condomínio</option>
           <option value="Casa">Casa</option>
@@ -68,29 +71,29 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div class="relative">
         <label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label>
         <button type="button" id="rent_bairros_btn" class="inp text-left flex justify-between items-center">
-          <span id="rent_bairros_lbl" class="truncate">Todos os bairros (121)</span><span>▾</span>
+          <span id="rent_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span>
         </button>
         <div id="rent_bairros_dd" class="dd-menu">
           <div class="p-2 border-b bg-slate-50 flex gap-1">
-            <input type="text" id="rent_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded">
+            <input type="text" id="rent_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" />
             <button type="button" id="rent_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button>
           </div>
-          <div id="rent_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aerolândia" class="b-chk"><span>Aerolândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aeroporto" class="b-chk"><span>Aeroporto</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aldeota" class="b-chk"><span>Aldeota</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Alagadiço Novo" class="b-chk"><span>Alagadiço Novo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Alto da Balança" class="b-chk"><span>Alto da Balança</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Álvaro Weyne" class="b-chk"><span>Álvaro Weyne</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Amadeu Furtado" class="b-chk"><span>Amadeu Furtado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Ancuri" class="b-chk"><span>Ancuri</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Antônio Bezerra" class="b-chk"><span>Antônio Bezerra</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aracapé" class="b-chk"><span>Aracapé</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Autran Nunes" class="b-chk"><span>Autran Nunes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Barra do Ceará" class="b-chk"><span>Barra do Ceará</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Barroso" class="b-chk"><span>Barroso</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bela Vista" class="b-chk"><span>Bela Vista</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Benfica" class="b-chk"><span>Benfica</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bom Futuro" class="b-chk"><span>Bom Futuro</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bom Jardim" class="b-chk"><span>Bom Jardim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bonsucesso" class="b-chk"><span>Bonsucesso</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cais do Porto" class="b-chk"><span>Cais do Porto</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cajazeiras" class="b-chk"><span>Cajazeiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cambeba" class="b-chk"><span>Cambeba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Canindezinho" class="b-chk"><span>Canindezinho</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Carlito Pamplona" class="b-chk"><span>Carlito Pamplona</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Castelão" class="b-chk"><span>Castelão</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Centro" class="b-chk"><span>Centro</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cidade 2000" class="b-chk"><span>Cidade 2000</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cidade dos Funcionários" class="b-chk"><span>Cidade dos Funcionários</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Coaçu" class="b-chk"><span>Coaçu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cocó" class="b-chk"><span>Cocó</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Ceará I" class="b-chk"><span>Conjunto Ceará I</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Ceará II" class="b-chk"><span>Conjunto Ceará II</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Esperança" class="b-chk"><span>Conjunto Esperança</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Palmeiras" class="b-chk"><span>Conjunto Palmeiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Couto Fernandes" class="b-chk"><span>Couto Fernandes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cristo Redentor" class="b-chk"><span>Cristo Redentor</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Curió" class="b-chk"><span>Curió</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Damas" class="b-chk"><span>Damas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="De Lourdes" class="b-chk"><span>De Lourdes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Demócrito Rocha" class="b-chk"><span>Demócrito Rocha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dendê" class="b-chk"><span>Dendê</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dias Macedo" class="b-chk"><span>Dias Macedo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dionísio Torres" class="b-chk"><span>Dionísio Torres</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dom Lustosa" class="b-chk"><span>Dom Lustosa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Edson Queiroz" class="b-chk"><span>Edson Queiroz</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Ellery" class="b-chk"><span>Ellery</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Engenheiro Luciano Cavalcante" class="b-chk"><span>Engenheiro Luciano Cavalcante</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Farias Brito" class="b-chk"><span>Farias Brito</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Fátima" class="b-chk"><span>Fátima</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Floresta" class="b-chk"><span>Floresta</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Genibaú" class="b-chk"><span>Genibaú</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Gentilândia" class="b-chk"><span>Gentilândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Granja Lisboa" class="b-chk"><span>Granja Lisboa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Granja Portugal" class="b-chk"><span>Granja Portugal</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Guajeru" class="b-chk"><span>Guajeru</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Guararapes" class="b-chk"><span>Guararapes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Henrique Jorge" class="b-chk"><span>Henrique Jorge</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Itaoca" class="b-chk"><span>Itaoca</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Itaperi" class="b-chk"><span>Itaperi</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jacarecanga" class="b-chk"><span>Jacarecanga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jangurussu" class="b-chk"><span>Jangurussu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim América" class="b-chk"><span>Jardim América</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Cearense" class="b-chk"><span>Jardim Cearense</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim das Oliveiras" class="b-chk"><span>Jardim das Oliveiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Guanabara" class="b-chk"><span>Jardim Guanabara</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Iracema" class="b-chk"><span>Jardim Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="João XXIII" class="b-chk"><span>João XXIII</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Joaquim Távora" class="b-chk"><span>Joaquim Távora</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jóquei Clube" class="b-chk"><span>Jóquei Clube</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="José Bonifácio" class="b-chk"><span>José Bonifácio</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="José de Alencar" class="b-chk"><span>José de Alencar</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Lagoa Redonda" class="b-chk"><span>Lagoa Redonda</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Manuel Dias Branco" class="b-chk"><span>Manuel Dias Branco</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Maraponga" class="b-chk"><span>Maraponga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mata Galinha" class="b-chk"><span>Mata Galinha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Meireles" class="b-chk"><span>Meireles</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Messejana" class="b-chk"><span>Messejana</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mondubim" class="b-chk"><span>Mondubim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Monte Castelo" class="b-chk"><span>Monte Castelo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Montese" class="b-chk"><span>Montese</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Moura Brasil" class="b-chk"><span>Moura Brasil</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mucuripe" class="b-chk"><span>Mucuripe</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Novo Mondubim" class="b-chk"><span>Novo Mondubim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Olavo Oliveira" class="b-chk"><span>Olavo Oliveira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Padre Andrade" class="b-chk"><span>Padre Andrade</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Panamericano" class="b-chk"><span>Panamericano</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Paupina" class="b-chk"><span>Paupina</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Papicu" class="b-chk"><span>Papicu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parangaba" class="b-chk"><span>Parangaba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Araxá" class="b-chk"><span>Parque Araxá</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Dois Irmãos" class="b-chk"><span>Parque Dois Irmãos</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Iracema" class="b-chk"><span>Parque Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Manibura" class="b-chk"><span>Parque Manibura</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Presidente Vargas" class="b-chk"><span>Parque Presidente Vargas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Santa Maria" class="b-chk"><span>Parque Santa Maria</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Santa Rosa" class="b-chk"><span>Parque Santa Rosa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque São José" class="b-chk"><span>Parque São José</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parquelândia" class="b-chk"><span>Parquelândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parreão" class="b-chk"><span>Parreão</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Passaré" class="b-chk"><span>Passaré</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pedras" class="b-chk"><span>Pedras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pici" class="b-chk"><span>Pici</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pirambu" class="b-chk"><span>Pirambu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Planalto Ayrton Senna" class="b-chk"><span>Planalto Ayrton Senna</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia de Iracema" class="b-chk"><span>Praia de Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia do Futuro I" class="b-chk"><span>Praia do Futuro I</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia do Futuro II" class="b-chk"><span>Praia do Futuro II</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Prefeito José Walter" class="b-chk"><span>Prefeito José Walter</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Presidente Kennedy" class="b-chk"><span>Presidente Kennedy</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Presidente Tancredo Neves" class="b-chk"><span>Presidente Tancredo Neves</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Quintino Cunha" class="b-chk"><span>Quintino Cunha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Rodolfo Teófilo" class="b-chk"><span>Rodolfo Teófilo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sabiaguaba" class="b-chk"><span>Sabiaguaba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Salinas" class="b-chk"><span>Salinas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Santa Filomena" class="b-chk"><span>Santa Filomena</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="São Gerardo" class="b-chk"><span>São Gerardo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="São João do Tauape" class="b-chk"><span>São João do Tauape</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sapiranga" class="b-chk"><span>Sapiranga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Serrinha" class="b-chk"><span>Serrinha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Siqueira" class="b-chk"><span>Siqueira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Tauape" class="b-chk"><span>Tauape</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varjota" class="b-chk"><span>Varjota</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vicente Pinzón" class="b-chk"><span>Vicente Pinzón</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Ellery" class="b-chk"><span>Vila Ellery</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Peri" class="b-chk"><span>Vila Peri</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila União" class="b-chk"><span>Vila União</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Velha" class="b-chk"><span>Vila Velha</span></label></div>
+          <div id="rent_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div>
         </div>
       </div>
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-      <div><label class="lbl">3. Valor Mín. Aluguel</label><input type="number" id="rent_min_val" placeholder="R$ 1200" class="inp"></div>
-      <div><label class="lbl">4. Valor Máx. Aluguel</label><input type="number" id="rent_max_val" placeholder="R$ 3500" class="inp"></div>
-      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="rent_condo" placeholder="R$ 1000" class="inp"></div>
-      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="rent_iptu" placeholder="R$ 200" class="inp"></div>
+      <div><label class="lbl">3. Valor Mín. Aluguel</label><input type="number" id="rent_min_val" placeholder="R$ 1200" class="inp" /></div>
+      <div><label class="lbl">4. Valor Máx. Aluguel</label><input type="number" id="rent_max_val" placeholder="R$ 3500" class="inp" /></div>
+      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="rent_condo" placeholder="R$ 1000" class="inp" /></div>
+      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="rent_iptu" placeholder="R$ 200" class="inp" /></div>
     </div>
 
     <div class="grid grid-cols-3 gap-2">
-      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="rent_rooms" placeholder="Ex: 3" class="inp"></div>
-      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="rent_min_area" placeholder="Ex: 70" class="inp"></div>
-      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="rent_max_area" placeholder="Ex: 250" class="inp"></div>
+      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="rent_rooms" placeholder="Ex: 3" class="inp" /></div>
+      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="rent_min_area" placeholder="Ex: 70" class="inp" /></div>
+      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="rent_max_area" placeholder="Ex: 250" class="inp" /></div>
     </div>
 
     <div class="relative">
@@ -103,7 +106,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[11px] font-bold text-slate-500">Selecione:</span>
           <button type="button" id="rent_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button>
         </div>
-        <div id="rent_details_list" class="grid grid-cols-2 gap-1 text-xs"><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Nascente" class="d-chk"><span>Nascente</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varanda" class="d-chk"><span>Varanda</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varanda Gourmet" class="d-chk"><span>Varanda Gourmet</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Móveis Projetados" class="d-chk"><span>Móveis Projetados</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mobiliado" class="d-chk"><span>Mobiliado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Piscina" class="d-chk"><span>Piscina</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Churrasqueira" class="d-chk"><span>Churrasqueira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Academia" class="d-chk"><span>Academia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Salão de Festas" class="d-chk"><span>Salão de Festas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Portaria 24h" class="d-chk"><span>Portaria 24h</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Elevador" class="d-chk"><span>Elevador</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aceita Pet" class="d-chk"><span>Aceita Pet</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dependência Completa" class="d-chk"><span>Dependência Completa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Quintal" class="d-chk"><span>Quintal</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="2 Vagas" class="d-chk"><span>2 Vagas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Condomínio Fechado" class="d-chk"><span>Condomínio Fechado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sem Condomínio" class="d-chk"><span>Sem Condomínio</span></label></div>
+        <div id="rent_details_list" class="grid grid-cols-2 gap-1 text-xs"></div>
       </div>
     </div>
 
@@ -121,7 +124,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[10px] text-slate-400">Busca automática via ViaCEP</span>
         </div>
         <div class="flex gap-1.5">
-          <input type="text" id="rent_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold">
+          <input type="text" id="rent_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold" />
           <button type="button" id="rent_btn_cep" class="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shrink-0 cursor-pointer">Buscar CEP</button>
         </div>
         <div id="rent_cep_status" class="text-[11px] text-slate-600 flex items-center gap-1">
@@ -133,10 +136,10 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold text-slate-600">Ou Atalhos de Referência:</span>
         <select id="rent_ref_preset" class="text-[11px] border rounded-lg px-2 py-1 bg-white font-semibold">
-          <option value="-3.7351,-38.4969,Edifício Etevaldo Nogueira Business - Av. Dom Luís, 807 - Meireles, Fortaleza - CE">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
-          <option value="-3.7412,-38.4718,RioMar Fortaleza - R. Des. Lauro Nogueira, 1500 - Papicu, Fortaleza - CE">📍 Shopping RioMar Papicu</option>
-          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque - Av. Washington Soares, 85 - Edson Queiroz, Fortaleza - CE">📍 Shopping Iguatemi Bosque</option>
-          <option value="-3.7258,-38.4982,Av. Beira Mar - Meireles, Fortaleza - CE">📍 Av. Beira Mar (Meireles)</option>
+          <option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
+          <option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option>
+          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option>
+          <option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option>
         </select>
       </div>
 
@@ -146,13 +149,13 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1"><span>🗺️</span> Forma 2: Selecionando no Google Maps (Clique ou arraste o pino)</span>
           <span class="text-[10px] text-emerald-700 font-bold">Google Maps</span>
         </div>
-        <div id="rent_map" class="ref-map leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(47px, 646px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 20; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://mt3.google.com/vt/lyrs=m&amp;x=3219&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -182px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3220&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -182px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=3219&amp;y=4178&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -694px, 0px); opacity: 1;"><img alt="" src="https://mt2.google.com/vt/lyrs=m&amp;x=3220&amp;y=4178&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -694px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon custom-ref-pin leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable" tabindex="0" role="button" style="margin-left: -50px; margin-top: -12px; width: 100px; height: 24px; transform: translate3d(195px, 88px, 0px); z-index: 88;"><div style="background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:99px;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.3);white-space:nowrap;cursor:grab;">📍 Ponto Ref.</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(824268px, 1069703.5px, 0px) scale(4096);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © Google Maps</div></div></div></div>
+        <div id="rent_map" class="ref-map"></div>
       </div>
 
       <div class="grid grid-cols-3 gap-2">
-        <div><label class="lbl">Local / Endereço</label><input type="text" id="rent_ref_name" value="Edifício Etevaldo Nogueira Business - Av. Dom Luís, 807 - Meireles, Fortaleza - CE" class="inp !py-1 text-xs"></div>
-        <div><label class="lbl">Coordenadas</label><input type="text" id="rent_ref_coords" value="-3.7351, -38.4969" readonly="" class="inp !py-1 text-xs bg-slate-100 font-mono"></div>
-        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="rent_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs"></div>
+        <div><label class="lbl">Local / Endereço</label><input type="text" id="rent_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
+        <div><label class="lbl">Coordenadas</label><input type="text" id="rent_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
+        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="rent_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
       </div>
     </div>
 
@@ -160,24 +163,24 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-200 space-y-1.5">
       <label class="lbl !mb-0">13. Horário de Busca Automática</label>
       <div class="flex gap-4 text-xs font-semibold">
-        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="fixed" checked=""> Horários fixos</label>
-        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="freq"> Atualizar "X" vezes/dia</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="fixed" checked /> Horários fixos</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="rent_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
       </div>
       <div id="rent_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
-        <div id="rent_times_chips" class="flex flex-wrap gap-1"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 06:00 <button type="button" data-rm="0" class="text-rose-300 font-bold">×</button></span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 14:00 <button type="button" data-rm="1" class="text-rose-300 font-bold">×</button></span></div>
-        <input type="time" id="rent_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white">
+        <div id="rent_times_chips" class="flex flex-wrap gap-1"></div>
+        <input type="time" id="rent_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" />
         <button type="button" id="rent_add_time" class="px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-bold cursor-pointer">+ Horário</button>
       </div>
       <div id="rent_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
         <span>Atualizar</span>
-        <input type="number" id="rent_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white">
+        <input type="number" id="rent_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" />
         <span>vezes por dia</span>
       </div>
     </div>
 
     <div class="flex gap-2 pt-1">
       <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm shadow transition cursor-pointer">
-        🔍 Gerar Busca de Aluguel de Imóveis →
+        🔍 Gerar Busca de Aluguel de Imóveis &rarr;
       </button>
       <button type="button" id="rent_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold cursor-pointer">Limpar</button>
     </div>
@@ -191,7 +194,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <span class="px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[11px] font-bold">🔑 BLOCO 2 • COMPRA</span>
       <h2 class="text-lg font-extrabold mt-0.5">Compra de Imóveis</h2>
     </div>
-    <a href="compra/index.html" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">Abrir Painel →</a>
+    <a href="https://leoguerramaia.github.io/compra/" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">Abrir Painel &rarr;</a>
   </div>
 
   <form id="buyForm" class="p-4 space-y-3 flex-1">
@@ -199,7 +202,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div>
         <label class="lbl">1. Tipo de Imóvel</label>
         <select id="buy_type" class="inp">
-          <option value="ALL" selected="">Todos (Casa, Condomínio, Apto)</option>
+          <option value="ALL" selected>Todos (Casa, Condomínio, Apto)</option>
           <option value="Apartamento">Apartamento</option>
           <option value="Casa em Condomínio">Casa de Condomínio</option>
           <option value="Casa">Casa</option>
@@ -208,29 +211,29 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div class="relative">
         <label class="lbl">2. Bairro (121 Bairros - Múltiplos)</label>
         <button type="button" id="buy_bairros_btn" class="inp text-left flex justify-between items-center">
-          <span id="buy_bairros_lbl" class="truncate">Todos os bairros (121)</span><span>▾</span>
+          <span id="buy_bairros_lbl" class="truncate">Todos os bairros</span><span>▾</span>
         </button>
         <div id="buy_bairros_dd" class="dd-menu">
           <div class="p-2 border-b bg-slate-50 flex gap-1">
-            <input type="text" id="buy_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded">
+            <input type="text" id="buy_bairros_q" placeholder="Filtrar bairro..." class="w-full text-xs p-1 border rounded" />
             <button type="button" id="buy_bairros_clr" class="text-[10px] px-2 bg-slate-200 rounded font-bold">Limpar</button>
           </div>
-          <div id="buy_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aerolândia" class="b-chk"><span>Aerolândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aeroporto" class="b-chk"><span>Aeroporto</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aldeota" class="b-chk"><span>Aldeota</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Alagadiço Novo" class="b-chk"><span>Alagadiço Novo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Alto da Balança" class="b-chk"><span>Alto da Balança</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Álvaro Weyne" class="b-chk"><span>Álvaro Weyne</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Amadeu Furtado" class="b-chk"><span>Amadeu Furtado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Ancuri" class="b-chk"><span>Ancuri</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Antônio Bezerra" class="b-chk"><span>Antônio Bezerra</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aracapé" class="b-chk"><span>Aracapé</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Autran Nunes" class="b-chk"><span>Autran Nunes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Barra do Ceará" class="b-chk"><span>Barra do Ceará</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Barroso" class="b-chk"><span>Barroso</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bela Vista" class="b-chk"><span>Bela Vista</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Benfica" class="b-chk"><span>Benfica</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bom Futuro" class="b-chk"><span>Bom Futuro</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bom Jardim" class="b-chk"><span>Bom Jardim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Bonsucesso" class="b-chk"><span>Bonsucesso</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cais do Porto" class="b-chk"><span>Cais do Porto</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cajazeiras" class="b-chk"><span>Cajazeiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cambeba" class="b-chk"><span>Cambeba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Canindezinho" class="b-chk"><span>Canindezinho</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Carlito Pamplona" class="b-chk"><span>Carlito Pamplona</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Castelão" class="b-chk"><span>Castelão</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Centro" class="b-chk"><span>Centro</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cidade 2000" class="b-chk"><span>Cidade 2000</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cidade dos Funcionários" class="b-chk"><span>Cidade dos Funcionários</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Coaçu" class="b-chk"><span>Coaçu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cocó" class="b-chk"><span>Cocó</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Ceará I" class="b-chk"><span>Conjunto Ceará I</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Ceará II" class="b-chk"><span>Conjunto Ceará II</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Esperança" class="b-chk"><span>Conjunto Esperança</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Conjunto Palmeiras" class="b-chk"><span>Conjunto Palmeiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Couto Fernandes" class="b-chk"><span>Couto Fernandes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Cristo Redentor" class="b-chk"><span>Cristo Redentor</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Curió" class="b-chk"><span>Curió</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Damas" class="b-chk"><span>Damas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="De Lourdes" class="b-chk"><span>De Lourdes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Demócrito Rocha" class="b-chk"><span>Demócrito Rocha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dendê" class="b-chk"><span>Dendê</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dias Macedo" class="b-chk"><span>Dias Macedo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dionísio Torres" class="b-chk"><span>Dionísio Torres</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dom Lustosa" class="b-chk"><span>Dom Lustosa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Edson Queiroz" class="b-chk"><span>Edson Queiroz</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Ellery" class="b-chk"><span>Ellery</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Engenheiro Luciano Cavalcante" class="b-chk"><span>Engenheiro Luciano Cavalcante</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Farias Brito" class="b-chk"><span>Farias Brito</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Fátima" class="b-chk"><span>Fátima</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Floresta" class="b-chk"><span>Floresta</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Genibaú" class="b-chk"><span>Genibaú</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Gentilândia" class="b-chk"><span>Gentilândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Granja Lisboa" class="b-chk"><span>Granja Lisboa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Granja Portugal" class="b-chk"><span>Granja Portugal</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Guajeru" class="b-chk"><span>Guajeru</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Guararapes" class="b-chk"><span>Guararapes</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Henrique Jorge" class="b-chk"><span>Henrique Jorge</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Itaoca" class="b-chk"><span>Itaoca</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Itaperi" class="b-chk"><span>Itaperi</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jacarecanga" class="b-chk"><span>Jacarecanga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jangurussu" class="b-chk"><span>Jangurussu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim América" class="b-chk"><span>Jardim América</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Cearense" class="b-chk"><span>Jardim Cearense</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim das Oliveiras" class="b-chk"><span>Jardim das Oliveiras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Guanabara" class="b-chk"><span>Jardim Guanabara</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jardim Iracema" class="b-chk"><span>Jardim Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="João XXIII" class="b-chk"><span>João XXIII</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Joaquim Távora" class="b-chk"><span>Joaquim Távora</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Jóquei Clube" class="b-chk"><span>Jóquei Clube</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="José Bonifácio" class="b-chk"><span>José Bonifácio</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="José de Alencar" class="b-chk"><span>José de Alencar</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Lagoa Redonda" class="b-chk"><span>Lagoa Redonda</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Manuel Dias Branco" class="b-chk"><span>Manuel Dias Branco</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Maraponga" class="b-chk"><span>Maraponga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mata Galinha" class="b-chk"><span>Mata Galinha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Meireles" class="b-chk"><span>Meireles</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Messejana" class="b-chk"><span>Messejana</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mondubim" class="b-chk"><span>Mondubim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Monte Castelo" class="b-chk"><span>Monte Castelo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Montese" class="b-chk"><span>Montese</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Moura Brasil" class="b-chk"><span>Moura Brasil</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mucuripe" class="b-chk"><span>Mucuripe</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Novo Mondubim" class="b-chk"><span>Novo Mondubim</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Olavo Oliveira" class="b-chk"><span>Olavo Oliveira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Padre Andrade" class="b-chk"><span>Padre Andrade</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Panamericano" class="b-chk"><span>Panamericano</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Paupina" class="b-chk"><span>Paupina</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Papicu" class="b-chk"><span>Papicu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parangaba" class="b-chk"><span>Parangaba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Araxá" class="b-chk"><span>Parque Araxá</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Dois Irmãos" class="b-chk"><span>Parque Dois Irmãos</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Iracema" class="b-chk"><span>Parque Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Manibura" class="b-chk"><span>Parque Manibura</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Presidente Vargas" class="b-chk"><span>Parque Presidente Vargas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Santa Maria" class="b-chk"><span>Parque Santa Maria</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque Santa Rosa" class="b-chk"><span>Parque Santa Rosa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parque São José" class="b-chk"><span>Parque São José</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parquelândia" class="b-chk"><span>Parquelândia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Parreão" class="b-chk"><span>Parreão</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Passaré" class="b-chk"><span>Passaré</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pedras" class="b-chk"><span>Pedras</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pici" class="b-chk"><span>Pici</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Pirambu" class="b-chk"><span>Pirambu</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Planalto Ayrton Senna" class="b-chk"><span>Planalto Ayrton Senna</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia de Iracema" class="b-chk"><span>Praia de Iracema</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia do Futuro I" class="b-chk"><span>Praia do Futuro I</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Praia do Futuro II" class="b-chk"><span>Praia do Futuro II</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Prefeito José Walter" class="b-chk"><span>Prefeito José Walter</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Presidente Kennedy" class="b-chk"><span>Presidente Kennedy</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Presidente Tancredo Neves" class="b-chk"><span>Presidente Tancredo Neves</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Quintino Cunha" class="b-chk"><span>Quintino Cunha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Rodolfo Teófilo" class="b-chk"><span>Rodolfo Teófilo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sabiaguaba" class="b-chk"><span>Sabiaguaba</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Salinas" class="b-chk"><span>Salinas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Santa Filomena" class="b-chk"><span>Santa Filomena</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="São Gerardo" class="b-chk"><span>São Gerardo</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="São João do Tauape" class="b-chk"><span>São João do Tauape</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sapiranga" class="b-chk"><span>Sapiranga</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Serrinha" class="b-chk"><span>Serrinha</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Siqueira" class="b-chk"><span>Siqueira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Tauape" class="b-chk"><span>Tauape</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varjota" class="b-chk"><span>Varjota</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vicente Pinzón" class="b-chk"><span>Vicente Pinzón</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Ellery" class="b-chk"><span>Vila Ellery</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Peri" class="b-chk"><span>Vila Peri</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila União" class="b-chk"><span>Vila União</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Vila Velha" class="b-chk"><span>Vila Velha</span></label></div>
+          <div id="buy_bairros_list" class="p-2 max-h-44 overflow-y-auto space-y-1 text-xs"></div>
         </div>
       </div>
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-      <div><label class="lbl">3. Valor Mín. Compra</label><input type="number" id="buy_min_val" placeholder="R$ 250000" class="inp"></div>
-      <div><label class="lbl">4. Valor Máx. Compra</label><input type="number" id="buy_max_val" placeholder="R$ 950000" class="inp"></div>
-      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="buy_condo" placeholder="R$ 1000" class="inp"></div>
-      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="buy_iptu" placeholder="R$ 200" class="inp"></div>
+      <div><label class="lbl">3. Valor Mín. Compra</label><input type="number" id="buy_min_val" placeholder="R$ 250000" class="inp" /></div>
+      <div><label class="lbl">4. Valor Máx. Compra</label><input type="number" id="buy_max_val" placeholder="R$ 950000" class="inp" /></div>
+      <div><label class="lbl">5. Condomínio Máx.</label><input type="number" id="buy_condo" placeholder="R$ 1000" class="inp" /></div>
+      <div><label class="lbl">6. IPTU Máx. (R$)</label><input type="number" id="buy_iptu" placeholder="R$ 200" class="inp" /></div>
     </div>
 
     <div class="grid grid-cols-3 gap-2">
-      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="buy_rooms" placeholder="Ex: 3" class="inp"></div>
-      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="buy_min_area" placeholder="Ex: 70" class="inp"></div>
-      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="buy_max_area" placeholder="Ex: 250" class="inp"></div>
+      <div><label class="lbl">7. Qtd. Quartos</label><input type="number" id="buy_rooms" placeholder="Ex: 3" class="inp" /></div>
+      <div><label class="lbl">8. Tam. Mín. (m²)</label><input type="number" id="buy_min_area" placeholder="Ex: 70" class="inp" /></div>
+      <div><label class="lbl">9. Tam. Máx. (m²)</label><input type="number" id="buy_max_area" placeholder="Ex: 250" class="inp" /></div>
     </div>
 
     <div class="relative">
@@ -243,7 +246,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[11px] font-bold text-slate-500">Selecione:</span>
           <button type="button" id="buy_details_clr" class="text-[10px] text-rose-600 font-bold">Desmarcar</button>
         </div>
-        <div id="buy_details_list" class="grid grid-cols-2 gap-1 text-xs"><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Nascente" class="d-chk"><span>Nascente</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varanda" class="d-chk"><span>Varanda</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Varanda Gourmet" class="d-chk"><span>Varanda Gourmet</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Móveis Projetados" class="d-chk"><span>Móveis Projetados</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Mobiliado" class="d-chk"><span>Mobiliado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Piscina" class="d-chk"><span>Piscina</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Churrasqueira" class="d-chk"><span>Churrasqueira</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Academia" class="d-chk"><span>Academia</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Salão de Festas" class="d-chk"><span>Salão de Festas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Portaria 24h" class="d-chk"><span>Portaria 24h</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Elevador" class="d-chk"><span>Elevador</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Aceita Pet" class="d-chk"><span>Aceita Pet</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Dependência Completa" class="d-chk"><span>Dependência Completa</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Quintal" class="d-chk"><span>Quintal</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="2 Vagas" class="d-chk"><span>2 Vagas</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Condomínio Fechado" class="d-chk"><span>Condomínio Fechado</span></label><label class="flex items-center gap-1.5 py-0.5 cursor-pointer hover:bg-slate-50 px-1 rounded"><input type="checkbox" value="Sem Condomínio" class="d-chk"><span>Sem Condomínio</span></label></div>
+        <div id="buy_details_list" class="grid grid-cols-2 gap-1 text-xs"></div>
       </div>
     </div>
 
@@ -261,7 +264,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[10px] text-slate-400">Busca automática via ViaCEP</span>
         </div>
         <div class="flex gap-1.5">
-          <input type="text" id="buy_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold">
+          <input type="text" id="buy_cep" placeholder="Ex: 60160-230" maxlength="9" class="inp !py-1 text-xs font-mono font-bold" />
           <button type="button" id="buy_btn_cep" class="px-3 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition shrink-0 cursor-pointer">Buscar CEP</button>
         </div>
         <div id="buy_cep_status" class="text-[11px] text-slate-600 flex items-center gap-1">
@@ -273,10 +276,10 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold text-slate-600">Ou Atalhos de Referência:</span>
         <select id="buy_ref_preset" class="text-[11px] border rounded-lg px-2 py-1 bg-white font-semibold">
-          <option value="-3.7351,-38.4969,Edifício Etevaldo Nogueira Business - Av. Dom Luís, 807 - Meireles, Fortaleza - CE">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
-          <option value="-3.7412,-38.4718,RioMar Fortaleza - R. Des. Lauro Nogueira, 1500 - Papicu, Fortaleza - CE">📍 Shopping RioMar Papicu</option>
-          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque - Av. Washington Soares, 85 - Edson Queiroz, Fortaleza - CE">📍 Shopping Iguatemi Bosque</option>
-          <option value="-3.7258,-38.4982,Av. Beira Mar - Meireles, Fortaleza - CE">📍 Av. Beira Mar (Meireles)</option>
+          <option value="-3.7351,-38.4969,Edf. Etevaldo Nogueira (Dom Luís 807)">📍 Edf. Etevaldo Nogueira (Dom Luís, 807)</option>
+          <option value="-3.7412,-38.4718,Shopping RioMar Papicu">📍 Shopping RioMar Papicu</option>
+          <option value="-3.7562,-38.4892,Shopping Iguatemi Bosque">📍 Shopping Iguatemi Bosque</option>
+          <option value="-3.7258,-38.4982,Av. Beira Mar (Meireles)">📍 Av. Beira Mar (Meireles)</option>
         </select>
       </div>
 
@@ -286,13 +289,13 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1"><span>🗺️</span> Forma 2: Selecionando no Google Maps (Clique ou arraste o pino)</span>
           <span class="text-[10px] text-sky-700 font-bold">Google Maps</span>
         </div>
-        <div id="buy_map" class="ref-map leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(89px, 780px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 20; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://mt3.google.com/vt/lyrs=m&amp;x=3219&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -182px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3220&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -182px, 0px); opacity: 1;"><img alt="" src="https://mt2.google.com/vt/lyrs=m&amp;x=3219&amp;y=4179&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -438px, 0px); opacity: 1;"><img alt="" src="https://mt3.google.com/vt/lyrs=m&amp;x=3220&amp;y=4179&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -438px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3219&amp;y=4177&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -950px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=3219&amp;y=4178&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-56px, -694px, 0px); opacity: 1;"><img alt="" src="https://mt3.google.com/vt/lyrs=m&amp;x=3218&amp;y=4177&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-312px, -950px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=3220&amp;y=4177&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -950px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3218&amp;y=4178&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-312px, -694px, 0px); opacity: 1;"><img alt="" src="https://mt2.google.com/vt/lyrs=m&amp;x=3220&amp;y=4178&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(200px, -694px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon custom-ref-pin leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable" tabindex="0" role="button" style="margin-left: -50px; margin-top: -12px; width: 100px; height: 24px; transform: translate3d(195px, 88px, 0px); z-index: 88;"><div style="background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:99px;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.3);white-space:nowrap;cursor:grab;">📍 Ponto Ref.</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(824226px, 1069569.5px, 0px) scale(4096);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © Google Maps</div></div></div></div>
+        <div id="buy_map" class="ref-map"></div>
       </div>
 
       <div class="grid grid-cols-3 gap-2">
-        <div><label class="lbl">Local / Endereço</label><input type="text" id="buy_ref_name" value="Edifício Etevaldo Nogueira Business - Av. Dom Luís, 807 - Meireles, Fortaleza - CE" class="inp !py-1 text-xs"></div>
-        <div><label class="lbl">Coordenadas</label><input type="text" id="buy_ref_coords" value="-3.7351, -38.4969" readonly="" class="inp !py-1 text-xs bg-slate-100 font-mono"></div>
-        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="buy_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs"></div>
+        <div><label class="lbl">Local / Endereço</label><input type="text" id="buy_ref_name" value="Edf. Etevaldo Nogueira (Dom Luís 807)" class="inp !py-1 text-xs" /></div>
+        <div><label class="lbl">Coordenadas</label><input type="text" id="buy_ref_coords" value="-3.7351, -38.4969" readonly class="inp !py-1 text-xs bg-slate-100 font-mono" /></div>
+        <div><label class="lbl">12. Distância Máx.</label><input type="number" id="buy_max_drive" placeholder="Ex: 20 min" class="inp !py-1 text-xs" /></div>
       </div>
     </div>
 
@@ -300,24 +303,24 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="bg-sky-50/60 p-2.5 rounded-xl border border-sky-200 space-y-1.5">
       <label class="lbl !mb-0">13. Horário de Busca Automática</label>
       <div class="flex gap-4 text-xs font-semibold">
-        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="fixed" checked=""> Horários fixos</label>
-        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="freq"> Atualizar "X" vezes/dia</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="fixed" checked /> Horários fixos</label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="buy_sched_mode" value="freq" /> Atualizar "X" vezes/dia</label>
       </div>
       <div id="buy_sched_fixed_box" class="flex flex-wrap items-center gap-1.5">
-        <div id="buy_times_chips" class="flex flex-wrap gap-1"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 07:00 <button type="button" data-rm="0" class="text-rose-300 font-bold">×</button></span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 19:00 <button type="button" data-rm="1" class="text-rose-300 font-bold">×</button></span></div>
-        <input type="time" id="buy_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white">
+        <div id="buy_times_chips" class="flex flex-wrap gap-1"></div>
+        <input type="time" id="buy_new_time" value="12:00" class="text-xs border rounded px-1.5 py-0.5 bg-white" />
         <button type="button" id="buy_add_time" class="px-2 py-0.5 rounded bg-sky-600 text-white text-xs font-bold cursor-pointer">+ Horário</button>
       </div>
       <div id="buy_sched_freq_box" class="hidden items-center gap-1.5 text-xs">
         <span>Atualizar</span>
-        <input type="number" id="buy_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white">
+        <input type="number" id="buy_freq_x" value="4" min="1" max="24" class="w-14 border rounded px-1.5 py-0.5 font-bold text-center bg-white" />
         <span>vezes por dia</span>
       </div>
     </div>
 
     <div class="flex gap-2 pt-1">
       <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm shadow transition cursor-pointer">
-        🔍 Gerar Busca de Compra de Imóveis →
+        🔍 Gerar Busca de Compra de Imóveis &rarr;
       </button>
       <button type="button" id="buy_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold cursor-pointer">Limpar</button>
     </div>
@@ -325,6 +328,128 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 </section>
 
 </div>
+
+<!-- ================= BLOCO 3: BUSCA DE VEÍCULOS (FORTALEZA/CE & TERESINA/PI) ================= -->
+<section class="mt-6 bg-white rounded-2xl shadow border-2 border-amber-500/40 overflow-hidden flex flex-col justify-between">
+  <div class="bg-slate-900 text-white p-4 flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-bold">🚗 BLOCO 3 • VEÍCULOS (TERESINA/PI &amp; FORTALEZA/CE)</span>
+        <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">📊 Planilha de Atualização Diária</span>
+      </div>
+      <h2 class="text-lg font-extrabold mt-0.5">Busca de Veículos (OLX, Webmotors, Mobiauto, Localiza, Jelta)</h2>
+      <p class="text-xs text-slate-300">Pré-definidos da planilha diária: <strong>Câmbio Automático • 4 portas • Ano Mínimo 2022 • KM Máximo 40.000 • Valor Máximo R$ 100 mil</strong></p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <a href="https://docs.google.com/spreadsheets/d/1-7I96TOnlGdCgqb7DOf1w_Il11ZPUG6yMnbAofRjjik/edit" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">📊 Planilha Diária (Google Sheets) ↗</a>
+      <a href="https://leoguerramaia.github.io/veiculos/" target="_blank" rel="noopener" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black transition">Abrir Painel de Veículos (18) &rarr;</a>
+    </div>
+  </div>
+
+  <form id="vehForm" class="p-4 space-y-3.5">
+    <!-- Banner de Características Pré-Definidas -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="font-extrabold text-amber-950">⚙️ Características Pré-Definidas (Varredura Diária):</span>
+        <span class="px-2 py-0.5 rounded-full bg-white border border-amber-300 font-bold text-slate-800">✅ Câmbio Automático</span>
+        <span class="px-2 py-0.5 rounded-full bg-white border border-amber-300 font-bold text-slate-800">✅ 4 Portas</span>
+        <span class="px-2 py-0.5 rounded-full bg-white border border-amber-300 font-bold text-slate-800">✅ Ano: Mínimo 2022</span>
+        <span class="px-2 py-0.5 rounded-full bg-white border border-amber-300 font-bold text-slate-800">✅ KM Máximo: 40.000 km</span>
+        <span class="px-2 py-0.5 rounded-full bg-white border border-amber-300 font-bold text-slate-800">✅ Valor Máximo: R$ 100.000</span>
+      </div>
+      <button type="button" id="veh_apply_preset" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] cursor-pointer">Restaurar Pré-Definidos</button>
+    </div>
+
+    <!-- Linha 1: Cidade, Câmbio, Portas, Carroceria -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+      <div>
+        <label class="lbl">1. Cidade / Estado (Obrigatório)</label>
+        <select id="veh_city" class="inp font-semibold">
+          <option value="ALL" selected>Fortaleza/CE e Teresina/PI (Ambas)</option>
+          <option value="Fortaleza/CE">📍 Somente Fortaleza/CE</option>
+          <option value="Teresina/PI">📍 Somente Teresina/PI</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">2. Câmbio</label>
+        <select id="veh_cambio" class="inp font-semibold">
+          <option value="Automático" selected>Automático / CVT (Pré-definido)</option>
+          <option value="ALL">Qualquer Câmbio</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">3. Quantidade de Portas</label>
+        <select id="veh_portas" class="inp font-semibold">
+          <option value="4 portas" selected>4 portas (Pré-definido)</option>
+          <option value="ALL">Qualquer</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">4. Tipo de Carroceria</label>
+        <select id="veh_body" class="inp">
+          <option value="ALL" selected>Todos (Hatch, Sedã, SUV)</option>
+          <option value="Hatch">Hatch</option>
+          <option value="Sedã">Sedã</option>
+          <option value="SUV">SUV</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Linha 2: Os 6 Itens de Configuração Solicitados (Ano Mín/Máx, Valor Mín/Máx, KM Mín/Máx) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-200">
+      <div>
+        <label class="lbl text-amber-900">5. Ano Mínimo</label>
+        <input type="number" id="veh_min_year" value="2022" min="2010" max="2027" placeholder="Ex: 2022" class="inp font-bold !bg-white" />
+      </div>
+      <div>
+        <label class="lbl text-amber-900">6. Ano Máximo</label>
+        <input type="number" id="veh_max_year" min="2010" max="2027" placeholder="Ex: 2026" class="inp !bg-white" />
+      </div>
+      <div>
+        <label class="lbl text-emerald-900">7. Valor Mínimo (R$)</label>
+        <input type="number" id="veh_min_val" step="1000" placeholder="Ex: 60000" class="inp !bg-white" />
+      </div>
+      <div>
+        <label class="lbl text-emerald-900">8. Valor Máximo (R$)</label>
+        <input type="number" id="veh_max_val" value="100000" step="1000" placeholder="Ex: 100000" class="inp font-bold !bg-white text-emerald-800" />
+      </div>
+      <div>
+        <label class="lbl text-sky-900">9. KM Mínimo</label>
+        <input type="number" id="veh_min_km" step="1000" placeholder="Ex: 0" class="inp !bg-white" />
+      </div>
+      <div>
+        <label class="lbl text-sky-900">10. KM Máximo</label>
+        <input type="number" id="veh_max_km" value="40000" step="1000" placeholder="Ex: 40000" class="inp font-bold !bg-white text-sky-800" />
+      </div>
+    </div>
+
+    <!-- Linha 3: Marca/Modelo + Portais + Agendamento Diário -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div>
+        <label class="lbl">11. Marca / Modelo ou Palavra-Chave (Opcional)</label>
+        <input type="text" id="veh_q" placeholder="Ex: Onix, HB20, Renegade, Pulse, Yaris, Polo, Cronos, Kardian..." class="inp" />
+        <p class="text-[10px] text-slate-500 mt-1">Portais monitorados: <strong>OLX CE, OLX PI, Webmotors, Mobiauto, Localiza Seminovos, Unidas e Jelta Seminovos</strong>.</p>
+      </div>
+      <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 space-y-1.5">
+        <label class="lbl !mb-0">12. Atualização Diária da Planilha e Painel de Veículos</label>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 06:30</span>
+          <span class="px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 09:00</span>
+          <span class="px-2 py-0.5 rounded-full bg-slate-800 text-white text-xs font-bold">⏰ 18:00</span>
+          <span class="text-[11px] text-amber-900 font-semibold ml-1">• Sincronizado com Google Sheets + Observações nos Cards</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 pt-1">
+      <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow transition cursor-pointer">
+        🔍 Gerar Busca de Veículos (Fortaleza/CE &amp; Teresina/PI) &rarr;
+      </button>
+      <button type="button" id="veh_clear_all" class="px-3 py-2.5 rounded-xl border bg-white text-xs font-bold cursor-pointer">Limpar</button>
+    </div>
+  </form>
+</section>
+
 </main>
 
 <script>
@@ -355,13 +480,13 @@ function syncConsultationBadge() {
     info = JSON.parse(localStorage.getItem('fortaleza_last_scan_info'));
   } catch(e) {}
   if (!info) {
-    info = { timestamp: "18/10/2026 às 06:13", type: "Automática", newCount: 7 };
+    info = { timestamp: "16/10/2026 às 06:00", type: "Automática", newCount: 7 };
   }
   const tTag = $("badgeScanTypeTag");
   const timeTag = $("badgeLastScanTime");
   const countTag = $("badgeNewListingsTag");
   if (tTag) tTag.textContent = info.type === "Manual" ? "Consulta Manual" : "Consulta Automática";
-  if (timeTag) timeTag.textContent = info.timestamp || "18/10/2026 às 06:13";
+  if (timeTag) timeTag.textContent = info.timestamp || "16/10/2026 às 06:00";
   if (countTag) {
     const n = Number(info.newCount) || 0;
     countTag.textContent = n > 0 ? `+${n} novos imóveis adicionados` : `0 novos imóveis adicionados`;
@@ -603,38 +728,13 @@ function initRefMaps() {
 
     st.marker = window.L.marker([st.lat, st.lng], { draggable: true, icon: pinIcon }).addTo(st.map);
 
-    async function resolveAddressFromCoords(lat, lng, prefix) {
-      let bestBairro = "Meireles", bestDist = 999999;
-      Object.entries(BAIRRO_COORDS).forEach(([bName, coords]) => {
-        const d = Math.hypot(coords[0] - lat, coords[1] - lng);
-        if (d < bestDist) { bestDist = d; bestBairro = bName.charAt(0).toUpperCase() + bName.slice(1); }
-      });
-      let fallbackAddr = `${bestBairro}, Fortaleza - CE`;
-      $(prefix + "_ref_name").value = fallbackAddr;
-      try {
-        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
-        if (r.ok) {
-          const d = await r.json();
-          if (d && d.address) {
-            const road = d.address.road || d.address.pedestrian || "";
-            const sub = d.address.suburb || d.address.neighbourhood || bestBairro;
-            const num = d.address.house_number ? `, ${d.address.house_number}` : "";
-            const full = `${road ? road + num + ' - ' : ''}${sub}, Fortaleza - CE`;
-            $(prefix + "_ref_name").value = full;
-            $(prefix + "_cep_status").innerHTML = `<span class="text-emerald-700 font-bold">📍 Endereço no Maps: ${full}</span>`;
-            return;
-          }
-        }
-      } catch(err) {}
-      $(prefix + "_cep_status").innerHTML = `<span class="text-sky-700 font-bold">📍 Referência definida: ${fallbackAddr} (${lat.toFixed(4)}, ${lng.toFixed(4)})</span>`;
-    }
-
     st.map.on("click", e => {
       st.lat = e.latlng.lat;
       st.lng = e.latlng.lng;
       st.marker.setLatLng([st.lat, st.lng]);
       $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
-      resolveAddressFromCoords(st.lat, st.lng, p);
+      $(p + "_ref_name").value = "Ponto Selecionado no Google Maps";
+      $(p + "_cep_status").innerHTML = `<span class="text-sky-700 font-bold">📍 Ponto marcado no Google Maps (${st.lat.toFixed(4)}, ${st.lng.toFixed(4)})</span>`;
     });
 
     st.marker.on("dragend", () => {
@@ -642,13 +742,77 @@ function initRefMaps() {
       st.lat = pos.lat;
       st.lng = pos.lng;
       $(p + "_ref_coords").value = st.lat.toFixed(4) + ", " + st.lng.toFixed(4);
-      resolveAddressFromCoords(st.lat, st.lng, p);
+      $(p + "_ref_name").value = "Ponto Selecionado no Google Maps";
+      $(p + "_cep_status").innerHTML = `<span class="text-sky-700 font-bold">📍 Ponto arrastado no Google Maps (${st.lat.toFixed(4)}, ${st.lng.toFixed(4)})</span>`;
     });
   });
 }
 
-setupBlock("rent", "aluguel/index.html", "fortaleza_search_rent_cfg");
-setupBlock("buy", "compra/index.html", "fortaleza_search_buy_cfg");
+setupBlock("rent", "https://leoguerramaia.github.io/aluguel/", "fortaleza_search_rent_cfg");
+setupBlock("buy", "https://leoguerramaia.github.io/compra/", "fortaleza_search_buy_cfg");
+
+// Setup Block 3 (Vehicles)
+(function setupVehicleBlock() {
+  const sKey = "fortaleza_teresina_veh_cfg";
+  let sv = null;
+  try { sv = JSON.parse(localStorage.getItem(sKey)); } catch(e) {}
+  if (sv) {
+    if (sv.city) $("veh_city").value = sv.city;
+    if (sv.cambio) $("veh_cambio").value = sv.cambio;
+    if (sv.portas) $("veh_portas").value = sv.portas;
+    if (sv.body) $("veh_body").value = sv.body;
+    if (sv.minYear !== undefined) $("veh_min_year").value = sv.minYear;
+    if (sv.maxYear !== undefined) $("veh_max_year").value = sv.maxYear;
+    if (sv.minVal !== undefined) $("veh_min_val").value = sv.minVal;
+    if (sv.maxVal !== undefined) $("veh_max_val").value = sv.maxVal;
+    if (sv.minKm !== undefined) $("veh_min_km").value = sv.minKm;
+    if (sv.maxKm !== undefined) $("veh_max_km").value = sv.maxKm;
+    if (sv.q !== undefined) $("veh_q").value = sv.q;
+  }
+  $("veh_apply_preset").addEventListener("click", () => {
+    $("veh_city").value = "ALL";
+    $("veh_cambio").value = "Automático";
+    $("veh_portas").value = "4 portas";
+    $("veh_body").value = "ALL";
+    $("veh_min_year").value = "2022";
+    $("veh_max_year").value = "";
+    $("veh_min_val").value = "";
+    $("veh_max_val").value = "100000";
+    $("veh_min_km").value = "";
+    $("veh_max_km").value = "40000";
+    $("veh_q").value = "";
+  });
+  $("veh_clear_all").addEventListener("click", () => {
+    $("vehForm").reset();
+    $("veh_min_year").value = "";
+    $("veh_max_val").value = "";
+    $("veh_max_km").value = "";
+    try { localStorage.removeItem(sKey); } catch(e) {}
+  });
+  $("vehForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const cfg = {
+      city: $("veh_city").value,
+      cambio: $("veh_cambio").value,
+      portas: $("veh_portas").value,
+      body: $("veh_body").value,
+      minYear: $("veh_min_year").value,
+      maxYear: $("veh_max_year").value,
+      minVal: $("veh_min_val").value,
+      maxVal: $("veh_max_val").value,
+      minKm: $("veh_min_km").value,
+      maxKm: $("veh_max_km").value,
+      q: $("veh_q").value.trim()
+    };
+    try { localStorage.setItem(sKey, JSON.stringify(cfg)); } catch(err) {}
+    const qs = new URLSearchParams();
+    Object.entries(cfg).forEach(([k, val]) => {
+      if (val && val !== "ALL") qs.set(k, val);
+    });
+    window.location.href = "https://leoguerramaia.github.io/veiculos/?" + qs.toString();
+  });
+})();
+
 syncConsultationBadge();
 
 $("rent_bairros_btn").addEventListener("click", e => { e.stopPropagation(); $("rent_bairros_dd").classList.toggle("open"); });
@@ -663,7 +827,6 @@ document.addEventListener("click", e => {
   });
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer="" onload="try{initRefMaps();}catch(e){}"></script>
-
-
-</body></html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try{initRefMaps();}catch(e){}"></script>
+</body>
+</html>
