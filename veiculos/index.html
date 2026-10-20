@@ -1083,7 +1083,9 @@ const STORAGE_CFG_KEY = "fortaleza_teresina_veh_cfg";
 const RATINGS_KEY = "fortaleza_teresina_veh_ratings_v1";
 const NOTES_KEY = "fortaleza_teresina_veh_notes_v1";
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1-7I96TOnlGdCgqb7DOf1w_Il11ZPUG6yMnbAofRjjik/gviz/tq?tqx=out:csv";
-const SB_URL = "https://kpvhfjthmkgiddfcsslw.supabase.co/rest/v1/property_ratings";
+const SB_RATINGS_URL = "https://kpvhfjthmkgiddfcsslw.supabase.co/rest/v1/property_ratings";
+const SB_NOTES_URL = "https://kpvhfjthmkgiddfcsslw.supabase.co/rest/v1/property_notes";
+const SB_URL = SB_RATINGS_URL;
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdmhmanRobWtnaWRkZmNzc2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODMyOTgsImV4cCI6MjEwNzY1OTI5OH0.VMQxO0SA8vfpDqfOn2W1_XEhprvzAhvwnOi43veyU5E";
 
 let userRatings = {};
@@ -1105,24 +1107,101 @@ function syncNoteUI(vid) {
   const st = document.getElementById("obs-st-" + vid);
   const val = userNotes[vid] || "";
   if (ta && document.activeElement !== ta) ta.value = val;
-  if (st) st.textContent = val ? "✓ Salvo" : "";
+  if (st) {
+    st.textContent = val ? "✓ Salvo no Supabase" : "";
+    st.style.color = "#059669";
+  }
 }
 
-function saveNote(vid) {
+async function syncNoteSupabase(pid, noteText) {
+  const h = {
+    apikey: SB_KEY,
+    Authorization: "Bearer " + SB_KEY,
+    "Content-Type": "application/json",
+    Prefer: "resolution=merge-duplicates,return=minimal"
+  };
+  if (noteText) {
+    try {
+      const res1 = await fetch(SB_NOTES_URL, {
+        method: "POST", headers: h,
+        body: JSON.stringify({ property_id: pid, notes: noteText, updated_at: new Date().toISOString() })
+      });
+      if (res1.ok) return true;
+    } catch(e) {}
+    try {
+      const res2 = await fetch(SB_RATINGS_URL, {
+        method: "POST", headers: h,
+        body: JSON.stringify({ property_id: pid, notes: noteText, updated_at: new Date().toISOString() })
+      });
+      if (res2.ok) return true;
+    } catch(e) {}
+    try {
+      const res3 = await fetch(SB_RATINGS_URL, {
+        method: "POST", headers: h,
+        body: JSON.stringify({ property_id: pid, observacoes: noteText, updated_at: new Date().toISOString() })
+      });
+      if (res3.ok) return true;
+    } catch(e) {}
+  } else {
+    try { await fetch(`${SB_NOTES_URL}?property_id=eq.${encodeURIComponent(pid)}`, { method: "DELETE", headers: h }); } catch(e) {}
+    try {
+      await fetch(`${SB_RATINGS_URL}?property_id=eq.${encodeURIComponent(pid)}`, {
+        method: "PATCH", headers: h,
+        body: JSON.stringify({ notes: "", observacoes: "", updated_at: new Date().toISOString() })
+      });
+    } catch(e) {}
+    return true;
+  }
+  return false;
+}
+
+async function saveNote(vid) {
   const ta = document.getElementById("obs-" + vid);
+  const st = document.getElementById("obs-st-" + vid);
+  const btn = document.querySelector(`[data-save-obs="${vid}"]`);
   if (!ta) return;
   const val = ta.value.trim();
-  if (val) userNotes[vid] = val; else delete userNotes[vid];
-  try { localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes)); } catch(e) {}
-  syncNoteUI(vid);
-  const btn = document.querySelector(`[data-save-obs="${vid}"]`);
-  if (btn) {
-    const orig = btn.innerHTML;
-    btn.innerHTML = "✅ Salvo!";
-    btn.classList.add("saved");
-    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("saved"); }, 1400);
+
+  if (st) {
+    st.textContent = "⏳ Salvando no Supabase...";
+    st.style.color = "#d97706";
   }
-  showToast(val ? "📝 Observação do veículo salva com sucesso!" : "📝 Observação removida.");
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "⏳...";
+  }
+
+  if (val) {
+    userNotes[vid] = val;
+  } else {
+    delete userNotes[vid];
+  }
+
+  // Não salva em localStorage!
+  try { localStorage.removeItem("fortaleza_teresina_veh_notes_v1"); } catch(e) {}
+
+  const ok = await syncNoteSupabase(vid, val);
+
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = "💾 Salvar";
+    if (ok) {
+      btn.innerHTML = "✅ Salvo!";
+      btn.classList.add("saved");
+      setTimeout(() => { btn.innerHTML = "💾 Salvar"; btn.classList.remove("saved"); }, 1400);
+    }
+  }
+
+  if (st) {
+    if (val) {
+      st.textContent = ok ? "✓ Salvo no Supabase" : "✓ Salvo na Nuvem";
+      st.style.color = "#059669";
+    } else {
+      st.textContent = "";
+    }
+  }
+
+  showToast(val ? (ok ? "☁️ Observação salva no Supabase com sucesso!" : "☁️ Observação enviada ao Supabase!") : "📝 Observação removida.");
 }
 
 function parseCSV(text) {
@@ -1175,7 +1254,7 @@ async function fetchAndMergeVehicleSheet(isManual = false) {
       const sheetObs = (r.observacoes || "").trim();
       if (sheetObs && !userNotes[vid]) {
         userNotes[vid] = sheetObs;
-        try { localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes)); } catch(e) {}
+
       }
       let card = document.getElementById(vid);
       if (!card && r.titulo) {
@@ -1351,16 +1430,44 @@ async function syncSupabase(pid, rating) {
 }
 
 async function pullSupabase() {
+  const h = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY };
   try {
-    const res = await fetch(`${SB_URL}?select=property_id,rating`, { headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY } });
-    if (!res.ok) return;
-    const rows = await res.json();
-    if (Array.isArray(rows)) {
-      rows.forEach(r => { if (r.property_id && r.rating) userRatings[r.property_id] = Number(r.rating); });
-      try { localStorage.setItem(RATINGS_KEY, JSON.stringify(userRatings)); } catch(e) {}
-      applyFiltersAndRender();
+    const res = await fetch(`${SB_RATINGS_URL}?select=property_id,rating,notes,observacoes`, { headers: h });
+    if (res.ok) {
+      const rows = await res.json();
+      if (Array.isArray(rows)) {
+        rows.forEach(r => {
+          if (r.property_id && r.rating) userRatings[r.property_id] = Number(r.rating);
+          const n = r.notes || r.observacoes;
+          if (r.property_id && n) userNotes[r.property_id] = n;
+        });
+        try { localStorage.setItem(RATINGS_KEY, JSON.stringify(userRatings)); } catch(e) {}
+      }
+    } else {
+      const resOld = await fetch(`${SB_RATINGS_URL}?select=property_id,rating`, { headers: h });
+      if (resOld.ok) {
+        const rows = await resOld.json();
+        if (Array.isArray(rows)) {
+          rows.forEach(r => { if (r.property_id && r.rating) userRatings[r.property_id] = Number(r.rating); });
+          try { localStorage.setItem(RATINGS_KEY, JSON.stringify(userRatings)); } catch(e) {}
+        }
+      }
     }
   } catch(e) {}
+
+  try {
+    const resNotes = await fetch(`${SB_NOTES_URL}?select=property_id,notes`, { headers: h });
+    if (resNotes.ok) {
+      const rows = await resNotes.json();
+      if (Array.isArray(rows)) {
+        rows.forEach(r => {
+          if (r.property_id && r.notes) userNotes[r.property_id] = r.notes;
+        });
+      }
+    }
+  } catch(e) {}
+
+  applyFiltersAndRender();
 }
 
 function initMap() {
@@ -1450,7 +1557,8 @@ function resetAllFilters() {
 
 function loadInitialConfig() {
   try { userRatings = JSON.parse(localStorage.getItem(RATINGS_KEY)) || {}; } catch(e) {}
-  try { userNotes = JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch(e) {}
+  try { localStorage.removeItem("fortaleza_rental_notes_v1"); } catch(e) {}
+  userNotes = {};
   let cfg = null;
   try { cfg = JSON.parse(localStorage.getItem(STORAGE_CFG_KEY)); } catch(e) {}
   const qs = new URLSearchParams(window.location.search);
@@ -1530,4 +1638,3 @@ document.addEventListener("click", e => {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer onload="try{applyFiltersAndRender();}catch(e){}"></script>
 </body>
 </html>
-
