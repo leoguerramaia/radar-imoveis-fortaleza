@@ -1,10 +1,12 @@
-<html lang="pt-BR"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Radar Imóveis Fortaleza — Aluguel Residencial</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
@@ -47,6 +49,18 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 .c-wa a{padding:4px 8px;border-radius:6px;background:#059669;color:#fff;text-decoration:none}
 .c-tags{display:flex;flex-wrap:wrap;gap:4px}
 .c-tags i{font-style:normal;padding:1px 6px;border-radius:99px;background:#fff;font-size:9.5px;border:1px solid #cbd5e1}
+
+.c-obs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:7px 9px;display:flex;flex-direction:column;gap:4px}
+.c-obs-hdr{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:800;color:#334155}
+.c-obs-lbl{display:flex;align-items:center;gap:3px;cursor:pointer}
+.c-obs-status{font-size:9.5px;font-weight:700;color:#059669}
+.c-obs-row{display:flex;gap:5px;align-items:stretch}
+.c-obs-ta{flex:1;width:100%;border-radius:6px;border:1px solid #cbd5e1;background:#fff;padding:5px 7px;font-size:11px;color:#0f172a;resize:vertical;min-height:38px;font-family:inherit;line-height:1.35}
+.c-obs-ta:focus{outline:none;border-color:#059669;box-shadow:0 0 0 2px rgba(5,150,105,.15)}
+.btn-save-obs{padding:4px 9px;border-radius:6px;background:#0f172a;hover:background:#1e293b;color:#fff;font-size:10.5px;font-weight:800;border:none;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;transition:background .15s}
+.btn-save-obs:hover{background:#059669}
+.btn-save-obs.saved{background:#059669}
+
 .c-foot{padding:7px 12px;background:rgba(203,213,225,.5);border-top:1px solid #cbd5e1;display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:700}
 .btn-map{padding:4px 8px;border-radius:6px;background:#fff;border:1px solid #cbd5e1;cursor:pointer;font-weight:700;color:#0f172a;text-decoration:none;display:inline-flex;align-items:center;gap:3px}
 .btn-map:hover{background:#f8fafc;border-color:#94a3b8}
@@ -54,28 +68,29 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 .c-foot a:not(.btn-map):hover{background:#1e293b}
 .leaflet-div-icon{background:transparent!important;border:none!important}
 </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.relative{position:relative}.inset-0{inset:0px}.bottom-5{bottom:1.25rem}.right-5{right:1.25rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mt-3{margin-top:0.75rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-2{height:0.5rem}.h-64{height:16rem}.min-h-screen{min-height:100vh}.w-16{width:4rem}.w-2{width:0.5rem}.w-full{width:100%}.max-w-7xl{max-width:80rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-5{gap:1.25rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-emerald-700{--tw-border-opacity:1;border-color:rgb(4 120 87 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-emerald-400{--tw-bg-opacity:1;background-color:rgb(52 211 153 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-500\/20{background-color:rgb(16 185 129 / 0.2)}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-emerald-700{--tw-bg-opacity:1;background-color:rgb(4 120 87 / var(--tw-bg-opacity, 1))}.bg-emerald-950{--tw-bg-opacity:1;background-color:rgb(2 44 34 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-800\/90{background-color:rgb(30 41 59 / 0.9)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-950\/70{background-color:rgb(2 6 23 / 0.7)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-8{padding:2rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.pl-5{padding-left:1.25rem}.pt-2{padding-top:0.5rem}.pt-2\.5{padding-top:0.625rem}.pt-3{padding-top:0.75rem}.text-center{text-align:center}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-none{line-height:1}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77 / var(--tw-text-opacity, 1))}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-emerald-100{--tw-text-opacity:1;color:rgb(209 250 229 / var(--tw-text-opacity, 1))}.text-emerald-300{--tw-text-opacity:1;color:rgb(110 231 183 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133 / var(--tw-text-opacity, 1))}.text-sky-300{--tw-text-opacity:1;color:rgb(125 211 252 / var(--tw-text-opacity, 1))}.text-sky-400{--tw-text-opacity:1;color:rgb(56 189 248 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-slate-950{--tw-text-opacity:1;color:rgb(2 6 23 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-amber-200:hover{--tw-bg-opacity:1;background-color:rgb(253 230 138 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-400:hover{--tw-bg-opacity:1;background-color:rgb(251 191 36 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-400:hover{--tw-bg-opacity:1;background-color:rgb(52 211 153 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.hover\:text-emerald-700:hover{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}@media (min-width: 640px){.sm\:inline{display:inline}.sm\:w-96{width:24rem}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.sm\:text-2xl{font-size:1.5rem;line-height:2rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}}@media (min-width: 1024px){.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:col-span-7{grid-column:span 7 / span 7}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:grid-cols-6{grid-template-columns:repeat(6, minmax(0, 1fr))}.lg\:flex-row{flex-direction:row}.lg\:items-center{align-items:center}.lg\:justify-between{justify-content:space-between}}</style></head>
+</head>
 <body class="min-h-screen flex flex-col">
 <header class="bg-slate-900 text-white border-b border-slate-800">
   <div class="max-w-7xl mx-auto px-4 py-4">
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
       <div>
         <div class="flex flex-wrap items-center gap-2 mb-1.5">
-          <a href="../index.html" class="px-2.5 py-1 rounded-full bg-slate-800 text-amber-300 text-xs font-bold border border-slate-700">← Voltar ao Buscador</a>
-          <a href="../compra/index.html" class="px-2.5 py-1 rounded-full bg-slate-800 text-sky-300 text-xs font-bold border border-slate-700">🔑 Painel de Compra</a>
+          <a href="https://leoguerramaia.github.io/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-amber-300 text-xs font-bold border border-slate-700">&larr; Voltar ao Buscador</a>
+          <a href="https://leoguerramaia.github.io/compra/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-sky-300 text-xs font-bold border border-slate-700">🔑 Painel de Compra</a>
+          <a href="https://leoguerramaia.github.io/veiculos/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-amber-400 text-xs font-bold border border-slate-700">🚗 Painel de Veículos</a>
           <!-- Consultation Badge -->
           <div id="consultationBadge" class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700 text-xs font-semibold text-slate-200">
             <span class="flex items-center gap-1.5 text-emerald-400">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase text-[10px]">Consulta Automática</span>
             </span>
-            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">18/10/2026 às 06:13</strong></span>
+            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">20/10/2026 às 06:00</strong></span>
             <span class="text-slate-500 hidden sm:inline">•</span>
             <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-[11px] shadow-sm">+6 novos imóveis adicionados</span>
           </div>
         </div>
         <h1 class="text-xl sm:text-2xl font-extrabold">Radar Imóveis Fortaleza • Aluguel Residencial</h1>
-        <p class="text-xs text-slate-300">Ponto de Referência: <strong id="refPointLabel">Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807)</strong> • Varredura: <strong id="lastScanLabel">18/10/2026 às 06:13</strong></p>
+        <p class="text-xs text-slate-300">Ponto de Referência: <strong id="refPointLabel">Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807)</strong> • Varredura: <strong id="lastScanLabel">20/10/2026 às 06:00</strong></p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <button id="btnSearchNow" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow cursor-pointer transition">⚡ BUSCAR AGORA</button>
@@ -88,19 +103,19 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Imóveis Ativos no Painel</p>
-        <span id="kpiCount" class="text-xl font-black">12</span>
+        <span id="kpiCount" class="text-xl font-black">32</span>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Menor Valor Total</p>
-        <span id="kpiMinPrice" class="text-xl font-black text-emerald-400">R$ 2.406</span>
+        <span id="kpiMinPrice" class="text-xl font-black text-emerald-400">R$ 1.700</span>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Menor Tempo até Ref.</p>
-        <span id="kpiMinDrive" class="text-xl font-black text-amber-400">2 min</span>
+        <span id="kpiMinDrive" class="text-xl font-black text-amber-400">3 min</span>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Avaliados (⭐)</p>
-        <span id="kpiRatedCount" class="text-xl font-black text-sky-400">13</span> <small id="kpiDiscardedCount" class="text-[10px] text-rose-400">14 ocultos</small>
+        <span id="kpiRatedCount" class="text-xl font-black text-sky-400">0</span> <small id="kpiDiscardedCount" class="text-[10px] text-rose-400">0 ocultos</small>
       </div>
     </div>
   </div>
@@ -110,7 +125,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
   <div id="activeBuscadorBanner" class="hidden bg-emerald-950 text-emerald-100 rounded-xl p-3 border border-emerald-700 flex flex-wrap items-center justify-between gap-2 text-xs">
     <div><strong>🎯 Filtros do Buscador:</strong> <span id="activeBuscadorSummary"></span></div>
     <div class="flex gap-2">
-      <a href="../index.html" class="px-2.5 py-1 rounded bg-emerald-700 text-white font-bold">Editar no Buscador</a>
+      <a href="https://leoguerramaia.github.io/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded bg-emerald-700 text-white font-bold">Editar no Buscador</a>
       <button type="button" id="btnClearBuscador" class="px-2.5 py-1 rounded bg-slate-800 text-white font-bold cursor-pointer">Limpar</button>
     </div>
   </div>
@@ -121,7 +136,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div>
         <label class="block text-xs font-bold mb-1">Classificação por Estrelas</label>
         <select id="filterRating" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50">
-          <option value="ACTIVE_ALL" selected="">Ativos (Ocultar 1-2 ⭐)</option>
+          <option value="ACTIVE_ALL" selected>Ativos (Ocultar 1-2 ⭐)</option>
           <option value="GREEN_ONLY">🟢 4 ou 5 Estrelas</option>
           <option value="YELLOW_ONLY">🟡 3 Estrelas</option>
           <option value="UNRATED_ONLY">⚪ Não Avaliados</option>
@@ -143,6 +158,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
         <select id="filterNeighborhood" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
           <option value="ALL">Todos os Bairros</option>
           <option value="Aldeota">Aldeota</option>
+          <option value="Benfica">Benfica</option>
           <option value="Cambeba">Cambeba</option>
           <option value="Cocó">Cocó</option>
           <option value="Dionísio Torres">Dionísio Torres</option>
@@ -159,15 +175,16 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="Sapiranga">Sapiranga</option>
           <option value="Tauape">Tauape</option>
           <option value="Varjota">Varjota</option>
+          <option value="Cidade dos Funcionários">Cidade dos Funcionários</option>
         </select>
       </div>
       <div>
         <label class="block text-xs font-bold mb-1">Valor Máximo Total</label>
-        <input id="filterMaxPrice" type="number" placeholder="Ex: 3500" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
+        <input id="filterMaxPrice" type="number" placeholder="Ex: 3500" class="w-full rounded-lg border p-2 text-xs bg-slate-50" />
       </div>
       <div>
         <label class="block text-xs font-bold mb-1">Distância Máx. (min)</label>
-        <input id="filterMaxDrive" type="number" placeholder="Ex: 25" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
+        <input id="filterMaxDrive" type="number" placeholder="Ex: 25" class="w-full rounded-lg border p-2 text-xs bg-slate-50" />
       </div>
       <div class="flex gap-1.5">
         <select id="sortBy" class="flex-1 rounded-lg border p-2 text-xs bg-slate-50 font-semibold">
@@ -180,8 +197,8 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       </div>
     </div>
     <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-      <input id="searchInput" type="text" placeholder="Buscar por código, rua, imobiliária, bairro ou tag..." class="w-full sm:w-96 rounded-lg border px-3 py-1.5 text-xs">
-      <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 12 de 26 imóveis cadastrados</span>
+      <input id="searchInput" type="text" placeholder="Buscar por código, rua, imobiliária, bairro, tag ou observação..." class="w-full sm:w-96 rounded-lg border px-3 py-1.5 text-xs" />
+      <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 32 de 32 imóveis cadastrados</span>
     </div>
   </section>
 
@@ -195,10 +212,10 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
         </div>
         <div class="flex gap-1.5">
           <button id="btnCenterWork" type="button" class="text-xs px-2.5 py-1 rounded bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold transition cursor-pointer">📍 Focar Referência</button>
-          <a id="btnOpenExternalGMap" href="https://www.google.com/maps/search/?api=1&amp;query=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil" target="_blank" rel="noopener" class="text-xs px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold transition">Abrir no Google Maps ↗</a>
+          <a id="btnOpenExternalGMap" href="https://www.google.com/maps/search/?api=1&query=-3.7351,-38.4969" target="_blank" rel="noopener" class="text-xs px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold transition">Abrir no Google Maps ↗</a>
         </div>
       </div>
-      <div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 20; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://mt3.google.com/vt/lyrs=m&amp;x=3219&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-87px, -85px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3220&amp;y=4180&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(169px, -85px, 0px); opacity: 1;"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=3219&amp;y=4181&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-87px, 171px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=3220&amp;y=4181&amp;z=13" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(169px, 171px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon ref-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -70px; margin-top: -12px; width: 140px; height: 24px; transform: translate3d(164px, 185px, 0px); z-index: 185;"><div style="background:#f59e0b;color:#0f172a;font-weight:900;font-size:11px;padding:4px 9px;border-radius:99px;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,0.3);white-space:nowrap;">🏢 Edf. Etevaldo Nogueira Business </div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(161px, 207px, 0px); z-index: 207;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 3.320</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(85px, 219px, 0px); z-index: 219;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 3.193</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(251px, 249px, 0px); z-index: 249;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 2.900</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(138px, 287px, 0px); z-index: 287;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 2.927</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(271px, 211px, 0px); z-index: 211;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 3.020</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(65px, 260px, 0px); z-index: 260;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 2.555</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(239px, 400px, 0px); z-index: 400;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 2.500</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(309px, 503px, 0px); z-index: 503;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 2.995</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(257px, 552px, 0px); z-index: 552;"><div style="background:#10b981;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">5⭐ R$ 3.377</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(269px, 202px, 0px); z-index: 202;"><div style="background:#f59e0b;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">3⭐ R$ 2.406</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(-98px, 108px, 0px); z-index: 108;"><div style="background:#f59e0b;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">3⭐ R$ 3.088</div></div><div class="leaflet-marker-icon p-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -11px; width: 100px; height: 22px; transform: translate3d(298px, 511px, 0px); z-index: 511;"><div style="background:#059669;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">R$ 2.492</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © Google Maps</div></div></div></div>
+      <div id="map"></div>
     </div>
 
     <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-3.5 flex flex-col justify-between">
@@ -206,11 +223,11 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
         <h2 class="text-sm font-bold text-slate-900 mb-1">📊 Composição Real de Valores (R$)</h2>
         <p class="text-[11px] text-slate-500 mb-2">Aluguel + Condomínio + IPTU dos imóveis exibidos</p>
         <div class="relative h-64 w-full">
-          <canvas id="priceChart" width="984" height="768" style="box-sizing: border-box; display: block; height: 256px; width: 328px;"></canvas>
+          <canvas id="priceChart"></canvas>
         </div>
       </div>
       <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-100 flex items-center justify-between">
-        <span>⭐ Classifique no card: 4-5 (Verde), 3 (Amarelo), 1-2 (Ocultar)</span>
+        <span>⭐ Classifique no card: 4-5 (Verde), 3 (Amarelo), 1-2 (Ocultar) • 📝 Salve suas Observações</span>
       </div>
     </div>
   </section>
@@ -222,15 +239,15 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <button type="button" id="btnShowAllEmpty" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold cursor-pointer">Mostrar Todos os Imóveis Ativos</button>
     </div>
     <div id="cardsGrid">
-      <article id="imv-1" class="prop-card card-odd" data-p="IH 229|Apartamento|Aldeota|1600|1195|85|2880|4|108|3|-3.7432|-38.4912" data-addr="Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" style="display: none;">
+      <article id="imv-1" class="prop-card card-odd" data-p="IH 229|Apartamento|Aldeota|1600|1195|85|2880|4|108|3|-3.7432|-38.4912" data-addr="Av. Padre Antônio Tomás. Aldeota. Fortaleza - CE. 60140-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457">
   <div class="c-hdr"><span><b>#01</b> ALDEOTA • IH 229</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 3 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 4 min</b></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos (1 Suíte) próx. à Av. Padre Antônio Tomás</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Padre Antônio Tomás, Aldeota, Fortaleza - CE, 60140-200</div>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Padre Antônio Tomás. Aldeota. Fortaleza - CE. 60140-200</div>
     <div class="c-specs"><b>📐 108m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 2.880/mês</b></div>
@@ -241,455 +258,31 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/5585991218289" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>Nascente</i><i>Varanda</i><i>Portaria Presencial</i><i>Dependência Completa</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-1">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-1"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-1" data-obs-input="imv-1" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-1" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Padre%20Ant%C3%B4nio%20Tom%C3%A1s%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060140-200%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Padre%20Ant%C3%B4nio%20Tom%C3%A1s%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060140-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
 </article>
-      
-      <article id="imv-3" class="prop-card card-odd" data-p="38/1|Apartamento|Fátima|2000|1050|0|3050|14|130|3|-3.7568|-38.5245" data-addr="Rua General Silva Júnior, Fátima, Fortaleza - CE, 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" style="display: none;">
-  <div class="c-hdr"><span><b>#03</b> FÁTIMA • 38/1</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 12 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua General Silva Júnior, Fátima, Fortaleza - CE, 60411-200</div>
-    <div class="c-specs"><b>📐 130m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 3.050/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 1.050 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Imobiliária Fortloc • (85) 3261-1856</span>
-      <a href="https://wa.me/558532611856" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>130 m²</i><i>Armários Projetados</i><i>Elevador</i><i>Varanda</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      
-      <article id="imv-6" class="prop-card card-even" data-p="18SLHJ6|Apartamento|Fátima|1500|585|0|2085|14|105|3|-3.7595|-38.528" data-addr="Rua General Silva Júnior, 700 - Fátima, Fortaleza - CE, 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" style="display: none;">
-  <div class="c-hdr"><span><b>#06</b> FÁTIMA • 18SLHJ6</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 13 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua General Silva Júnior, 700 - Fátima, Fortaleza - CE, 60411-200</div>
-    <div class="c-specs"><b>📐 105m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.085/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.500 • Cond: R$ 585 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 A Predial Imobiliária • (85) 4012-8000</span>
-      <a href="https://wa.me/558540128000" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Menor Pacote c/ Lazer</i><i>Piscina e Churrasqueira</i><i>Espaço Gourmet</i><i>105 m²</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20700%20-%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      <article id="imv-8" class="prop-card card-even" data-p="9940|Apartamento|Aldeota|2500|0|0|2500|7|152|3|-3.7445|-38.5082" data-addr="Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" style="display: none;">
-  <div class="c-hdr"><span><b>#08</b> ALDEOTA • 9940</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Antônio Sales, Aldeota, Fortaleza - CE, 60115-191</div>
-    <div class="c-specs"><b>📐 152m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.500/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 0 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Mega Imóveis Aldeota • (85) 3055-1111</span>
-      <a href="https://wa.me/558530551111" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>152 m²</i><i>Varanda e Lavabo</i><i>Sem Taxa de Condomínio</i><i>Dependência Completa</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Ant%C3%B4nio%20Sales%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060115-191%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      
-      
-      <article id="imv-12" class="prop-card card-even" data-p="CF110|Casa em Condomínio|Cidade dos Funcionários|2250|550|90|2890|15|110|3|-3.784|-38.498" data-addr="Av. Oliveira Paiva, Cidade dos Funcionários, Fortaleza - CE, 60822-630" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" style="display: none;">
-  <div class="c-hdr"><span><b>#12</b> CIDADE DOS FUNCIONÁRIOS • CF110</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 16 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Duplex em Condomínio Fechado 110 m² com 3 Suítes na Cidade dos Funcionários</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Oliveira Paiva, Cidade dos Funcionários, Fortaleza - CE, 60822-630</div>
-    <div class="c-specs"><b>📐 110m²</b><b>🛏️ 3(3s)</b><b>🚿 4b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.890/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.250 • Cond: R$ 550 • IPTU: R$ 90</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Alessandro Belchior Imóveis • (85) 3466-4343</span>
-      <a href="https://wa.me/558534664343" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Duplex em Condomínio</i><i>3 Suítes</i><i>Piscina e Deck</i><i>Portaria 24h</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Oliveira%20Paiva%2C%20Cidade%20dos%20Funcion%C3%A1rios%2C%20Fortaleza%20-%20CE%2C%2060822-630%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      <article id="imv-13" class="prop-card card-odd" data-p="RP95|Casa em Condomínio|Lagoa Redonda|2950|410|69|3429|20|95|3|-3.8185|-38.462" data-addr="Rua Luiza Guimarães, Lagoa Redonda, Fortaleza - CE, 60831-490" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" style="display: none;">
-  <div class="c-hdr"><span><b>#13</b> LAGOA REDONDA • RP95</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 30 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Luiza Guimarães, Lagoa Redonda, Fortaleza - CE, 60831-490</div>
-    <div class="c-specs"><b>📐 95m²</b><b>🛏️ 3(2s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 3.429/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.950 • Cond: R$ 410 • IPTU: R$ 69</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Condomínio Reserva dos Pássaros • (85) 98877-3420</span>
-      <a href="https://wa.me/5585988773420" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Casa Nova Nunca Habitada</i><i>Condomínio Fechado</i><i>Piscina e Churrasqueira</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Luiza%20Guimar%C3%A3es%2C%20Lagoa%20Redonda%2C%20Fortaleza%20-%20CE%2C%2060831-490%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      <article id="imv-14" class="prop-card card-even" data-p="223-C3|Apartamento|Varjota|1200|422|367|1989|5|80|3|-3.733|-38.486" data-addr="Rua Silva Paulet, Varjota, Fortaleza - CE, 60175-210" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" style="display: none;">
-  <div class="c-hdr"><span><b>#14</b> VARJOTA • 223-C3</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 4 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 80 m² com 3 Quartos e Varanda na Varjota</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Silva Paulet, Varjota, Fortaleza - CE, 60175-210</div>
-    <div class="c-specs"><b>📐 80m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 1.989/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.200 • Cond: R$ 422 • IPTU: R$ 367</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Imobiliária Varjota Locações • (85) 3267-4808</span>
-      <a href="https://wa.me/5585987223130" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>A 5 min do Trabalho</i><i>Pacote R$ 1.989/mês</i><i>Varanda</i><i>80 m²</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Silva%20Paulet%2C%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060175-210%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      <article id="imv-16" class="prop-card card-even" data-p="L8817|Apartamento|Engenheiro Luciano Cavalcante|2500|356|0|2856|11|70|3|-3.768|-38.491" data-addr="Rua Engenheiro Luciano Cavalcante, Engenheiro Luciano Cavalcante, Fortaleza - CE, 60813-765" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" style="display: none;">
-  <div class="c-hdr"><span><b>#16</b> ENGENHEIRO LUCIANO CAVALCANTE • L8817</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 11 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos com Lazer Completo no Eng. Luciano Cavalcante</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Engenheiro Luciano Cavalcante, Engenheiro Luciano Cavalcante, Fortaleza - CE, 60813-765</div>
-    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.856/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 356 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Imobiliária Mota da Costa • (85) 3036-9936</span>
-      <a href="https://wa.me/558530369936" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Piscina e Deck</i><i>Churrasqueira</i><i>Salão de Festas</i><i>Condomínio R$ 356</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Engenheiro%20Luciano%20Cavalcante%2C%20Engenheiro%20Luciano%20Cavalcante%2C%20Fortaleza%20-%20CE%2C%2060813-765%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      <article id="imv-18" class="prop-card card-even" data-p="AP72858|Apartamento|Cambeba|2300|634|126|3060|16|70|3|-3.805|-38.489" data-addr="Rua dos Amigos, 355 - Cambeba, Fortaleza - CE, 60822-168" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" style="display: none;">
-  <div class="c-hdr"><span><b>#18</b> CAMBEBA • AP72858</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 23 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 70 m² no Fortune Residence Club no Cambeba</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua dos Amigos, 355 - Cambeba, Fortaleza - CE, 60822-168</div>
-    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 3.060/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.300 • Cond: R$ 634 • IPTU: R$ 126</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Adriano Freire Imóveis • (85) 98111-7285</span>
-      <a href="https://wa.me/5585981117285" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Lazer Completo Club</i><i>Piscina, Sauna e Academia</i><i>2 Vagas de Garagem</i><i>Gás Incluso</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20dos%20Amigos%2C%20355%20-%20Cambeba%2C%20Fortaleza%20-%20CE%2C%2060822-168%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      <article id="imv-19" class="prop-card card-odd" data-p="8088|Apartamento|Meireles|1900|0|0|1900|5|106|3|-3.7315|-38.511" data-addr="Rua Pereira Filgueiras, Meireles, Fortaleza - CE, 60160-150" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" style="display: none;">
-  <div class="c-hdr"><span><b>#19</b> MEIRELES • 8088</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento Dúplex 106 m² com 3 Quartos no Meireles</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Pereira Filgueiras, Meireles, Fortaleza - CE, 60160-150</div>
-    <div class="c-specs"><b>📐 106m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 1.900/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.900 • Cond: R$ 0 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Ferreira Lopes Gestão Imobiliária • (85) 98822-8088</span>
-      <a href="https://wa.me/5585988228088" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>106 m² em Dúplex</i><i>Sem Taxa de Condomínio</i><i>5 min do Trabalho</i><i>Pacote R$ 1.900/mês</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Pereira%20Filgueiras%2C%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-150%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      <article id="imv-21" class="prop-card card-odd" data-p="L198|Casa|Montese|1700|0|0|1700|15|80|3|-3.765|-38.546" data-addr="Rua Alberto Magno, Montese, Fortaleza - CE, 60420-670" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" style="display: none;">
-  <div class="c-hdr"><span><b>#21</b> MONTESE • L198</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 19 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa 80 m² com 3 Quartos (1 Suíte) e Garagem no Montese</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Alberto Magno, Montese, Fortaleza - CE, 60420-670</div>
-    <div class="c-specs"><b>📐 80m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 1.700/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 0 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Imobiliária Azevedo Frota Ltda • (85) 98733-4400</span>
-      <a href="https://wa.me/5585987334400" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Sem Condomínio</i><i>Próximo à Av. João Pessoa</i><i>Armários nos Quartos</i><i>Total R$ 1.700/mês</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Alberto%20Magno%2C%20Montese%2C%20Fortaleza%20-%20CE%2C%2060420-670%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      <article id="imv-22" class="prop-card card-even" data-p="UB-2328|Casa|Aldeota|2100|0|0|2100|5|240|3|-3.731|-38.502" data-addr="Rua Ubajara, Aldeota, Fortaleza - CE, 60150-020" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" style="display: none;">
-  <div class="c-hdr"><span><b>#22</b> ALDEOTA • UB-2328</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 2 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Ampla 240 m² com 3 Quartos e Quintal na Aldeota</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Ubajara, Aldeota, Fortaleza - CE, 60150-020</div>
-    <div class="c-specs"><b>📐 240m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.100/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.100 • Cond: R$ 0 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Ricardo Imóveis (CRECI 2328) • (85) 98855-2328</span>
-      <a href="https://wa.me/5585988552328" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>240 m² de Espaço</i><i>A 5 min do Trabalho</i><i>Sem Condomínio</i><i>Quintal e 2 Vagas</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Ubajara%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060150-020%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      
-      
-      <article id="imv-25" class="prop-card card-odd" data-p="BNB95|Apartamento|Aldeota|1700|550|100|2350|4|95|3|-3.737|-38.504" data-addr="Rua Tibúrcio Cavalcante, Aldeota, Fortaleza - CE, 60125-100" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" style="display: none;">
-  <div class="c-hdr"><span><b>#25</b> ALDEOTA • BNB95</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 2 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 95 m² com 3 Quartos (2 Suítes) na Aldeota (Próx. BNB)</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Tibúrcio Cavalcante, Aldeota, Fortaleza - CE, 60125-100</div>
-    <div class="c-specs"><b>📐 95m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.350/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 550 • IPTU: R$ 100</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Cicerildo Corretor • (85) 98844-2700</span>
-      <a href="https://wa.me/5585988442700" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>95 m²</i><i>2 Suítes</i><i>4 min do Trabalho</i><i>Garagem Coberta</i><i>Pacote R$ 2.350/mês</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Tib%C3%BArcio%20Cavalcante%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060125-100%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-      <article id="imv-26" class="prop-card card-even" data-p="JT115|Casa|Joaquim Távora|2500|0|0|2500|7|115|3|-3.746|-38.512" data-addr="Rua Padre Valdevino, Joaquim Távora, Fortaleza - CE, 60135-040" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" style="display: none;">
-  <div class="c-hdr"><span><b>#26</b> JOAQUIM TÁVORA • JT115</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 6 min</b></span>
-      <span class="s-bx"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Duplex 115 m² com 3 Quartos no Joaquim Távora</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino, Joaquim Távora, Fortaleza - CE, 60135-040</div>
-    <div class="c-specs"><b>📐 115m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.500/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 0 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Locação Direta Joaquim Távora • (85) 98822-7739</span>
-      <a href="https://wa.me/5585988227739" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Casa Duplex 115 m²</i><i>Sem Taxa de Condomínio</i><i>7 min do Trabalho</i><i>R$ 2.500/mês</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Padre%20Valdevino%2C%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060135-040%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article>
-
-    <article id="imv-4" class="prop-card card-green" data-p="14079|Apartamento|Dionísio Torres|2280|920|120|3320|3|120|3|-3.7388|-38.4975" data-addr="Rua Coronel Linhares, Dionísio Torres, Fortaleza - CE, 60170-241" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765">
-  <div class="c-hdr"><span><b>#04</b> DIONÍSIO TORRES • 14079</span><span class="b-rt">⭐ 5</span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 2 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 120 m² com 3 Quartos e 2 Vagas na Rua Cel. Linhares</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Coronel Linhares, Dionísio Torres, Fortaleza - CE, 60170-241</div>
-    <div class="c-specs"><b>📐 120m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 3.320/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.280 • Cond: R$ 920 • IPTU: R$ 120</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 7Cantos Imobiliária • (85) 4003-7654</span>
-      <a href="https://wa.me/558540037654" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>3 min do trabalho</i><i>2 Vagas de Garagem</i><i>120 m²</i><i>Próx. Shopping Del Paseo</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Coronel%20Linhares%2C%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060170-241%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article><article id="imv-7" class="prop-card card-green" data-p="VALDEVINO|Apartamento|Aldeota|2500|604|89|3193|8|87|3|-3.741|-38.5105" data-addr="Rua Padre Valdevino, 1515 - Aldeota, Fortaleza - CE, 60135-041" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320">
-  <div class="c-hdr"><span><b>#07</b> ALDEOTA • VALDEVINO</span><span class="b-rt">⭐ 5</span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino)</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino, 1515 - Aldeota, Fortaleza - CE, 60135-041</div>
-    <div class="c-specs"><b>📐 87m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 3.193/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 604 • IPTU: R$ 89</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 J&amp;S Imóveis • (85) 98777-5743</span>
-      <a href="https://wa.me/5585987775743" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>2 Vagas</i><i>Armários Projetados</i><i>Portaria 24h</i><i>Salão de Festas</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Padre%20Valdevino%2C%201515%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article><article id="imv-17" class="prop-card card-green" data-p="351|Apartamento|Cocó|2000|900|0|2900|7|70|3|-3.746|-38.482" data-addr="Praça Engenheiro Pedro Felipe Borges, Cocó, Fortaleza - CE, 60192-115" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675">
-  <div class="c-hdr"><span><b>#17</b> COCÓ • 351</span><span class="b-rt">⭐ 5</span></div>
+      <article id="imv-2" class="prop-card card-even" data-p="EDSAFIRA|Apartamento|Papicu|1400|1540|80|3020|6|136|3|-3.7395|-38.4785" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869">
+  <div class="c-hdr"><span><b>#02</b> PAPICU • EDSAFIRA</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 70 m² com 3 Quartos no Cocó próx. RioMar Papicu</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Praça Engenheiro Pedro Felipe Borges, Cocó, Fortaleza - CE, 60192-115</div>
-    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.900/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 900 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Cocó Imóveis Fortaleza • (85) 98844-3510</span>
-      <a href="https://wa.me/5585988443510" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Muito Ventilado</i><i>Próx. RioMar Papicu</i><i>Ao lado de Praça</i><i>Pacote R$ 2.900/mês</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Pra%C3%A7a%20Engenheiro%20Pedro%20Felipe%20Borges%2C%20Coc%C3%B3%2C%20Fortaleza%20-%20CE%2C%2060192-115%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article><article id="imv-5" class="prop-card card-green" data-p="1537349666|Apartamento|Dionísio Torres|2227|700|0|2927|9|74|3|-3.7525|-38.5015" data-addr="Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666">
-  <div class="c-hdr"><span><b>#05</b> DIONÍSIO TORRES • 1537349666</span><span class="b-rt">⭐ 5</span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Pontes Vieira, 1234 - Dionísio Torres, Fortaleza - CE, 60135-237</div>
-    <div class="c-specs"><b>📐 74m²</b><b>🛏️ 3(2s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.927/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 2.227 • Cond: R$ 700 • IPTU: R$ 0</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Nômades Imobiliária • (85) 3461-1166</span>
-      <a href="https://wa.me/558534611166" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>2 Suítes</i><i>Móveis Planejados</i><i>2 Elevadores Novos</i><i>IPTU Incluso</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Pontes%20Vieira%2C%201234%20-%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060135-237%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article><article id="imv-2" class="prop-card card-green" data-p="EDSAFIRA|Apartamento|Papicu|1400|1540|80|3020|6|136|3|-3.7395|-38.4785" data-addr="Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869">
-  <div class="c-hdr"><span><b>#02</b> PAPICU • EDSAFIRA</span><span class="b-rt">⭐ 5</span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 136 m² com 3 Quartos no Papicu (Próx. RioMar Fortaleza)</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-782</div>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782</div>
     <div class="c-specs"><b>📐 136m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 3.020/mês</b></div>
@@ -700,68 +293,241 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/558541418080" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>136 m²</i><i>Próx. Shopping RioMar</i><i>Condomínio Fechado</i><i>Portaria</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-2">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-2"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-2" data-obs-input="imv-2" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-2" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-15" class="prop-card card-green" data-p="SOLANGE|Apartamento|Joaquim Távora|1700|720|135|2555|7|130|3|-3.748|-38.514" data-addr="Av. Barão de Studart, 2445 - Joaquim Távora, Fortaleza - CE, 60120-002" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098">
-  <div class="c-hdr"><span><b>#15</b> JOAQUIM TÁVORA • SOLANGE</span><span class="b-rt">⭐ 5</span></div>
+</article>
+      <article id="imv-3" class="prop-card card-odd" data-p="38/1|Apartamento|Fátima|2000|1050|0|3050|14|130|3|-3.7568|-38.5245" data-addr="Rua General Silva Júnior. Fátima. Fortaleza - CE. 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230">
+  <div class="c-hdr"><span><b>#03</b> FÁTIMA • 38/1</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 14 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 130 m² com 3 Quartos e Varanda no Bairro de Fátima</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua General Silva Júnior. Fátima. Fortaleza - CE. 60411-200</div>
+    <div class="c-specs"><b>📐 130m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.050/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 1.050 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Imobiliária Fortloc • (85) 3261-1856</span>
+      <a href="https://wa.me/558532611856" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>130 m²</i><i>Armários Projetados</i><i>Elevador</i><i>Varanda</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-3">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-3"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-3" data-obs-input="imv-3" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-3" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-4" class="prop-card card-even" data-p="14079|Apartamento|Dionísio Torres|2280|920|120|3320|3|120|3|-3.7388|-38.4975" data-addr="Rua Coronel Linhares. Dionísio Torres. Fortaleza - CE. 60170-241" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765">
+  <div class="c-hdr"><span><b>#04</b> DIONÍSIO TORRES • 14079</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 3 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 120 m² com 3 Quartos e 2 Vagas na Rua Cel. Linhares</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Coronel Linhares. Dionísio Torres. Fortaleza - CE. 60170-241</div>
+    <div class="c-specs"><b>📐 120m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.320/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.280 • Cond: R$ 920 • IPTU: R$ 120</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 7Cantos Imobiliária • (85) 4003-7654</span>
+      <a href="https://wa.me/558540037654" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>3 min do trabalho</i><i>2 Vagas de Garagem</i><i>120 m²</i><i>Próx. Shopping Del Paseo</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-4">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-4"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-4" data-obs-input="imv-4" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-4" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Coronel%20Linhares%2C%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060170-241%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-5" class="prop-card card-odd" data-p="1537349666|Apartamento|Dionísio Torres|2227|700|0|2927|9|74|3|-3.7525|-38.5015" data-addr="Av. Pontes Vieira. 1234 - Dionísio Torres. Fortaleza - CE. 60135-237" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666">
+  <div class="c-hdr"><span><b>#05</b> DIONÍSIO TORRES • 1537349666</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 9 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos (2 Suítes) Muito Ventilado na Av. Pontes Vieira</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Pontes Vieira. 1234 - Dionísio Torres. Fortaleza - CE. 60135-237</div>
+    <div class="c-specs"><b>📐 74m²</b><b>🛏️ 3(2s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.927/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.227 • Cond: R$ 700 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Nômades Imobiliária • (85) 3461-1166</span>
+      <a href="https://wa.me/558534611166" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>2 Suítes</i><i>Móveis Planejados</i><i>2 Elevadores Novos</i><i>IPTU Incluso</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-5">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-5"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-5" data-obs-input="imv-5" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-5" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Pontes%20Vieira%2C%201234%20-%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060135-237%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-6" class="prop-card card-even" data-p="18SLHJ6|Apartamento|Fátima|1500|585|0|2085|14|105|3|-3.7595|-38.528" data-addr="Rua General Silva Júnior. 700 - Fátima. Fortaleza - CE. 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696">
+  <div class="c-hdr"><span><b>#06</b> FÁTIMA • 18SLHJ6</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 14 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 105 m² com 3 Quartos no Condomínio Jardim Antares</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua General Silva Júnior. 700 - Fátima. Fortaleza - CE. 60411-200</div>
+    <div class="c-specs"><b>📐 105m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.085/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.500 • Cond: R$ 585 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 A Predial Imobiliária • (85) 4012-8000</span>
+      <a href="https://wa.me/558540128000" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Menor Pacote c/ Lazer</i><i>Piscina e Churrasqueira</i><i>Espaço Gourmet</i><i>105 m²</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-6">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-6"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-6" data-obs-input="imv-6" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-6" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20700%20-%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-7" class="prop-card card-odd" data-p="VALDEVINO|Apartamento|Aldeota|2500|604|89|3193|8|87|3|-3.741|-38.5105" data-addr="Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320">
+  <div class="c-hdr"><span><b>#07</b> ALDEOTA • VALDEVINO</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 8 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos no Edifício Luiz Linhares (Rua Padre Valdevino)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041</div>
+    <div class="c-specs"><b>📐 87m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.193/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 604 • IPTU: R$ 89</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 J&S Imóveis • (85) 98777-5743</span>
+      <a href="https://wa.me/5585987775743" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>2 Vagas</i><i>Armários Projetados</i><i>Portaria 24h</i><i>Salão de Festas</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-7">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-7"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-7" data-obs-input="imv-7" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-7" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201515%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-8" class="prop-card card-even" data-p="9940|Apartamento|Aldeota|2500|0|0|2500|7|152|3|-3.7445|-38.5082" data-addr="Av. Antônio Sales. Aldeota. Fortaleza - CE. 60115-191" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234">
+  <div class="c-hdr"><span><b>#08</b> ALDEOTA • 9940</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 7 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 130 m² com 3 Quartos na Av. Barão de Studart</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Barão de Studart, 2445 - Joaquim Távora, Fortaleza - CE, 60120-002</div>
-    <div class="c-specs"><b>📐 130m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
-    <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.555/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 720 • IPTU: R$ 135</div>
-    </div>
-    <div class="c-wa">
-      <span class="truncate">📞 Robert Smith Imóveis • (85) 99100-2445</span>
-      <a href="https://wa.me/5585991002445" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>130 m² de Área Útil</i><i>Duas Salas c/ Varanda</i><i>Dependência Completa</i><i>2 Vagas</i></div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Bar%C3%A3o%20de%20Studart%2C%202445%20-%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060120-002%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
-  </div>
-</article><article id="imv-11" class="prop-card card-green" data-p="BD385|Casa em Condomínio|Edson Queiroz|1900|600|0|2500|13|90|3|-3.772|-38.484" data-addr="Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793">
-  <div class="c-hdr"><span><b>#11</b> EDSON QUEIROZ • BD385</span><span class="b-rt">⭐ 5</span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 13 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Washington Soares, Edson Queiroz, Fortaleza - CE, 60834-255</div>
-    <div class="c-specs"><b>📐 90m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento Amplo 152 m² com 3 Quartos na Aldeota (Próx. Av. Antônio Sales)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Antônio Sales. Aldeota. Fortaleza - CE. 60115-191</div>
+    <div class="c-specs"><b>📐 152m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 2.500/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.900 • Cond: R$ 600 • IPTU: R$ 0</div>
+      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 0 • IPTU: R$ 0</div>
     </div>
     <div class="c-wa">
-      <span class="truncate">📞 Breno Diniz Lima Imóveis • (85) 98835-1212</span>
-      <a href="https://wa.me/5585988351212" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <span class="truncate">📞 Mega Imóveis Aldeota • (85) 3055-1111</span>
+      <a href="https://wa.me/558530551111" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
-    <div class="c-tags"><i>Casa em Condomínio</i><i>2 Suítes</i><i>2 Vagas</i><i>Pacote R$ 2.500</i></div>
+    <div class="c-tags"><i>152 m²</i><i>Varanda e Lavabo</i><i>Sem Taxa de Condomínio</i><i>Dependência Completa</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-8">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-8"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-8" data-obs-input="imv-8" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-8" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Washington%20Soares%2C%20Edson%20Queiroz%2C%20Fortaleza%20-%20CE%2C%2060834-255%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Ant%C3%B4nio%20Sales%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060115-191%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-9" class="prop-card card-green" data-p="L8803|Casa em Condomínio|Sapiranga|2200|707|88|2995|14|151|5|-3.7895|-38.472" data-addr="Rua Olegário Memória, Sapiranga, Fortaleza - CE, 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194">
-  <div class="c-hdr"><span><b>#09</b> SAPIRANGA • L8803</span><span class="b-rt">⭐ 5</span></div>
+</article>
+      <article id="imv-9" class="prop-card card-odd" data-p="L8803|Casa em Condomínio|Sapiranga|2200|707|88|2995|14|151|5|-3.7895|-38.472" data-addr="Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194">
+  <div class="c-hdr"><span><b>#09</b> SAPIRANGA • L8803</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 20 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 14 min</b></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa em Condomínio Fechado 151 m² com Piscina, Deck e 5 Quartos</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Olegário Memória, Sapiranga, Fortaleza - CE, 60833-351</div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa em Condomínio Fechado 151 m² com Piscina. Deck e 5 Quartos</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351</div>
     <div class="c-specs"><b>📐 151m²</b><b>🛏️ 5(3s)</b><b>🚿 5b</b><b>🚗 4v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 2.995/mês</b></div>
@@ -772,20 +538,31 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/558530369936" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>Casa em Condomínio</i><i>151 m²</i><i>Piscina e Deck</i><i>4 Vagas</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-9">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-9"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-9" data-obs-input="imv-9" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-9" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-10" class="prop-card card-green" data-p="CA0059|Casa em Condomínio|José de Alencar|2600|685|92|3377|15|105|3|-3.798|-38.481" data-addr="Rua Professor Glauco Lobo, José de Alencar, Fortaleza - CE, 60830-465" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311">
-  <div class="c-hdr"><span><b>#10</b> JOSÉ DE ALENCAR • CA0059</span><span class="b-rt">⭐ 5</span></div>
+</article>
+      <article id="imv-10" class="prop-card card-even" data-p="CA0059|Casa em Condomínio|José de Alencar|2600|685|92|3377|15|105|3|-3.798|-38.481" data-addr="Rua Professor Glauco Lobo. José de Alencar. Fortaleza - CE. 60830-465" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311">
+  <div class="c-hdr"><span><b>#10</b> JOSÉ DE ALENCAR • CA0059</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 21 min</b></span>
-      <span class="s-bx"><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i><i class="s-gr">★</i></span>
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 15 min</b></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Duplex em Condomínio Fechado 105 m² com Deck Privativo</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Professor Glauco Lobo, José de Alencar, Fortaleza - CE, 60830-465</div>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Professor Glauco Lobo. José de Alencar. Fortaleza - CE. 60830-465</div>
     <div class="c-specs"><b>📐 105m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 3.377/mês</b></div>
@@ -796,44 +573,346 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/558521813555" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>Duplex em Condomínio</i><i>Deck Churrasqueira</i><i>Armários Embutidos</i><i>Piscina</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-10">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-10"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-10" data-obs-input="imv-10" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-10" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Professor%20Glauco%20Lobo%2C%20Jos%C3%A9%20de%20Alencar%2C%20Fortaleza%20-%20CE%2C%2060830-465%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Professor%20Glauco%20Lobo%2C%20Jos%C3%A9%20de%20Alencar%2C%20Fortaleza%20-%20CE%2C%2060830-465%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-23" class="prop-card card-yellow" data-p="AP0346|Apartamento|Papicu|1700|600|106|2406|6|110|3|-3.738|-38.479" data-addr="Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923">
-  <div class="c-hdr"><span><b>#23</b> PAPICU • AP0346</span><span class="b-rt">⭐ 3</span></div>
+</article>
+      <article id="imv-11" class="prop-card card-odd" data-p="BD385|Casa em Condomínio|Edson Queiroz|1900|600|0|2500|13|90|3|-3.772|-38.484" data-addr="Av. Washington Soares. Edson Queiroz. Fortaleza - CE. 60834-255" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793">
+  <div class="c-hdr"><span><b>#11</b> EDSON QUEIROZ • BD385</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
-      <span class="s-bx"><i class="s-yl">★</i><i class="s-yl">★</i><i class="s-yl">★</i><i class="">★</i><i class="">★</i></span>
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 13 min</b></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 110 m² com 3 Quartos (1 Suíte) e Elevador no Papicu</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-782</div>
-    <div class="c-specs"><b>📐 110m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa em Condomínio Fechado 90 m² com 3 Quartos (2 Suítes) no Edson Queiroz</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Washington Soares. Edson Queiroz. Fortaleza - CE. 60834-255</div>
+    <div class="c-specs"><b>📐 90m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
     <div class="c-price">
-      <div class="c-pt"><span>Total:</span><b>R$ 2.406/mês</b></div>
-      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 600 • IPTU: R$ 106</div>
+      <div class="c-pt"><span>Total:</span><b>R$ 2.500/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.900 • Cond: R$ 600 • IPTU: R$ 0</div>
     </div>
     <div class="c-wa">
-      <span class="truncate">📞 Fenix Imóveis • (85) 98877-0346</span>
-      <a href="https://wa.me/5585988770346" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <span class="truncate">📞 Breno Diniz Lima Imóveis • (85) 98835-1212</span>
+      <a href="https://wa.me/5585988351212" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
-    <div class="c-tags"><i>110 m²</i><i>Elevador</i><i>DCE</i><i>6 min do Trabalho</i><i>Pacote R$ 2.406/mês</i></div>
+    <div class="c-tags"><i>Casa em Condomínio</i><i>2 Suítes</i><i>2 Vagas</i><i>Pacote R$ 2.500</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-11">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-11"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-11" data-obs-input="imv-11" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-11" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Washington%20Soares%2C%20Edson%20Queiroz%2C%20Fortaleza%20-%20CE%2C%2060834-255%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-20" class="prop-card card-yellow" data-p="3827|Apartamento|Jacarecanga|2000|1000|88|3088|18|148|3|-3.722|-38.542" data-addr="Av. Filomeno Gomes, Jacarecanga, Fortaleza - CE, 60010-280" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895">
-  <div class="c-hdr"><span><b>#20</b> JACARECANGA • 3827</span><span class="b-rt">⭐ 3</span></div>
+</article>
+      <article id="imv-12" class="prop-card card-even" data-p="CF110|Casa em Condomínio|Cidade dos Funcionários|2250|550|90|2890|15|110|3|-3.784|-38.498" data-addr="Av. Oliveira Paiva. Cidade dos Funcionários. Fortaleza - CE. 60822-630" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785">
+  <div class="c-hdr"><span><b>#12</b> CIDADE DOS FUNCIONÁRIOS • CF110</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 15 min</b></span>
-      <span class="s-bx"><i class="s-yl">★</i><i class="s-yl">★</i><i class="s-yl">★</i><i class="">★</i><i class="">★</i></span>
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 15 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Duplex em Condomínio Fechado 110 m² com 3 Suítes na Cidade dos Funcionários</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Oliveira Paiva. Cidade dos Funcionários. Fortaleza - CE. 60822-630</div>
+    <div class="c-specs"><b>📐 110m²</b><b>🛏️ 3(3s)</b><b>🚿 4b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.890/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.250 • Cond: R$ 550 • IPTU: R$ 90</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Alessandro Belchior Imóveis • (85) 3466-4343</span>
+      <a href="https://wa.me/558534664343" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Duplex em Condomínio</i><i>3 Suítes</i><i>Piscina e Deck</i><i>Portaria 24h</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-12">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-12"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-12" data-obs-input="imv-12" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-12" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Oliveira%20Paiva%2C%20Cidade%20dos%20Funcion%C3%A1rios%2C%20Fortaleza%20-%20CE%2C%2060822-630%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-13" class="prop-card card-odd" data-p="RP95|Casa em Condomínio|Lagoa Redonda|2950|410|69|3429|20|95|3|-3.8185|-38.462" data-addr="Rua Luiza Guimarães. Lagoa Redonda. Fortaleza - CE. 60831-490" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275">
+  <div class="c-hdr"><span><b>#13</b> LAGOA REDONDA • RP95</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 20 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Nova em Condomínio Reserva dos Pássaros 95 m² na Lagoa Redonda</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Luiza Guimarães. Lagoa Redonda. Fortaleza - CE. 60831-490</div>
+    <div class="c-specs"><b>📐 95m²</b><b>🛏️ 3(2s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.429/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.950 • Cond: R$ 410 • IPTU: R$ 69</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Condomínio Reserva dos Pássaros • (85) 98877-3420</span>
+      <a href="https://wa.me/5585988773420" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Casa Nova Nunca Habitada</i><i>Condomínio Fechado</i><i>Piscina e Churrasqueira</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-13">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-13"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-13" data-obs-input="imv-13" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-13" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Luiza%20Guimar%C3%A3es%2C%20Lagoa%20Redonda%2C%20Fortaleza%20-%20CE%2C%2060831-490%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-14" class="prop-card card-even" data-p="223-C3|Apartamento|Varjota|1200|422|367|1989|5|80|3|-3.733|-38.486" data-addr="Rua Silva Paulet. Varjota. Fortaleza - CE. 60175-210" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572">
+  <div class="c-hdr"><span><b>#14</b> VARJOTA • 223-C3</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 80 m² com 3 Quartos e Varanda na Varjota</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Silva Paulet. Varjota. Fortaleza - CE. 60175-210</div>
+    <div class="c-specs"><b>📐 80m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 1.989/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.200 • Cond: R$ 422 • IPTU: R$ 367</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Imobiliária Varjota Locações • (85) 3267-4808</span>
+      <a href="https://wa.me/5585987223130" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>A 5 min do Trabalho</i><i>Pacote R$ 1.989/mês</i><i>Varanda</i><i>80 m²</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-14">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-14"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-14" data-obs-input="imv-14" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-14" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Silva%20Paulet%2C%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060175-210%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-15" class="prop-card card-odd" data-p="SOLANGE|Apartamento|Joaquim Távora|1700|720|135|2555|7|130|3|-3.748|-38.514" data-addr="Av. Barão de Studart. 2445 - Joaquim Távora. Fortaleza - CE. 60120-002" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098">
+  <div class="c-hdr"><span><b>#15</b> JOAQUIM TÁVORA • SOLANGE</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 7 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 130 m² com 3 Quartos na Av. Barão de Studart</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Barão de Studart. 2445 - Joaquim Távora. Fortaleza - CE. 60120-002</div>
+    <div class="c-specs"><b>📐 130m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.555/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 720 • IPTU: R$ 135</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Robert Smith Imóveis • (85) 99100-2445</span>
+      <a href="https://wa.me/5585991002445" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>130 m² de Área Útil</i><i>Duas Salas c/ Varanda</i><i>Dependência Completa</i><i>2 Vagas</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-15">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-15"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-15" data-obs-input="imv-15" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-15" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Bar%C3%A3o%20de%20Studart%2C%202445%20-%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060120-002%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-16" class="prop-card card-even" data-p="L8817|Apartamento|Engenheiro Luciano Cavalcante|2500|356|0|2856|11|70|3|-3.768|-38.491" data-addr="Rua Engenheiro Luciano Cavalcante. Engenheiro Luciano Cavalcante. Fortaleza - CE. 60813-765" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333">
+  <div class="c-hdr"><span><b>#16</b> ENGENHEIRO LUCIANO CAVALCANTE • L8817</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 11 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 3 Quartos com Lazer Completo no Eng. Luciano Cavalcante</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Engenheiro Luciano Cavalcante. Engenheiro Luciano Cavalcante. Fortaleza - CE. 60813-765</div>
+    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.856/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 356 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Imobiliária Mota da Costa • (85) 3036-9936</span>
+      <a href="https://wa.me/558530369936" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Piscina e Deck</i><i>Churrasqueira</i><i>Salão de Festas</i><i>Condomínio R$ 356</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-16">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-16"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-16" data-obs-input="imv-16" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-16" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Engenheiro%20Luciano%20Cavalcante%2C%20Engenheiro%20Luciano%20Cavalcante%2C%20Fortaleza%20-%20CE%2C%2060813-765%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-17" class="prop-card card-odd" data-p="351|Apartamento|Cocó|2000|900|0|2900|7|70|3|-3.746|-38.482" data-addr="Praça Engenheiro Pedro Felipe Borges. Cocó. Fortaleza - CE. 60192-115" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675">
+  <div class="c-hdr"><span><b>#17</b> COCÓ • 351</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 7 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 70 m² com 3 Quartos no Cocó próx. RioMar Papicu</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Praça Engenheiro Pedro Felipe Borges. Cocó. Fortaleza - CE. 60192-115</div>
+    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.900/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 900 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Cocó Imóveis Fortaleza • (85) 98844-3510</span>
+      <a href="https://wa.me/5585988443510" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Muito Ventilado</i><i>Próx. RioMar Papicu</i><i>Ao lado de Praça</i><i>Pacote R$ 2.900/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-17">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-17"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-17" data-obs-input="imv-17" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-17" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Pra%C3%A7a%20Engenheiro%20Pedro%20Felipe%20Borges%2C%20Coc%C3%B3%2C%20Fortaleza%20-%20CE%2C%2060192-115%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-18" class="prop-card card-even" data-p="AP72858|Apartamento|Cambeba|2300|634|126|3060|16|70|3|-3.805|-38.489" data-addr="Rua dos Amigos. 355 - Cambeba. Fortaleza - CE. 60822-168" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464">
+  <div class="c-hdr"><span><b>#18</b> CAMBEBA • AP72858</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 16 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 70 m² no Fortune Residence Club no Cambeba</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua dos Amigos. 355 - Cambeba. Fortaleza - CE. 60822-168</div>
+    <div class="c-specs"><b>📐 70m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.060/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.300 • Cond: R$ 634 • IPTU: R$ 126</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Adriano Freire Imóveis • (85) 98111-7285</span>
+      <a href="https://wa.me/5585981117285" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Lazer Completo Club</i><i>Piscina. Sauna e Academia</i><i>2 Vagas de Garagem</i><i>Gás Incluso</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-18">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-18"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-18" data-obs-input="imv-18" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-18" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20dos%20Amigos%2C%20355%20-%20Cambeba%2C%20Fortaleza%20-%20CE%2C%2060822-168%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-19" class="prop-card card-odd" data-p="8088|Apartamento|Meireles|1900|0|0|1900|5|106|3|-3.7315|-38.511" data-addr="Rua Pereira Filgueiras. Meireles. Fortaleza - CE. 60160-150" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422">
+  <div class="c-hdr"><span><b>#19</b> MEIRELES • 8088</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento Dúplex 106 m² com 3 Quartos no Meireles</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Pereira Filgueiras. Meireles. Fortaleza - CE. 60160-150</div>
+    <div class="c-specs"><b>📐 106m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 1.900/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.900 • Cond: R$ 0 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Ferreira Lopes Gestão Imobiliária • (85) 98822-8088</span>
+      <a href="https://wa.me/5585988228088" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>106 m² em Dúplex</i><i>Sem Taxa de Condomínio</i><i>5 min do Trabalho</i><i>Pacote R$ 1.900/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-19">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-19"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-19" data-obs-input="imv-19" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-19" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Pereira%20Filgueiras%2C%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-150%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-20" class="prop-card card-even" data-p="3827|Apartamento|Jacarecanga|2000|1000|88|3088|18|148|3|-3.722|-38.542" data-addr="Av. Filomeno Gomes. Jacarecanga. Fortaleza - CE. 60010-280" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895">
+  <div class="c-hdr"><span><b>#20</b> JACARECANGA • 3827</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 18 min</b></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento Amplo 148 m² com 3 Quartos no Jacarecanga</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Filomeno Gomes, Jacarecanga, Fortaleza - CE, 60010-280</div>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Filomeno Gomes. Jacarecanga. Fortaleza - CE. 60010-280</div>
     <div class="c-specs"><b>📐 148m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 3.088/mês</b></div>
@@ -844,20 +923,136 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/5585992203827" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>148 m² Privativos</i><i>Água Inclusa no Condomínio</i><i>Dependência Completa</i><i>Total R$ 3.088</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-20">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-20"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-20" data-obs-input="imv-20" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-20" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Av.%20Filomeno%20Gomes%2C%20Jacarecanga%2C%20Fortaleza%20-%20CE%2C%2060010-280%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Filomeno%20Gomes%2C%20Jacarecanga%2C%20Fortaleza%20-%20CE%2C%2060010-280%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article><article id="imv-24" class="prop-card card-even" data-p="CA0013|Casa em Condomínio|Sapiranga|1800|600|92|2492|14|100|3|-3.791|-38.474" data-addr="Rua Olegário Memória, Sapiranga, Fortaleza - CE, 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910">
+</article>
+      <article id="imv-21" class="prop-card card-odd" data-p="L198|Casa|Montese|1700|0|0|1700|15|80|3|-3.765|-38.546" data-addr="Rua Alberto Magno. Montese. Fortaleza - CE. 60420-670" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386">
+  <div class="c-hdr"><span><b>#21</b> MONTESE • L198</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 15 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa 80 m² com 3 Quartos (1 Suíte) e Garagem no Montese</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Alberto Magno. Montese. Fortaleza - CE. 60420-670</div>
+    <div class="c-specs"><b>📐 80m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 1.700/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 0 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Imobiliária Azevedo Frota Ltda • (85) 98733-4400</span>
+      <a href="https://wa.me/5585987334400" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Sem Condomínio</i><i>Próximo à Av. João Pessoa</i><i>Armários nos Quartos</i><i>Total R$ 1.700/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-21">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-21"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-21" data-obs-input="imv-21" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-21" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Alberto%20Magno%2C%20Montese%2C%20Fortaleza%20-%20CE%2C%2060420-670%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-22" class="prop-card card-even" data-p="UB-2328|Casa|Aldeota|2100|0|0|2100|5|240|3|-3.731|-38.502" data-addr="Rua Ubajara. Aldeota. Fortaleza - CE. 60150-020" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699">
+  <div class="c-hdr"><span><b>#22</b> ALDEOTA • UB-2328</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 5 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Ampla 240 m² com 3 Quartos e Quintal na Aldeota</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Ubajara. Aldeota. Fortaleza - CE. 60150-020</div>
+    <div class="c-specs"><b>📐 240m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.100/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.100 • Cond: R$ 0 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Ricardo Imóveis (CRECI 2328) • (85) 98855-2328</span>
+      <a href="https://wa.me/5585988552328" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>240 m² de Espaço</i><i>A 5 min do Trabalho</i><i>Sem Condomínio</i><i>Quintal e 2 Vagas</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-22">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-22"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-22" data-obs-input="imv-22" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-22" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Ubajara%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060150-020%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-23" class="prop-card card-odd" data-p="AP0346|Apartamento|Papicu|1700|600|106|2406|6|110|3|-3.738|-38.479" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923">
+  <div class="c-hdr"><span><b>#23</b> PAPICU • AP0346</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 110 m² com 3 Quartos (1 Suíte) e Elevador no Papicu</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782</div>
+    <div class="c-specs"><b>📐 110m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.406/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 600 • IPTU: R$ 106</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Fenix Imóveis • (85) 98877-0346</span>
+      <a href="https://wa.me/5585988770346" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>110 m²</i><i>Elevador</i><i>DCE</i><i>6 min do Trabalho</i><i>Pacote R$ 2.406/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-23">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-23"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-23" data-obs-input="imv-23" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-23" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-24" class="prop-card card-even" data-p="CA0013|Casa em Condomínio|Sapiranga|1800|600|92|2492|14|100|3|-3.791|-38.474" data-addr="Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910">
   <div class="c-hdr"><span><b>#24</b> SAPIRANGA • CA0013</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 20 min</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span><b class="b-cnd">Casa em Condomínio</b> <b class="b-drv">🚗 14 min</b></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa em Condomínio Fechado 100 m² com 3 Quartos (2 Suítes) na Sapiranga</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Olegário Memória, Sapiranga, Fortaleza - CE, 60833-351</div>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351</div>
     <div class="c-specs"><b>📐 100m²</b><b>🛏️ 3(2s)</b><b>🚿 2b</b><b>🚗 2v</b></div>
     <div class="c-price">
       <div class="c-pt"><span>Total:</span><b>R$ 2.492/mês</b></div>
@@ -868,12 +1063,303 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <a href="https://wa.me/5585988770013" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
     <div class="c-tags"><i>Casa em Condomínio Fechado</i><i>2 Suítes</i><i>2 Vagas</i><i>Pacote R$ 2.492/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-24">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-24"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-24" data-obs-input="imv-24" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-24" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&amp;destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&amp;travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910" target="_blank" rel="noopener">Ver Anúncio OLX →</a>
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
   </div>
-</article></div>
+</article>
+      <article id="imv-25" class="prop-card card-odd" data-p="BNB95|Apartamento|Aldeota|1700|550|100|2350|4|95|3|-3.737|-38.504" data-addr="Rua Tibúrcio Cavalcante. Aldeota. Fortaleza - CE. 60125-100" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008">
+  <div class="c-hdr"><span><b>#25</b> ALDEOTA • BNB95</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 4 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 95 m² com 3 Quartos (2 Suítes) na Aldeota (Próx. BNB)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Tibúrcio Cavalcante. Aldeota. Fortaleza - CE. 60125-100</div>
+    <div class="c-specs"><b>📐 95m²</b><b>🛏️ 3(2s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.350/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.700 • Cond: R$ 550 • IPTU: R$ 100</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Cicerildo Corretor • (85) 98844-2700</span>
+      <a href="https://wa.me/5585988442700" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>95 m²</i><i>2 Suítes</i><i>4 min do Trabalho</i><i>Garagem Coberta</i><i>Pacote R$ 2.350/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-25">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-25"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-25" data-obs-input="imv-25" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-25" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Tib%C3%BArcio%20Cavalcante%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060125-100%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-26" class="prop-card card-even" data-p="JT115|Casa|Joaquim Távora|2500|0|0|2500|7|115|3|-3.746|-38.512" data-addr="Rua Padre Valdevino. Joaquim Távora. Fortaleza - CE. 60135-040" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973">
+  <div class="c-hdr"><span><b>#26</b> JOAQUIM TÁVORA • JT115</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-cas">Casa</b> <b class="b-drv">🚗 7 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Casa Duplex 115 m² com 3 Quartos no Joaquim Távora</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino. Joaquim Távora. Fortaleza - CE. 60135-040</div>
+    <div class="c-specs"><b>📐 115m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.500/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.500 • Cond: R$ 0 • IPTU: R$ 0</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Locação Direta Joaquim Távora • (85) 98822-7739</span>
+      <a href="https://wa.me/5585988227739" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Casa Duplex 115 m²</i><i>Sem Taxa de Condomínio</i><i>7 min do Trabalho</i><i>R$ 2.500/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-26">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-26"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-26" data-obs-input="imv-26" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-26" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060135-040%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-27" class="prop-card card-odd" data-p="11213|Apartamento|Benfica|1600|700|94|2394|13|107|3|-3.7435|-38.5385" data-addr="Av. Domingos Olímpio. Benfica. Fortaleza - CE. 60040-082" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085">
+  <div class="c-hdr"><span><b>#27</b> BENFICA • 11213</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 13 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 107 m² com 3 Quartos (1 Suíte) na Av. Domingos Olímpio (Benfica)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Domingos Olímpio. Benfica. Fortaleza - CE. 60040-082</div>
+    <div class="c-specs"><b>📐 107m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.394/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.600 • Cond: R$ 700 • IPTU: R$ 94</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Mega Imóveis • (85) 3055-1111</span>
+      <a href="https://wa.me/558530551111" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>107 m²</i><i>1 Suíte</i><i>Portaria 24h</i><i>2 Elevadores</i><i>Pacote R$ 2.394/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-27">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-27"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-27" data-obs-input="imv-27" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-27" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Domingos%20Ol%C3%ADmpio%2C%20Benfica%2C%20Fortaleza%20-%20CE%2C%2060040-082%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-28" class="prop-card card-even" data-p="RAP814|Apartamento|Papicu|2000|450|87|2537|6|111|3|-3.738|-38.482" data-addr="Av. Engenheiro Alberto Sá. 120 - Papicu. Fortaleza - CE. 60175-395" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724">
+  <div class="c-hdr"><span><b>#28</b> PAPICU • RAP814</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 111 m² com 3 Quartos (1 Suíte) e 2 Vagas no Edifício Caiobá (Papicu)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Engenheiro Alberto Sá. 120 - Papicu. Fortaleza - CE. 60175-395</div>
+    <div class="c-specs"><b>📐 111m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 2v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.537/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 450 • IPTU: R$ 87</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 RAP Negócios Imobiliários • (85) 98428-7043</span>
+      <a href="https://wa.me/5585984287043" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>111 m²</i><i>2 Vagas de Garagem</i><i>Edifício Caiobá</i><i>2 km do RioMar</i><i>Pacote R$ 2.537/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-28">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-28"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-28" data-obs-input="imv-28" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-28" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Engenheiro%20Alberto%20S%C3%A1%2C%20120%20-%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-395%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-29" class="prop-card card-odd" data-p="049|Apartamento|Papicu|1750|400|87|2237|6|110|3|-3.7385|-38.4795" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-395" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950">
+  <div class="c-hdr"><span><b>#29</b> PAPICU • 049</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 6 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 110 m² com 3 Quartos (1 Suíte) próx. ao RioMar no Papicu</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-395</div>
+    <div class="c-specs"><b>📐 110m²</b><b>🛏️ 3(1s)</b><b>🚿 3b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.237/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.750 • Cond: R$ 400 • IPTU: R$ 87</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Izabel Oliveira Imóveis • (85) 98833-0049</span>
+      <a href="https://wa.me/5585988330049" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>110 m²</i><i>1 Suíte</i><i>Armários Embutidos</i><i>Próx. RioMar</i><i>Pacote R$ 2.237/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-29">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-29"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-29" data-obs-input="imv-29" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-29" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-395%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-30" class="prop-card card-even" data-p="7135|Apartamento|Aldeota|2400|604|84|3088|8|141|3|-3.741|-38.5105" data-addr="Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135">
+  <div class="c-hdr"><span><b>#30</b> ALDEOTA • 7135</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 8 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 141 m² com 3 Suítes na Aldeota (Rua Padre Valdevino)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041</div>
+    <div class="c-specs"><b>📐 141m²</b><b>🛏️ 3(3s)</b><b>🚿 4b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.088/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.400 • Cond: R$ 604 • IPTU: R$ 84</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Mega Imóveis Aldeota • (85) 3055-1111</span>
+      <a href="https://wa.me/558530551111" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>141 m²</i><i>3 Suítes</i><i>Varanda</i><i>Armários Projetados</i><i>Pacote R$ 3.088/mês</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-30">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-30"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-30" data-obs-input="imv-30" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-30" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201515%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-31" class="prop-card card-odd" data-p="AP5206-499|Apartamento|Aldeota|2000|780|248|3028|4|187|3|-3.743|-38.4988" data-addr="Av. Desembargador Moreira. 2059 - Aldeota. Fortaleza - CE. 60170-002" data-url="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza">
+  <div class="c-hdr"><span><b>#31</b> ALDEOTA • AP5206-499</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 4 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 187 m² com 3 Quartos (1 Suíte) no Edifício Rita Maria (Av. Des. Moreira)</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Av. Desembargador Moreira. 2059 - Aldeota. Fortaleza - CE. 60170-002</div>
+    <div class="c-specs"><b>📐 187m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 3.028/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 2.000 • Cond: R$ 780 • IPTU: R$ 248</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Marcelino Freitas Imobiliária • (85) 3052-2222</span>
+      <a href="https://wa.me/5585988995206" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>187 m²</i><i>3 Varandas</i><i>Dependência Completa</i><i>4 min do Trabalho</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-31">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-31"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-31" data-obs-input="imv-31" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-31" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Desembargador%20Moreira%2C%202059%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060170-002%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+      <article id="imv-32" class="prop-card card-even" data-p="1388865464|Apartamento|Aldeota|1993|643|83|2719|5|90|3|-3.742|-38.506" data-addr="Rua Padre Valdevino. 1913 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464">
+  <div class="c-hdr"><span><b>#32</b> ALDEOTA • 1388865464</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span><b class="b-apt">Apartamento</b> <b class="b-drv">🚗 5 min</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464" target="_blank" rel="noopener" class="hover:underline hover:text-emerald-700 transition">Apartamento 90 m² com 3 Quartos (1 Suíte) na Rua Padre Valdevino</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">📍 Rua Padre Valdevino. 1913 - Aldeota. Fortaleza - CE. 60135-041</div>
+    <div class="c-specs"><b>📐 90m²</b><b>🛏️ 3(1s)</b><b>🚿 2b</b><b>🚗 1v</b></div>
+    <div class="c-price">
+      <div class="c-pt"><span>Total:</span><b>R$ 2.719/mês</b></div>
+      <div class="c-pg">Aluguel: R$ 1.993 • Cond: R$ 643 • IPTU: R$ 83</div>
+    </div>
+    <div class="c-wa">
+      <span class="truncate">📞 Maurílio Lucena Corretor • (85) 98811-1885</span>
+      <a href="https://wa.me/5585988111885" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>90 m²</i><i>Varanda</i><i>Lavanderia</i><i>Próx. Av. Barão de Studart</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-imv-32">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-imv-32"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-imv-32" data-obs-input="imv-32" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita. negociação ou contato..."></textarea>
+        <button type="button" data-save-obs="imv-32" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201913%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+  </div>
+</article>
+    </div>
   </section>
 </main>
 
@@ -882,22 +1368,22 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
   <div class="bg-white rounded-2xl max-w-md w-full p-5 space-y-3 shadow-2xl">
     <div class="flex justify-between items-center">
       <h3 class="text-base font-extrabold text-slate-900">⏰ Configurar Horários de Busca</h3>
-      <button type="button" id="btnCloseScheduleModal" class="text-xl font-bold leading-none cursor-pointer">×</button>
+      <button type="button" id="btnCloseScheduleModal" class="text-xl font-bold leading-none cursor-pointer">&times;</button>
     </div>
     <p class="text-xs text-slate-600">Inclua novos horários de busca automática diária:</p>
     <div class="space-y-2 text-xs font-semibold">
-      <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="panel_sched_mode" value="fixed" checked=""> Horários fixos diários</label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="panel_sched_mode" value="fixed" checked /> Horários fixos diários</label>
       <div id="panelFixedBox" class="pl-5 space-y-2">
         <div id="panelTimesList" class="flex flex-wrap gap-1.5"></div>
         <div class="flex gap-1.5">
-          <input type="time" id="panelNewTime" value="18:00" class="border rounded px-2 py-1 text-xs">
+          <input type="time" id="panelNewTime" value="18:00" class="border rounded px-2 py-1 text-xs" />
           <button type="button" id="btnPanelAddTime" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold cursor-pointer">+ Incluir</button>
         </div>
       </div>
-      <label class="flex items-center gap-2 pt-2 cursor-pointer"><input type="radio" name="panel_sched_mode" value="freq"> Atualizar "X" vezes ao dia</label>
+      <label class="flex items-center gap-2 pt-2 cursor-pointer"><input type="radio" name="panel_sched_mode" value="freq" /> Atualizar "X" vezes ao dia</label>
       <div id="panelFreqBox" class="pl-5 hidden items-center gap-2">
         <span>Atualizar</span>
-        <input type="number" id="panelFreqX" value="4" min="1" max="24" class="w-16 border rounded px-2 py-1 font-bold text-center">
+        <input type="number" id="panelFreqX" value="4" min="1" max="24" class="w-16 border rounded px-2 py-1 font-bold text-center" />
         <span>vezes ao dia</span>
       </div>
     </div>
@@ -913,6 +1399,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 const $ = id => document.getElementById(id);
 const STORAGE_CFG_KEY = "fortaleza_search_rent_cfg";
 const RATINGS_KEY = "fortaleza_rental_ratings_v2";
+const NOTES_KEY = "fortaleza_rental_notes_v1";
 const LAST_SCAN_KEY = "fortaleza_last_scan_info";
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk/gviz/tq?tqx=out:csv";
 const SB_URL = "https://kpvhfjthmkgiddfcsslw.supabase.co/rest/v1/property_ratings";
@@ -926,6 +1413,7 @@ let refPoint = {
 };
 let activeCfg = { bairros: [], details: [], minVal: 0, maxVal: 0, condo: 0, iptu: 0, rooms: 0, minArea: 0, maxArea: 0, schedMode: "fixed", times: ["06:00","14:00"], freqX: 4 };
 let userRatings = {};
+let userNotes = {};
 let mapInstance = null, markerGroup = null, refMarker = null, markersById = {}, chartInstance = null;
 const fmtBRL = v => "R$ " + Number(v).toLocaleString("pt-BR");
 
@@ -968,19 +1456,48 @@ const KNOWN_ADDR_BY_ID = {
   "imv-23": "Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-782",
   "imv-24": "Rua Olegário Memória, Sapiranga, Fortaleza - CE, 60833-351",
   "imv-25": "Rua Tibúrcio Cavalcante, Aldeota, Fortaleza - CE, 60125-100",
-  "imv-26": "Rua Padre Valdevino, Joaquim Távora, Fortaleza - CE, 60135-040"
+  "imv-26": "Rua Padre Valdevino, Joaquim Távora, Fortaleza - CE, 60135-040",
+  "imv-27": "Av. Domingos Olímpio, Benfica, Fortaleza - CE, 60040-082",
+  "imv-28": "Av. Engenheiro Alberto Sá, 120 - Papicu, Fortaleza - CE, 60175-395",
+  "imv-29": "Rua Júlio Azevedo, Papicu, Fortaleza - CE, 60175-395",
+  "imv-30": "Rua Padre Valdevino, 1515 - Aldeota, Fortaleza - CE, 60135-041",
+  "imv-31": "Av. Desembargador Moreira, 2059 - Aldeota, Fortaleza - CE, 60170-002",
+  "imv-32": "Rua Padre Valdevino, 1913 - Aldeota, Fortaleza - CE, 60135-041"
 };
 
 const KNOWN_COORDS_BY_ID = {
-  "imv-1": [-3.7432, -38.4912], "imv-2": [-3.7395, -38.4785], "imv-3": [-3.7568, -38.5245],
-  "imv-4": [-3.7388, -38.4975], "imv-5": [-3.7525, -38.5015], "imv-6": [-3.7595, -38.5280],
-  "imv-7": [-3.7410, -38.5105], "imv-8": [-3.7445, -38.5082], "imv-9": [-3.7895, -38.4720],
-  "imv-10": [-3.7980, -38.4810], "imv-11": [-3.7720, -38.4840], "imv-12": [-3.7840, -38.4980],
-  "imv-13": [-3.8185, -38.4620], "imv-14": [-3.7330, -38.4860], "imv-15": [-3.7480, -38.5140],
-  "imv-16": [-3.7680, -38.4910], "imv-17": [-3.7460, -38.4820], "imv-18": [-3.8050, -38.4890],
-  "imv-19": [-3.7315, -38.5110], "imv-20": [-3.7220, -38.5420], "imv-21": [-3.7650, -38.5460],
-  "imv-22": [-3.7310, -38.5020], "imv-23": [-3.7380, -38.4790], "imv-24": [-3.7910, -38.4740],
-  "imv-25": [-3.7370, -38.5040], "imv-26": [-3.7460, -38.5120]
+  "imv-1": [-3.7432, -38.4912],
+  "imv-2": [-3.7395, -38.4785],
+  "imv-3": [-3.7568, -38.5245],
+  "imv-4": [-3.7388, -38.4975],
+  "imv-5": [-3.7525, -38.5015],
+  "imv-6": [-3.7595, -38.528],
+  "imv-7": [-3.741, -38.5105],
+  "imv-8": [-3.7445, -38.5082],
+  "imv-9": [-3.7895, -38.472],
+  "imv-10": [-3.798, -38.481],
+  "imv-11": [-3.772, -38.484],
+  "imv-12": [-3.784, -38.498],
+  "imv-13": [-3.8185, -38.462],
+  "imv-14": [-3.733, -38.486],
+  "imv-15": [-3.748, -38.514],
+  "imv-16": [-3.768, -38.491],
+  "imv-17": [-3.746, -38.482],
+  "imv-18": [-3.805, -38.489],
+  "imv-19": [-3.7315, -38.511],
+  "imv-20": [-3.722, -38.542],
+  "imv-21": [-3.765, -38.546],
+  "imv-22": [-3.731, -38.502],
+  "imv-23": [-3.738, -38.479],
+  "imv-24": [-3.791, -38.474],
+  "imv-25": [-3.737, -38.504],
+  "imv-26": [-3.746, -38.512],
+  "imv-27": [-3.7435, -38.5385],
+  "imv-28": [-3.738, -38.482],
+  "imv-29": [-3.7385, -38.4795],
+  "imv-30": [-3.741, -38.5105],
+  "imv-31": [-3.743, -38.4988],
+  "imv-32": [-3.742, -38.506]
 };
 
 function showToast(m) {
@@ -1067,7 +1584,6 @@ function buildRouteUrl(rawAddr, bairro, pid) {
   return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(orig)}&destination=${encodeURIComponent(dest)}&travelmode=driving`;
 }
 
-// Robust CSV parser
 function parseCSV(text) {
   const lines = [];
   let row = [], inQuotes = false, current = "";
@@ -1102,10 +1618,9 @@ function parseCSV(text) {
   });
 }
 
-// Sync consultation badge UI
 function updateConsultationBadge(timestamp, type, newCount) {
   const info = {
-    timestamp: timestamp || "18/10/2026 às 06:13",
+    timestamp: timestamp || "20/10/2026 às 06:00",
     type: type || "Automática",
     newCount: newCount !== undefined ? newCount : 6
   };
@@ -1129,12 +1644,11 @@ function loadConsultationBadge() {
   let info = null;
   try { info = JSON.parse(localStorage.getItem(LAST_SCAN_KEY)); } catch(e) {}
   if (!info) {
-    info = { timestamp: "18/10/2026 às 06:13", type: "Automática", newCount: 6 };
+    info = { timestamp: "20/10/2026 às 06:00", type: "Automática", newCount: 6 };
   }
   updateConsultationBadge(info.timestamp, info.type, info.newCount);
 }
 
-// Fetch and merge properties from Google Sheets
 async function fetchAndMergeGoogleSheets(isManual = false) {
   try {
     const res = await fetch(`${SHEET_CSV_URL}&_t=${Date.now()}`);
@@ -1169,6 +1683,11 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
       const phone = r.telefone || "(85) 99999-9999";
       const wa = r.whatsapp_numero || "5585999999999";
       const tags = (r.destaques || "").split(";").map(s => s.trim()).filter(Boolean);
+      const sheetObs = (r.observacoes || "").trim();
+      if (sheetObs && !userNotes[pid]) {
+        userNotes[pid] = sheetObs;
+        try { localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes)); } catch(e) {}
+      }
       const routeHref = buildRouteUrl(rawAddr, neighborhood, pid);
 
       let card = document.getElementById(pid);
@@ -1199,6 +1718,16 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
               <a href="https://wa.me/${wa}" target="_blank" rel="noopener">💬 WhatsApp</a>
             </div>
             <div class="c-tags">${tagsHtml}</div>
+            <div class="c-obs">
+              <div class="c-obs-hdr">
+                <label class="c-obs-lbl" for="obs-${pid}">📝 Observações</label>
+                <span class="c-obs-status" id="obs-st-${pid}"></span>
+              </div>
+              <div class="c-obs-row">
+                <textarea id="obs-${pid}" data-obs-input="${pid}" class="c-obs-ta" rows="2" placeholder="Anote detalhes da visita, negociação ou contato..."></textarea>
+                <button type="button" data-save-obs="${pid}" class="btn-save-obs">💾 Salvar</button>
+              </div>
+            </div>
           </div>
           <div class="c-foot">
             <a href="${routeHref}" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
@@ -1230,6 +1759,35 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
   }
 }
 
+function syncNoteUI(pid) {
+  const ta = document.getElementById("obs-" + pid);
+  const st = document.getElementById("obs-st-" + pid);
+  const val = userNotes[pid] || "";
+  if (ta && document.activeElement !== ta) ta.value = val;
+  if (st) st.textContent = val ? "✓ Salvo" : "";
+}
+
+function saveNote(pid) {
+  const ta = document.getElementById("obs-" + pid);
+  if (!ta) return;
+  const val = ta.value.trim();
+  if (val) {
+    userNotes[pid] = val;
+  } else {
+    delete userNotes[pid];
+  }
+  try { localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes)); } catch(e) {}
+  syncNoteUI(pid);
+  const btn = document.querySelector(`[data-save-obs="${pid}"]`);
+  if (btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = "✅ Salvo!";
+    btn.classList.add("saved");
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("saved"); }, 1400);
+  }
+  showToast(val ? "📝 Observação salva com sucesso!" : "📝 Observação removida.");
+}
+
 function getModels() {
   return Array.from(document.querySelectorAll(".prop-card")).map(el => {
     const p = (el.dataset.p || "").split("|");
@@ -1247,13 +1805,14 @@ function getModels() {
     const url = el.getAttribute("data-url") || (el.querySelector(".c-foot a:not(.btn-map)") || {}).href || "#";
     const titleLink = el.querySelector(".c-title a");
     if (titleLink && url !== "#") titleLink.href = url;
+    syncNoteUI(pid);
 
     return {
       el, id: pid, code: p[0], type: p[1], neighborhood,
       val: Number(p[3]), condo: Number(p[4]), iptu: Number(p[5]), total: Number(p[6]),
       drive: drv, area: Number(p[8]), rooms: Number(p[9]), lat, lng,
       addr, routeHref,
-      text: el.textContent.toLowerCase(),
+      text: (el.textContent + " " + (userNotes[pid] || "")).toLowerCase(),
       title: (el.querySelector("h3") || {}).textContent || "",
       url
     };
@@ -1335,13 +1894,11 @@ async function pullSupabase() {
   } catch(e) {}
 }
 
-// Initialize Google Maps in Panel
 function initMap() {
   if (typeof window.L === "undefined") return;
   $("map").innerHTML = "";
   mapInstance = window.L.map("map", { center: [refPoint.lat, refPoint.lng], zoom: 13 });
   
-  // Google Maps Roadmap Layer
   window.L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
     maxZoom: 20,
     subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -1378,10 +1935,11 @@ function updateMap(visible) {
     });
 
     const mk = window.L.marker([m.lat, m.lng], { icon: pin }).addTo(markerGroup);
+    const noteTxt = userNotes[m.id] ? `<br><span class="text-emerald-700 font-semibold">📝 ${userNotes[m.id]}</span>` : "";
     mk.bindPopup(`
       <div class="p-1 space-y-1 text-xs">
         <strong>${m.title}</strong><br>
-        <span class="text-slate-600">${m.neighborhood} • ${fmtBRL(m.total)}/mês (🚗 ${m.drive} min)</span><br>
+        <span class="text-slate-600">${m.neighborhood} • ${fmtBRL(m.total)}/mês (🚗 ${m.drive} min)</span>${noteTxt}<br>
         <div class="pt-1 flex gap-2">
           <a href="${m.routeHref}" target="_blank" rel="noopener" class="font-bold text-blue-700 underline">🚗 Rota Google Maps</a>
           <a href="${m.url}" target="_blank" class="font-bold text-slate-900 underline">🔗 OLX</a>
@@ -1428,6 +1986,7 @@ function resetAllFilters() {
 
 function loadInitialConfig() {
   try { userRatings = JSON.parse(localStorage.getItem(RATINGS_KEY)) || {}; } catch(e) {}
+  try { userNotes = JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch(e) {}
   let cfg = null;
   try { cfg = JSON.parse(localStorage.getItem(STORAGE_CFG_KEY)); } catch(e) {}
   const qs = new URLSearchParams(window.location.search);
@@ -1460,13 +2019,11 @@ function loadInitialConfig() {
   }
 }
 
-// Initialize
 document.querySelectorAll(".s-bx").forEach(el => el.innerHTML = "<i>★</i>".repeat(5));
 loadInitialConfig();
 loadConsultationBadge();
 applyFiltersAndRender();
 pullSupabase();
-// Automatically fetch fresh updates from Google Sheets in background
 fetchAndMergeGoogleSheets(false).then(newCount => {
   if (newCount > 0) {
     applyFiltersAndRender();
@@ -1489,7 +2046,6 @@ $("btnSyncCloud").addEventListener("click", () => {
   pullSupabase().then(() => showToast("☁️ Classificações sincronizadas com Supabase!"));
 });
 
-// Manual search button
 $("btnSearchNow").addEventListener("click", () => {
   const btn = $("btnSearchNow");
   btn.textContent = "⏳ Consultando...";
@@ -1556,8 +2112,14 @@ $("btnSaveSchedule").addEventListener("click", () => {
   showToast("⏰ Horários de busca salvos com sucesso!");
 });
 
-// Star rating clicks
+// Star rating & Save Observation clicks
 document.addEventListener("click", e => {
+  const saveObsBtn = e.target.closest("[data-save-obs]");
+  if (saveObsBtn) {
+    const pid = saveObsBtn.getAttribute("data-save-obs");
+    saveNote(pid);
+    return;
+  }
   const st = e.target.closest(".s-bx i");
   if (st) {
     const card = st.closest(".prop-card");
@@ -1578,8 +2140,7 @@ document.addEventListener("click", e => {
   }
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer="" onload="try{initMap();}catch(e){}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer="" onload="try{applyFiltersAndRender();}catch(e){}"></script>
-
-
-</body></html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try{initMap();}catch(e){}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer onload="try{applyFiltersAndRender();}catch(e){}"></script>
+</body>
+</html>
