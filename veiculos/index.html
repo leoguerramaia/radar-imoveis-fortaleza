@@ -1,10 +1,12 @@
-<html lang="pt-BR"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radar de Veículos — Fortaleza/CE &amp; Teresina/PI (Atualização Diária)</title>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Radar de Veículos — Fortaleza/CE & Teresina/PI (Atualização Diária)</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
@@ -75,7 +77,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
       <div>
         <div class="flex flex-wrap items-center gap-2 mb-1.5">
-          <a href="https://leoguerramaia.github.io/radar-imoveis-fortaleza/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-amber-300 text-xs font-bold border border-slate-700">← Voltar ao Buscador</a>
+          <a href="https://leoguerramaia.github.io/radar-imoveis-fortaleza/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-amber-300 text-xs font-bold border border-slate-700">&larr; Voltar ao Buscador</a>
           <a href="https://leoguerramaia.github.io/radar-imoveis-fortaleza/aluguel/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-emerald-300 text-xs font-bold border border-slate-700">🏠 Painel de Aluguel</a>
           <a href="https://leoguerramaia.github.io/radar-imoveis-fortaleza/compra/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-full bg-slate-800 text-sky-300 text-xs font-bold border border-slate-700">🔑 Painel de Compra</a>
           <!-- Consultation Badge -->
@@ -84,9 +86,9 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
               <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold uppercase text-[10px]">Planilha Diária Ativa</span>
             </span>
-            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">20/10/2026 às 10:32</strong></span>
+            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">25/10/2026 às 09:00</strong></span>
             <span class="text-slate-500 hidden sm:inline">•</span>
-            <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-amber-600 text-white font-extrabold text-[11px] shadow-sm">19 veículos qualificados</span>
+            <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-amber-600 text-white font-extrabold text-[11px] shadow-sm">31 veículos qualificados</span>
           </div>
         </div>
         <h1 class="text-xl sm:text-2xl font-extrabold">🚗 Radar de Veículos • Fortaleza/CE &amp; Teresina/PI</h1>
@@ -103,11 +105,11 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Veículos no Painel</p>
-        <span id="kpiCount" class="text-xl font-black">19</span> <small class="text-[10px] text-amber-400 font-bold">10 FOR • 9 THE</small>
+        <span id="kpiCount" class="text-xl font-black">31</span> <small class="text-[10px] text-amber-400 font-bold">15 FOR • 16 THE</small>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Menor Preço Encontrado</p>
-        <span id="kpiMinPrice" class="text-xl font-black text-emerald-400">R$ 79.900</span>
+        <span id="kpiMinPrice" class="text-xl font-black text-emerald-400">R$ 79.790</span>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Menor Quilometragem</p>
@@ -115,7 +117,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
         <p class="text-[11px] text-slate-400">Avaliados (⭐) / Notas</p>
-        <span id="kpiRatedCount" class="text-xl font-black text-amber-400">11</span> <small id="kpiDiscardedCount" class="text-[10px] text-rose-400">22 ocultos</small>
+        <span id="kpiRatedCount" class="text-xl font-black text-amber-400">0</span> <small id="kpiDiscardedCount" class="text-[10px] text-rose-400">0 ocultos</small>
       </div>
     </div>
   </div>
@@ -139,40 +141,40 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Cidade / UF</label>
         <select id="filterCity" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50">
-          <option value="ALL" selected="">Todas (FOR + THE)</option>
+          <option value="ALL" selected>Todas (FOR + THE)</option>
           <option value="Fortaleza/CE">📍 Fortaleza/CE</option>
           <option value="Teresina/PI">📍 Teresina/PI</option>
         </select>
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Ano Mínimo</label>
-        <input id="filterMinYear" type="number" value="2022" placeholder="Ex: 2022" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold">
+        <input id="filterMinYear" type="number" value="2022" placeholder="Ex: 2022" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Ano Máximo</label>
-        <input id="filterMaxYear" type="number" placeholder="Ex: 2026" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
+        <input id="filterMaxYear" type="number" placeholder="Ex: 2026" class="w-full rounded-lg border p-2 text-xs bg-slate-50" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Valor Mínimo (R$)</label>
-        <input id="filterMinPrice" type="number" placeholder="Ex: 60000" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
+        <input id="filterMinPrice" type="number" placeholder="Ex: 60000" class="w-full rounded-lg border p-2 text-xs bg-slate-50" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Valor Máximo (R$)</label>
-        <input id="filterMaxPrice" type="number" value="100000" placeholder="Ex: 100000" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold text-emerald-800">
+        <input id="filterMaxPrice" type="number" value="100000" placeholder="Ex: 100000" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold text-emerald-800" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">KM Mínimo</label>
-        <input id="filterMinKm" type="number" placeholder="Ex: 0" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
+        <input id="filterMinKm" type="number" placeholder="Ex: 0" class="w-full rounded-lg border p-2 text-xs bg-slate-50" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">KM Máximo</label>
-        <input id="filterMaxKm" type="number" value="40000" placeholder="Ex: 40000" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold text-sky-800">
+        <input id="filterMaxKm" type="number" value="40000" placeholder="Ex: 40000" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-bold text-sky-800" />
       </div>
       <div>
         <label class="block text-[11px] font-bold mb-1 text-slate-700">Ordenar por</label>
         <select id="sortBy" class="w-full rounded-lg border p-2 text-xs bg-slate-50 font-semibold">
           <option value="rating_desc">Maior Nota ⭐</option>
-          <option value="price_asc" selected="">Menor Preço (R$)</option>
+          <option value="price_asc" selected>Menor Preço (R$)</option>
           <option value="km_asc">Menor KM</option>
           <option value="year_desc">Ano Mais Novo</option>
         </select>
@@ -182,7 +184,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     <div class="mt-3 pt-2.5 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-center">
       <div class="flex items-center gap-2">
         <select id="filterRating" class="rounded-lg border px-2.5 py-1.5 text-xs font-semibold bg-slate-50">
-          <option value="ACTIVE_ALL" selected="">Ativos (Ocultar 1-2 ⭐)</option>
+          <option value="ACTIVE_ALL" selected>Ativos (Ocultar 1-2 ⭐)</option>
           <option value="GREEN_ONLY">🟢 4 ou 5 Estrelas</option>
           <option value="YELLOW_ONLY">🟡 3 Estrelas</option>
           <option value="UNRATED_ONLY">⚪ Não Avaliados</option>
@@ -196,9 +198,9 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="SUV">SUV</option>
         </select>
       </div>
-      <input id="searchInput" type="text" placeholder="Buscar por marca, modelo, loja, portal ou observação..." class="w-full rounded-lg border px-3 py-1.5 text-xs">
+      <input id="searchInput" type="text" placeholder="Buscar por marca, modelo, loja, portal ou observação..." class="w-full rounded-lg border px-3 py-1.5 text-xs" />
       <div class="text-right">
-        <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 19 de 19 veículos cadastrados</span>
+        <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 31 de 31 veículos cadastrados</span>
       </div>
     </div>
   </section>
@@ -217,7 +219,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <button id="btnFitAll" type="button" class="text-xs px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold transition cursor-pointer">🗺️ Ver Todos</button>
         </div>
       </div>
-      <div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 20; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://mt0.google.com/vt/lyrs=m&amp;x=24&amp;y=32&amp;z=6" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-5px, -20px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=25&amp;y=32&amp;z=6" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(251px, -20px, 0px); opacity: 1;"><img alt="" src="https://mt1.google.com/vt/lyrs=m&amp;x=24&amp;y=33&amp;z=6" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-5px, 236px, 0px); opacity: 1;"><img alt="" src="https://mt2.google.com/vt/lyrs=m&amp;x=25&amp;y=33&amp;z=6" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(251px, 236px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(289px, 151px, 0px); z-index: 151;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 79.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(95px, 213px, 0px); z-index: 213;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 80.290</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(291px, 152px, 0px); z-index: 152;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 81.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(292px, 150px, 0px); z-index: 150;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 82.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(292px, 150px, 0px); z-index: 150;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 84.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(291px, 151px, 0px); z-index: 151;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 85.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(288px, 151px, 0px); z-index: 151;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 85.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(97px, 213px, 0px); z-index: 213;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 86.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(96px, 212px, 0px); z-index: 212;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 87.950</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(289px, 151px, 0px); z-index: 151;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 88.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(96px, 212px, 0px); z-index: 212;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2022 • R$ 89.950</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(96px, 210px, 0px); z-index: 210;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 89.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(97px, 212px, 0px); z-index: 212;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 90.590</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(292px, 150px, 0px); z-index: 150;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 91.490</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(291px, 150px, 0px); z-index: 150;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 92.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(97px, 211px, 0px); z-index: 211;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 94.990</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(96px, 211px, 0px); z-index: 211;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 95.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(291px, 151px, 0px); z-index: 151;"><div style="background:#d97706;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2024 • R$ 95.900</div></div><div class="leaflet-marker-icon v-pin leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -55px; margin-top: -11px; width: 110px; height: 22px; transform: translate3d(95px, 212px, 0px); z-index: 212;"><div style="background:#0284c7;color:#fff;font-weight:700;font-size:10px;padding:3px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);white-space:nowrap;">2023 • R$ 99.990</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © Google Maps</div></div></div></div>
+      <div id="map"></div>
     </div>
 
     <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-3.5 flex flex-col justify-between">
@@ -225,7 +227,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
         <h2 class="text-sm font-bold text-slate-900 mb-1">📊 Comparativo Preço (R$) × Quilometragem (KM)</h2>
         <p class="text-[11px] text-slate-500 mb-2">Todos com Câmbio Automático, 4 Portas, Ano ≥ 2022, KM ≤ 40.000 e Valor ≤ R$ 100 mil</p>
         <div class="relative h-64 w-full">
-          <canvas id="priceChart" width="1170" height="450" style="box-sizing: border-box; display: block; height: 150px; width: 390px;"></canvas>
+          <canvas id="priceChart"></canvas>
         </div>
       </div>
       <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-100 flex items-center justify-between">
@@ -241,31 +243,12 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       <button type="button" id="btnShowAllEmpty" class="px-4 py-2 rounded-lg bg-amber-500 text-slate-950 text-xs font-extrabold cursor-pointer">Restaurar Padrão da Planilha Diária</button>
     </div>
     <div id="cardsGrid">
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-    <article id="veic-1" class="prop-card card-odd" data-v="ONIX-LTZ24|Chevrolet|Onix Plus LTZ|2024|16191|79900|Automático|4 portas|Sedã|Fortaleza/CE|Rodolfo Teófilo|-3.7485|-38.5495|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-sedan-plus-premier-1-0-12v-tb-flex-aut-4p-2024-1534002105">
+      <article id="veic-1" class="prop-card card-odd" data-v="ONIX-LTZ24|Chevrolet|Onix Plus LTZ|2024|16191|79900|Automático|4 portas|Sedã|Fortaleza/CE|Rodolfo Teófilo|-3.7485|-38.5495|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-sedan-plus-premier-1-0-12v-tb-flex-aut-4p-2024-1534002105">
   <div class="c-hdr"><span><b>#01</b> FORTALEZA/CE • ONIX-LTZ24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-sedan-plus-premier-1-0-12v-tb-flex-aut-4p-2024-1534002105" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Plus LTZ 1.0 Turbo Flex Aut. 4P 2024</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Flávio Automóveis Fortaleza • Rodolfo Teófilo (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
@@ -301,235 +284,16 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Fl%C3%A1vio%20Autom%C3%B3veis%20Fortaleza%2C%20Rodolfo%20Te%C3%B3filo%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-sedan-plus-premier-1-0-12v-tb-flex-aut-4p-2024-1534002105" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Fl%C3%A1vio%20Autom%C3%B3veis%20Fortaleza%2C%20Rodolfo%20Te%C3%B3filo%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-sedan-plus-premier-1-0-12v-tb-flex-aut-4p-2024-1534002105" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-11" class="prop-card card-even" data-v="ONIX-THE24|Chevrolet|Onix LT Turbo|2024|30552|80290|Automático|4 portas|Hatch|Teresina/PI|Morada Nova|-5.1185|-42.794|OLX PI / Localiza" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100">
-  <div class="c-hdr"><span><b>#11</b> TERESINA/PI • ONIX-THE24</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Hatch LT 1.0 12V TB Flex Aut. 4P 2024</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Localiza Seminovos Teresina • Morada Nova (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI / Localiza</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2024</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>30,552 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 80,290</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Preto</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Localiza Seminovos Teresina • (86) 99586-1000</span>
-      <a href="https://wa.me/5586995861000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20Hatch%20LT%201.0%2012V%20TB%20Flex%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2080%2C290%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>30.552 km</i><i>Loja Oficial Localiza</i><i>1.0 Turbo Automático</i><i>6 Airbags</i><i>MyLink 8 pol</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-11">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-11"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-11" data-obs-input="veic-11" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-11" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Localiza%20Seminovos%20Teresina%2C%20Morada%20Nova%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100" target="_blank" rel="noopener">Ver Anúncio (OLX PI / Localiza) →</a>
-  </div>
-</article><article id="veic-3" class="prop-card card-odd" data-v="HB20-AUT24|Hyundai|HB20 Comfort Turbo|2024|12543|81900|Automático|4 portas|Hatch|Fortaleza/CE|Engenheiro Luciano Cavalcante|-3.768|-38.491|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234">
-  <div class="c-hdr"><span><b>#03</b> FORTALEZA/CE • HB20-AUT24</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Hyundai HB20 Comfort 1.0 TB Flex 12V Aut. 4P 2024</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Via1 Seminovos Fortaleza • Engenheiro Luciano Cavalcante (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2024</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>12,543 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 81,900</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 TGDI Flex</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Via1 Seminovos Fortaleza • (85) 99272-0649</span>
-      <a href="https://wa.me/5585992720649?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Hyundai%20HB20%20Comfort%201.0%20TB%20Flex%2012V%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2081%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>12.543 km</i><i>Motor 1.0 Turbo TGDI</i><i>Câmbio Automático</i><i>Garantia de Fábrica</i><i>Histórico Veicular</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-3">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-3"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-3" data-obs-input="veic-3" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-3" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Via1%20Seminovos%20Fortaleza%2C%20Engenheiro%20Luciano%20Cavalcante%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
-  </div>
-</article><article id="veic-5" class="prop-card card-even" data-v="YARIS-XL23|Toyota|Yaris Sedan XL|2023|26572|82990|Automático|4 portas|Sedã|Fortaleza/CE|Papicu|-3.7395|-38.4785|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100">
-  <div class="c-hdr"><span><b>#05</b> FORTALEZA/CE • YARIS-XL23</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Toyota Yaris XL Sedan 1.5 Flex 16V 4P Aut. 2023</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Newselect Seminovos Fortaleza • Papicu (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2023</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>26,572 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 82,990</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.5 Dual VVT-i Flex</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Newselect Seminovos Fortaleza • (85) 4011-7100</span>
-      <a href="https://wa.me/558540117100?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Toyota%20Yaris%20XL%20Sedan%201.5%20Flex%2016V%204P%20Aut.%202023%20%28Fortaleza/CE%20-%20R%24%2082%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>26.572 km</i><i>Câmbio CVT 7 Marchas</i><i>Vistoriado</i><i>7 Airbags</i><i>Controle de Estabilidade</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-5">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-5"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-5" data-obs-input="veic-5" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-5" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Newselect%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
-  </div>
-</article><article id="veic-6" class="prop-card card-odd" data-v="RENEG-T270-23|Jeep|Renegade T270|2023|29263|84990|Automático|4 portas|SUV|Fortaleza/CE|Papicu|-3.741|-38.475|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000">
-  <div class="c-hdr"><span><b>#06</b> FORTALEZA/CE • RENEG-T270-23</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade T270 1.3 TB 4X2 Flex Aut. 4P 2023</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Unidas Seminovos Fortaleza • Papicu (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2023</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>29,263 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 84,990</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.3 Turbo T270</b><b>🎨 Preto</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Unidas Seminovos Fortaleza • (85) 3771-2000</span>
-      <a href="https://wa.me/558537712000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Jeep%20Renegade%20T270%201.3%20TB%204X2%20Flex%20Aut.%204P%202023%20%28Fortaleza/CE%20-%20R%24%2084%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>29.263 km</i><i>Motor T270 185cv</i><i>Frenagem Autônoma</i><i>Alerta de Faixa</i><i>Câmbio Automático</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-6">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-6"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-6" data-obs-input="veic-6" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-6" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Unidas%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
-  </div>
-</article><article id="veic-10" class="prop-card card-even" data-v="ONIX-RS24|Chevrolet|Onix RS Turbo|2024|33418|85900|Automático|4 portas|Hatch|Fortaleza/CE|Salinas|-3.764|-38.489|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569">
-  <div class="c-hdr"><span><b>#10</b> FORTALEZA/CE • ONIX-RS24</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix RS 1.0 TB 12V Flex Aut. 4P 2024</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Via Car Veículos Fortaleza • Salinas (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2024</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>33,418 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 85,900</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Via Car Veículos Fortaleza • (85) 99616-0959</span>
-      <a href="https://wa.me/5585996160959?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20RS%201.0%20TB%2012V%20Flex%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2085%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>33.418 km</i><i>Versão Esportiva RS</i><i>Faróis Mascara Negra</i><i>Rodas 16 Pretas</i><i>Automático 6M</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-10">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-10"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-10" data-obs-input="veic-10" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-10" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Via%20Car%20Ve%C3%ADculos%20Fortaleza%2C%20Salinas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
-  </div>
-</article><article id="veic-2" class="prop-card card-odd" data-v="ONIX-PREM24|Chevrolet|Onix Premier|2024|13209|85990|Automático|4 portas|Hatch|Fortaleza/CE|Damas|-3.754|-38.552|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-premier-1-0-12v-tb-flex-aut-4p-2024-1529106602">
+</article>
+      <article id="veic-2" class="prop-card card-even" data-v="ONIX-PREM24|Chevrolet|Onix Premier|2024|13209|85990|Automático|4 portas|Hatch|Fortaleza/CE|Damas|-3.754|-38.552|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-premier-1-0-12v-tb-flex-aut-4p-2024-1529106602">
   <div class="c-hdr"><span><b>#02</b> FORTALEZA/CE • ONIX-PREM24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-premier-1-0-12v-tb-flex-aut-4p-2024-1529106602" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Hatch Premier 1.0 Turbo Flex Aut. 4P 2024</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Life Car Veículos Fortaleza • Damas (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
@@ -565,18 +329,19 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Life%20Car%20Ve%C3%ADculos%20Fortaleza%2C%20Damas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-premier-1-0-12v-tb-flex-aut-4p-2024-1529106602" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Life%20Car%20Ve%C3%ADculos%20Fortaleza%2C%20Damas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-premier-1-0-12v-tb-flex-aut-4p-2024-1529106602" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-12" class="prop-card card-even" data-v="KARDIAN-THE24|Renault|Kardian Evolution|2024|20109|86990|Automático|4 portas|SUV|Teresina/PI|Itararé|-5.106|-42.752|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963">
-  <div class="c-hdr"><span><b>#12</b> TERESINA/PI • KARDIAN-THE24</span><span class="b-rt"></span></div>
+</article>
+      <article id="veic-3" class="prop-card card-odd" data-v="HB20-AUT24|Hyundai|HB20 Comfort Turbo|2024|12543|81900|Automático|4 portas|Hatch|Fortaleza/CE|Engenheiro Luciano Cavalcante|-3.768|-38.491|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234">
+  <div class="c-hdr"><span><b>#03</b> FORTALEZA/CE • HB20-AUT24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Renault Kardian Evolution 1.0 TB 12V Flex 4P Aut. 2024</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Arena Veículos Teresina • Itararé (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Hyundai HB20 Comfort 1.0 TB Flex 12V Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Via1 Seminovos Fortaleza • Engenheiro Luciano Cavalcante (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
     <div class="v-hi-grid">
       <div class="v-hi-box v-hi-ano">
         <span>📅 ANO</span>
@@ -584,84 +349,41 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       </div>
       <div class="v-hi-box v-hi-km">
         <span>🛣️ QUILOMETRAGEM</span>
-        <b>20,109 km</b>
+        <b>12,543 km</b>
       </div>
       <div class="v-hi-box v-hi-preco">
         <span>💰 PREÇO À VISTA</span>
-        <b>R$ 86,990</b>
+        <b>R$ 81,900</b>
       </div>
     </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 TCe Turbo 125cv</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 TGDI Flex</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
     <div class="c-wa">
-      <span class="truncate">📞 Arena Veículos Teresina • (86) 98828-3003</span>
-      <a href="https://wa.me/5586988283003?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Renault%20Kardian%20Evolution%201.0%20TB%2012V%20Flex%204P%20Aut.%202024%20%28Teresina/PI%20-%20R%24%2086%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+      <span class="truncate">📞 Via1 Seminovos Fortaleza • (85) 99272-0649</span>
+      <a href="https://wa.me/5585992720649?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Hyundai%20HB20%20Comfort%201.0%20TB%20Flex%2012V%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2081%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
-    <div class="c-tags"><i>20.109 km</i><i>Câmbio EDC Dupla Embreagem</i><i>Painel Digital</i><i>Faróis Full LED</i><i>6 Airbags</i></div>
+    <div class="c-tags"><i>12.543 km</i><i>Motor 1.0 Turbo TGDI</i><i>Câmbio Automático</i><i>Garantia de Fábrica</i><i>Histórico Veicular</i></div>
     <div class="c-obs">
       <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-12">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-12"></span>
+        <label class="c-obs-lbl" for="obs-veic-3">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-3"></span>
       </div>
       <div class="c-obs-row">
-        <textarea id="obs-veic-12" data-obs-input="veic-12" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-12" class="btn-save-obs">💾 Salvar</button>
+        <textarea id="obs-veic-3" data-obs-input="veic-3" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-3" class="btn-save-obs">💾 Salvar</button>
       </div>
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Arena%20Ve%C3%ADculos%20Teresina%2C%20Itarar%C3%A9%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Via1%20Seminovos%20Fortaleza%2C%20Engenheiro%20Luciano%20Cavalcante%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-1-0-tb-flex-12v-aut-2024-1538901234" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-13" class="prop-card card-odd" data-v="CRONOS-JELTA25|Fiat|Cronos Drive 1.3|2024|25701|87950|Automático|4 portas|Sedã|Teresina/PI|São Cristóvão|-5.0815|-42.7765|Jelta Seminovos" data-url="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188">
-  <div class="c-hdr"><span><b>#13</b> TERESINA/PI • CRONOS-JELTA25</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Cronos Drive 1.3 8V Flex Aut. 4P 2024/2025</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jelta Seminovos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">Jelta Seminovos</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2024</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>25,701 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 87,950</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.3 Firefly CVT</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Jelta Seminovos Teresina • (86) 99947-1902</span>
-      <a href="https://wa.me/5586999471902?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Cronos%20Drive%201.3%208V%20Flex%20Aut.%204P%202024/2025%20%28Teresina/PI%20-%20R%24%2087%2C950%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>25.701 km</i><i>Modelo 2024/2025</i><i>Concessionária Jelta Fiat</i><i>Câmbio Automático CVT</i><i>Garantia</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-13">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-13"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-13" data-obs-input="veic-13" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-13" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Jelta%20Seminovos%20Teresina%2C%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188" target="_blank" rel="noopener">Ver Anúncio (Jelta Seminovos) →</a>
-  </div>
-</article><article id="veic-4" class="prop-card card-even" data-v="HB20-CPLUS24|Hyundai|HB20 Comfort Plus|2024|26000|88900|Automático|4 portas|Hatch|Fortaleza/CE|Parque Araxá|-3.7445|-38.545|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-plus-1-0-tb-flex-12v-aut-2024-1538879262">
+</article>
+      <article id="veic-4" class="prop-card card-even" data-v="HB20-CPLUS24|Hyundai|HB20 Comfort Plus|2024|26000|88900|Automático|4 portas|Hatch|Fortaleza/CE|Parque Araxá|-3.7445|-38.545|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-plus-1-0-tb-flex-12v-aut-2024-1538879262">
   <div class="c-hdr"><span><b>#04</b> FORTALEZA/CE • HB20-CPLUS24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-plus-1-0-tb-flex-12v-aut-2024-1538879262" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Hyundai HB20 Comfort Plus 1.0 TB Flex 12V Aut. 4P 2024</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Carmais Seminovos Fortaleza • Parque Araxá (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
@@ -697,62 +419,19 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Carmais%20Seminovos%20Fortaleza%2C%20Parque%20Arax%C3%A1%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-plus-1-0-tb-flex-12v-aut-2024-1538879262" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Carmais%20Seminovos%20Fortaleza%2C%20Parque%20Arax%C3%A1%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/hyundai-hb20-comfort-plus-1-0-tb-flex-12v-aut-2024-1538879262" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-19" class="prop-card card-odd" data-v="STONIC-JELTA22|Kia|Stonic SX 1.0 Hybrid|2022|6000|89950|Automático|4 portas|SUV|Teresina/PI|São Cristóvão|-5.0815|-42.7765|Jelta Seminovos" data-url="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188">
-  <div class="c-hdr"><span><b>#19</b> TERESINA/PI • STONIC-JELTA22</span><span class="b-rt"></span></div>
+</article>
+      <article id="veic-5" class="prop-card card-odd" data-v="YARIS-XL23|Toyota|Yaris Sedan XL|2023|26572|82990|Automático|4 portas|Sedã|Fortaleza/CE|Papicu|-3.7395|-38.4785|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100">
+  <div class="c-hdr"><span><b>#05</b> FORTALEZA/CE • YARIS-XL23</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Kia Stonic SX 1.0 Turbo Hybrid Aut. 4P 2022</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jelta Seminovos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">Jelta Seminovos</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2022</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>6,000 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 89,950</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo Híbrido 120cv</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Jelta Seminovos Teresina • (86) 99947-1902</span>
-      <a href="https://wa.me/5586999471902?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Kia%20Stonic%20SX%201.0%20Turbo%20Hybrid%20Aut.%204P%202022%20%28Teresina/PI%20-%20R%24%2089%2C950%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>Apenas 6.000 km</i><i>Híbrido Leve MHEV</i><i>Câmbio DCT 7M</i><i>Garantia de Fábrica</i><i>Concessionária Jelta</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-19">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-19"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-19" data-obs-input="veic-19" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-19" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Jelta%20Seminovos%20Teresina%2C%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188" target="_blank" rel="noopener">Ver Anúncio (Jelta Seminovos) →</a>
-  </div>
-</article><article id="veic-17" class="prop-card card-even" data-v="RENEG-THE23|Jeep|Renegade Sport T270|2023|37000|89990|Automático|4 portas|SUV|Teresina/PI|Aroeiras|-5.049|-42.785|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896">
-  <div class="c-hdr"><span><b>#17</b> TERESINA/PI • RENEG-THE23</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade Sport T270 1.3 TB 4X2 Flex Aut. 4P 2023</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Lojão do Automóvel Teresina • Aroeiras (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Toyota Yaris XL Sedan 1.5 Flex 16V 4P Aut. 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Newselect Seminovos Fortaleza • Papicu (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
     <div class="v-hi-grid">
       <div class="v-hi-box v-hi-ano">
         <span>📅 ANO</span>
@@ -760,84 +439,86 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       </div>
       <div class="v-hi-box v-hi-km">
         <span>🛣️ QUILOMETRAGEM</span>
-        <b>37,000 km</b>
+        <b>26,572 km</b>
       </div>
       <div class="v-hi-box v-hi-preco">
         <span>💰 PREÇO À VISTA</span>
-        <b>R$ 89,990</b>
+        <b>R$ 82,990</b>
       </div>
     </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.3 Turbo T270</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.5 Dual VVT-i Flex</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
     <div class="c-wa">
-      <span class="truncate">📞 Lojão do Automóvel Teresina • (86) 3233-8965</span>
-      <a href="https://wa.me/558632338965?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Jeep%20Renegade%20Sport%20T270%201.3%20TB%204X2%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2089%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+      <span class="truncate">📞 Newselect Seminovos Fortaleza • (85) 4011-7100</span>
+      <a href="https://wa.me/558540117100?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Toyota%20Yaris%20XL%20Sedan%201.5%20Flex%2016V%204P%20Aut.%202023%20%28Fortaleza/CE%20-%20R%24%2082%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
-    <div class="c-tags"><i>37.000 km</i><i>Motor T270 Turbo 185cv</i><i>6 Airbags</i><i>Controle de Tração e Estabilidade</i></div>
+    <div class="c-tags"><i>26.572 km</i><i>Câmbio CVT 7 Marchas</i><i>Vistoriado</i><i>7 Airbags</i><i>Controle de Estabilidade</i></div>
     <div class="c-obs">
       <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-17">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-17"></span>
+        <label class="c-obs-lbl" for="obs-veic-5">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-5"></span>
       </div>
       <div class="c-obs-row">
-        <textarea id="obs-veic-17" data-obs-input="veic-17" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-17" class="btn-save-obs">💾 Salvar</button>
+        <textarea id="obs-veic-5" data-obs-input="veic-5" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-5" class="btn-save-obs">💾 Salvar</button>
       </div>
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Loj%C3%A3o%20do%20Autom%C3%B3vel%20Teresina%2C%20Aroeiras%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Newselect%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/toyota-yaris-xl-sedan-1-5-flex-16v-4p-aut-2023-1540117100" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-14" class="prop-card card-odd" data-v="ONIX-LTZ-THE24|Chevrolet|Onix Plus LTZ|2024|32711|90590|Automático|4 portas|Sedã|Teresina/PI|Recanto das Palmeiras|-5.092|-42.768|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699">
-  <div class="c-hdr"><span><b>#14</b> TERESINA/PI • ONIX-LTZ-THE24</span><span class="b-rt"></span></div>
+</article>
+      <article id="veic-6" class="prop-card card-even" data-v="RENEG-T270-23|Jeep|Renegade T270|2023|29263|84990|Automático|4 portas|SUV|Fortaleza/CE|Papicu|-3.741|-38.475|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000">
+  <div class="c-hdr"><span><b>#06</b> FORTALEZA/CE • RENEG-T270-23</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
     </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Sedan Plus LTZ 1.0 Turbo Flex Aut. 4P 2024</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Topcar Veículos Teresina • Recanto das Palmeiras (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade T270 1.3 TB 4X2 Flex Aut. 4P 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Unidas Seminovos Fortaleza • Papicu (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
     <div class="v-hi-grid">
       <div class="v-hi-box v-hi-ano">
         <span>📅 ANO</span>
-        <b>2024</b>
+        <b>2023</b>
       </div>
       <div class="v-hi-box v-hi-km">
         <span>🛣️ QUILOMETRAGEM</span>
-        <b>32,711 km</b>
+        <b>29,263 km</b>
       </div>
       <div class="v-hi-box v-hi-preco">
         <span>💰 PREÇO À VISTA</span>
-        <b>R$ 90,590</b>
+        <b>R$ 84,990</b>
       </div>
     </div>
-    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.3 Turbo T270</b><b>🎨 Preto</b><b>🚪 4 portas</b></div>
     <div class="c-wa">
-      <span class="truncate">📞 Topcar Veículos Teresina • (86) 3305-2021</span>
-      <a href="https://wa.me/558633052021?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20Sedan%20Plus%20LTZ%201.0%20Turbo%20Flex%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2090%2C590%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+      <span class="truncate">📞 Unidas Seminovos Fortaleza • (85) 3771-2000</span>
+      <a href="https://wa.me/558537712000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Jeep%20Renegade%20T270%201.3%20TB%204X2%20Flex%20Aut.%204P%202023%20%28Fortaleza/CE%20-%20R%24%2084%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
-    <div class="c-tags"><i>32.711 km</i><i>Versão LTZ Turbo</i><i>Chave Presencial</i><i>Câmera de Ré</i><i>Sensor de Estacionamento</i></div>
+    <div class="c-tags"><i>29.263 km</i><i>Motor T270 185cv</i><i>Frenagem Autônoma</i><i>Alerta de Faixa</i><i>Câmbio Automático</i></div>
     <div class="c-obs">
       <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-14">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-14"></span>
+        <label class="c-obs-lbl" for="obs-veic-6">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-6"></span>
       </div>
       <div class="c-obs-row">
-        <textarea id="obs-veic-14" data-obs-input="veic-14" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-14" class="btn-save-obs">💾 Salvar</button>
+        <textarea id="obs-veic-6" data-obs-input="veic-6" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-6" class="btn-save-obs">💾 Salvar</button>
       </div>
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Topcar%20Ve%C3%ADculos%20Teresina%2C%20Recanto%20das%20Palmeiras%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Unidas%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-t270-1-3-tb-4x2-flex-aut-4p-2023-1537712000" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-7" class="prop-card card-even" data-v="CRONOS-LOC24|Fiat|Cronos Drive 1.3|2024|17492|91490|Automático|4 portas|Sedã|Fortaleza/CE|Papicu|-3.738|-38.481|OLX CE / Localiza" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/fiat-cronos-drive-1-3-8v-flex-2024-1466080777">
+</article>
+      <article id="veic-7" class="prop-card card-odd" data-v="CRONOS-LOC24|Fiat|Cronos Drive 1.3|2024|17492|91490|Automático|4 portas|Sedã|Fortaleza/CE|Papicu|-3.738|-38.481|OLX CE / Localiza" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/fiat-cronos-drive-1-3-8v-flex-2024-1466080777">
   <div class="c-hdr"><span><b>#07</b> FORTALEZA/CE • CRONOS-LOC24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/fiat-cronos-drive-1-3-8v-flex-2024-1466080777" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Cronos Drive 1.3 8V Flex Aut. (CVT) 4P 2024</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Localiza Seminovos Fortaleza • Papicu (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE / Localiza</span></div>
@@ -873,15 +554,16 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Localiza%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/fiat-cronos-drive-1-3-8v-flex-2024-1466080777" target="_blank" rel="noopener">Ver Anúncio (OLX CE / Localiza) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Localiza%20Seminovos%20Fortaleza%2C%20Papicu%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/fiat-cronos-drive-1-3-8v-flex-2024-1466080777" target="_blank" rel="noopener">Ver Anúncio (OLX CE / Localiza) &rarr;</a>
   </div>
-</article><article id="veic-8" class="prop-card card-odd" data-v="P2008-GRIF23|Peugeot|2008 Griffe THP|2023|12300|92900|Automático|4 portas|SUV|Fortaleza/CE|Meireles|-3.7315|-38.501|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/peugeot-2008-griffe-1-6-turbo-thp-flex-16v-aut-4p-2023-1541560310">
+</article>
+      <article id="veic-8" class="prop-card card-even" data-v="P2008-GRIF23|Peugeot|2008 Griffe THP|2023|12300|92900|Automático|4 portas|SUV|Fortaleza/CE|Meireles|-3.7315|-38.501|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/peugeot-2008-griffe-1-6-turbo-thp-flex-16v-aut-4p-2023-1541560310">
   <div class="c-hdr"><span><b>#08</b> FORTALEZA/CE • P2008-GRIF23</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/peugeot-2008-griffe-1-6-turbo-thp-flex-16v-aut-4p-2023-1541560310" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Peugeot 2008 Griffe 1.6 Turbo THP Flex 16V Aut. 4P 2023</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Sedacar Veículos Fortaleza • Meireles (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
@@ -917,103 +599,16 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Sedacar%20Ve%C3%ADculos%20Fortaleza%2C%20Meireles%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/peugeot-2008-griffe-1-6-turbo-thp-flex-16v-aut-4p-2023-1541560310" target="_blank" rel="noopener">Ver Anúncio (OLX CE) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Sedacar%20Ve%C3%ADculos%20Fortaleza%2C%20Meireles%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/peugeot-2008-griffe-1-6-turbo-thp-flex-16v-aut-4p-2023-1541560310" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
   </div>
-</article><article id="veic-15" class="prop-card card-even" data-v="PULSE-AUD23|Fiat|Pulse Audace T200|2023|32141|94990|Automático|4 portas|SUV|Teresina/PI|Santa Isabel|-5.075|-42.764|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105">
-  <div class="c-hdr"><span><b>#15</b> TERESINA/PI • PULSE-AUD23</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Pulse Audace 1.0 Turbo 200 Flex Aut. 4P 2023</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Raeda Veículos Teresina • Santa Isabel (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2023</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>32,141 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 94,990</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo 200</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Raeda Veículos Teresina • (86) 99586-1000</span>
-      <a href="https://wa.me/5586995861000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Pulse%20Audace%201.0%20Turbo%20200%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2094%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>32.141 km</i><i>Frenagem Autônoma</i><i>Carregador por Indução</i><i>Partida Remota</i><i>Câmbio CVT</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-15">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-15"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-15" data-obs-input="veic-15" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-15" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Raeda%20Ve%C3%ADculos%20Teresina%2C%20Santa%20Isabel%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
-  </div>
-</article><article id="veic-16" class="prop-card card-odd" data-v="PULSE-IMP23|Fiat|Pulse Impetus T200|2023|22806|95900|Automático|4 portas|SUV|Teresina/PI|Fátima|-5.071|-42.791|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000">
-  <div class="c-hdr"><span><b>#16</b> TERESINA/PI • PULSE-IMP23</span><span class="b-rt"></span></div>
-  <div class="c-body">
-    <div class="c-top">
-      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
-    </div>
-    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Pulse Impetus 1.0 Turbo 200 Flex Aut. 4P 2023</a></h3>
-    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Primus Veículos Teresina • Fátima (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
-    <div class="v-hi-grid">
-      <div class="v-hi-box v-hi-ano">
-        <span>📅 ANO</span>
-        <b>2023</b>
-      </div>
-      <div class="v-hi-box v-hi-km">
-        <span>🛣️ QUILOMETRAGEM</span>
-        <b>22,806 km</b>
-      </div>
-      <div class="v-hi-box v-hi-preco">
-        <span>💰 PREÇO À VISTA</span>
-        <b>R$ 95,900</b>
-      </div>
-    </div>
-    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo 200</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
-    <div class="c-wa">
-      <span class="truncate">📞 Primus Veículos Teresina • (86) 99437-0003</span>
-      <a href="https://wa.me/5586994370003?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Pulse%20Impetus%201.0%20Turbo%20200%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2095%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
-    <div class="c-tags"><i>22.806 km</i><i>Topo de Linha Impetus</i><i>Bancos em Couro</i><i>Tela 10.1 pol</i><i>Painel Digital 7 pol</i></div>
-    <div class="c-obs">
-      <div class="c-obs-hdr">
-        <label class="c-obs-lbl" for="obs-veic-16">📝 Observações (Sincronizado na Nuvem)</label>
-        <span class="c-obs-status" id="obs-st-veic-16"></span>
-      </div>
-      <div class="c-obs-row">
-        <textarea id="obs-veic-16" data-obs-input="veic-16" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
-        <button type="button" data-save-obs="veic-16" class="btn-save-obs">💾 Salvar</button>
-      </div>
-    </div>
-  </div>
-  <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Primus%20Ve%C3%ADculos%20Teresina%2C%20F%C3%A1tima%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
-  </div>
-</article><article id="veic-9" class="prop-card card-even" data-v="POLO-HIGH24|Volkswagen|Polo Highline 200 TSI|2024|38827|95900|Automático|4 portas|Hatch|Fortaleza/CE|Salinas|-3.762|-38.486|OLX CE / Mobiauto" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/volkswagen-polo-highline-200-tsi-1-0-flex-12v-aut-4p-2024-1539231214">
+</article>
+      <article id="veic-9" class="prop-card card-odd" data-v="POLO-HIGH24|Volkswagen|Polo Highline 200 TSI|2024|38827|95900|Automático|4 portas|Hatch|Fortaleza/CE|Salinas|-3.762|-38.486|OLX CE / Mobiauto" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/volkswagen-polo-highline-200-tsi-1-0-flex-12v-aut-4p-2024-1539231214">
   <div class="c-hdr"><span><b>#09</b> FORTALEZA/CE • POLO-HIGH24</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/volkswagen-polo-highline-200-tsi-1-0-flex-12v-aut-4p-2024-1539231214" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Volkswagen Polo Highline 200 TSI 1.0 Flex 12V Aut. 4P 2024</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Mobile Autos Fortaleza • Salinas (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE / Mobiauto</span></div>
@@ -1049,15 +644,376 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Mobile%20Autos%20Fortaleza%2C%20Salinas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/volkswagen-polo-highline-200-tsi-1-0-flex-12v-aut-4p-2024-1539231214" target="_blank" rel="noopener">Ver Anúncio (OLX CE / Mobiauto) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Mobile%20Autos%20Fortaleza%2C%20Salinas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/volkswagen-polo-highline-200-tsi-1-0-flex-12v-aut-4p-2024-1539231214" target="_blank" rel="noopener">Ver Anúncio (OLX CE / Mobiauto) &rarr;</a>
   </div>
-</article><article id="veic-18" class="prop-card card-odd" data-v="RENEG-LONG23|Jeep|Renegade Longitude T270|2023|20000|99990|Automático|4 portas|SUV|Teresina/PI|Ilhotas|-5.089|-42.802|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-longitude-t270-1-3-tb-4x2-flex-aut-4p-2023-1539976690">
+</article>
+      <article id="veic-10" class="prop-card card-even" data-v="ONIX-RS24|Chevrolet|Onix RS Turbo|2024|33418|85900|Automático|4 portas|Hatch|Fortaleza/CE|Salinas|-3.764|-38.489|OLX CE" data-url="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569">
+  <div class="c-hdr"><span><b>#10</b> FORTALEZA/CE • ONIX-RS24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix RS 1.0 TB 12V Flex Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Via Car Veículos Fortaleza • Salinas (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>33,418 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 85,900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Via Car Veículos Fortaleza • (85) 99616-0959</span>
+      <a href="https://wa.me/5585996160959?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20RS%201.0%20TB%2012V%20Flex%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2085%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>33.418 km</i><i>Versão Esportiva RS</i><i>Faróis Mascara Negra</i><i>Rodas 16 Pretas</i><i>Automático 6M</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-10">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-10"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-10" data-obs-input="veic-10" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-10" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Via%20Car%20Ve%C3%ADculos%20Fortaleza%2C%20Salinas%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-rs-1-0-tb-12v-flex-aut-4p-2024-1539682569" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-11" class="prop-card card-odd" data-v="ONIX-THE24|Chevrolet|Onix LT Turbo|2024|30552|80290|Automático|4 portas|Hatch|Teresina/PI|Morada Nova|-5.1185|-42.794|OLX PI / Localiza" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100">
+  <div class="c-hdr"><span><b>#11</b> TERESINA/PI • ONIX-THE24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Hatch LT 1.0 12V TB Flex Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Localiza Seminovos Teresina • Morada Nova (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI / Localiza</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>30,552 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 80,290</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Preto</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Localiza Seminovos Teresina • (86) 99586-1000</span>
+      <a href="https://wa.me/5586995861000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20Hatch%20LT%201.0%2012V%20TB%20Flex%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2080%2C290%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>30.552 km</i><i>Loja Oficial Localiza</i><i>1.0 Turbo Automático</i><i>6 Airbags</i><i>MyLink 8 pol</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-11">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-11"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-11" data-obs-input="veic-11" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-11" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Localiza%20Seminovos%20Teresina%2C%20Morada%20Nova%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-hatch-lt-1-0-12v-tb-flex-aut-4p-2024-1539586100" target="_blank" rel="noopener">Ver Anúncio (OLX PI / Localiza) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-12" class="prop-card card-even" data-v="KARDIAN-THE24|Renault|Kardian Evolution|2024|20109|86990|Automático|4 portas|SUV|Teresina/PI|Itararé|-5.106|-42.752|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963">
+  <div class="c-hdr"><span><b>#12</b> TERESINA/PI • KARDIAN-THE24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Renault Kardian Evolution 1.0 TB 12V Flex 4P Aut. 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Arena Veículos Teresina • Itararé (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>20,109 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 86,990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 TCe Turbo 125cv</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Arena Veículos Teresina • (86) 98828-3003</span>
+      <a href="https://wa.me/5586988283003?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Renault%20Kardian%20Evolution%201.0%20TB%2012V%20Flex%204P%20Aut.%202024%20%28Teresina/PI%20-%20R%24%2086%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>20.109 km</i><i>Câmbio EDC Dupla Embreagem</i><i>Painel Digital</i><i>Faróis Full LED</i><i>6 Airbags</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-12">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-12"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-12" data-obs-input="veic-12" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-12" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Arena%20Ve%C3%ADculos%20Teresina%2C%20Itarar%C3%A9%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/renault-kardian-techno-flex-1-0-tb-12v-5p-aut-2025-1542692963" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-13" class="prop-card card-odd" data-v="CRONOS-JELTA25|Fiat|Cronos Drive 1.3|2024|25701|87950|Automático|4 portas|Sedã|Teresina/PI|São Cristóvão|-5.0815|-42.7765|Jelta Seminovos" data-url="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188">
+  <div class="c-hdr"><span><b>#13</b> TERESINA/PI • CRONOS-JELTA25</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Cronos Drive 1.3 8V Flex Aut. 4P 2024/2025</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jelta Seminovos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">Jelta Seminovos</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>25,701 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 87,950</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.3 Firefly CVT</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Jelta Seminovos Teresina • (86) 99947-1902</span>
+      <a href="https://wa.me/5586999471902?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Cronos%20Drive%201.3%208V%20Flex%20Aut.%204P%202024/2025%20%28Teresina/PI%20-%20R%24%2087%2C950%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>25.701 km</i><i>Modelo 2024/2025</i><i>Concessionária Jelta Fiat</i><i>Câmbio Automático CVT</i><i>Garantia</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-13">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-13"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-13" data-obs-input="veic-13" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-13" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Jelta%20Seminovos%20Teresina%2C%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://jeltaseminovos.com.br/seminovos/cronos-drive-1-3-aut-1188" target="_blank" rel="noopener">Ver Anúncio (Jelta Seminovos) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-14" class="prop-card card-even" data-v="ONIX-LTZ-THE24|Chevrolet|Onix Plus LTZ|2024|32711|90590|Automático|4 portas|Sedã|Teresina/PI|Recanto das Palmeiras|-5.092|-42.768|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699">
+  <div class="c-hdr"><span><b>#14</b> TERESINA/PI • ONIX-LTZ-THE24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Sedan Plus LTZ 1.0 Turbo Flex Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Topcar Veículos Teresina • Recanto das Palmeiras (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>32,711 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 90,590</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Topcar Veículos Teresina • (86) 3305-2021</span>
+      <a href="https://wa.me/558633052021?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20Sedan%20Plus%20LTZ%201.0%20Turbo%20Flex%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2090%2C590%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>32.711 km</i><i>Versão LTZ Turbo</i><i>Chave Presencial</i><i>Câmera de Ré</i><i>Sensor de Estacionamento</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-14">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-14"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-14" data-obs-input="veic-14" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-14" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Topcar%20Ve%C3%ADculos%20Teresina%2C%20Recanto%20das%20Palmeiras%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/chevrolet-onix-2024-1-0-turbo-flex-ltz-automatico-1416009699" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-15" class="prop-card card-odd" data-v="PULSE-AUD23|Fiat|Pulse Audace T200|2023|32141|94990|Automático|4 portas|SUV|Teresina/PI|Santa Isabel|-5.075|-42.764|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105">
+  <div class="c-hdr"><span><b>#15</b> TERESINA/PI • PULSE-AUD23</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Pulse Audace 1.0 Turbo 200 Flex Aut. 4P 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Raeda Veículos Teresina • Santa Isabel (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2023</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>32,141 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 94,990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo 200</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Raeda Veículos Teresina • (86) 99586-1000</span>
+      <a href="https://wa.me/5586995861000?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Pulse%20Audace%201.0%20Turbo%20200%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2094%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>32.141 km</i><i>Frenagem Autônoma</i><i>Carregador por Indução</i><i>Partida Remota</i><i>Câmbio CVT</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-15">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-15"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-15" data-obs-input="veic-15" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-15" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Raeda%20Ve%C3%ADculos%20Teresina%2C%20Santa%20Isabel%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-audace-1-0-turbo-200-flex-aut-4p-2023-1539586105" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-16" class="prop-card card-even" data-v="PULSE-IMP23|Fiat|Pulse Impetus T200|2023|22806|95900|Automático|4 portas|SUV|Teresina/PI|Fátima|-5.071|-42.791|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000">
+  <div class="c-hdr"><span><b>#16</b> TERESINA/PI • PULSE-IMP23</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Pulse Impetus 1.0 Turbo 200 Flex Aut. 4P 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Primus Veículos Teresina • Fátima (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2023</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>22,806 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 95,900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo 200</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Primus Veículos Teresina • (86) 99437-0003</span>
+      <a href="https://wa.me/5586994370003?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Pulse%20Impetus%201.0%20Turbo%20200%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2095%2C900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>22.806 km</i><i>Topo de Linha Impetus</i><i>Bancos em Couro</i><i>Tela 10.1 pol</i><i>Painel Digital 7 pol</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-16">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-16"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-16" data-obs-input="veic-16" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-16" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Primus%20Ve%C3%ADculos%20Teresina%2C%20F%C3%A1tima%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/fiat-pulse-impetus-1-0-turbo-200-flex-aut-4p-2023-1539437000" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-17" class="prop-card card-odd" data-v="RENEG-THE23|Jeep|Renegade Sport T270|2023|37000|89990|Automático|4 portas|SUV|Teresina/PI|Aroeiras|-5.049|-42.785|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896">
+  <div class="c-hdr"><span><b>#17</b> TERESINA/PI • RENEG-THE23</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade Sport T270 1.3 TB 4X2 Flex Aut. 4P 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Lojão do Automóvel Teresina • Aroeiras (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2023</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>37,000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 89,990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.3 Turbo T270</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Lojão do Automóvel Teresina • (86) 3233-8965</span>
+      <a href="https://wa.me/558632338965?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Jeep%20Renegade%20Sport%20T270%201.3%20TB%204X2%20Flex%20Aut.%204P%202023%20%28Teresina/PI%20-%20R%24%2089%2C990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>37.000 km</i><i>Motor T270 Turbo 185cv</i><i>6 Airbags</i><i>Controle de Tração e Estabilidade</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-17">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-17"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-17" data-obs-input="veic-17" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-17" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Loj%C3%A3o%20do%20Autom%C3%B3vel%20Teresina%2C%20Aroeiras%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-sport-t270-1-3-tb-4x2-flex-aut-4p-2023-1533233896" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-18" class="prop-card card-even" data-v="RENEG-LONG23|Jeep|Renegade Longitude T270|2023|20000|99990|Automático|4 portas|SUV|Teresina/PI|Ilhotas|-5.089|-42.802|OLX PI" data-url="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-longitude-t270-1-3-tb-4x2-flex-aut-4p-2023-1539976690">
   <div class="c-hdr"><span><b>#18</b> TERESINA/PI • RENEG-LONG23</span><span class="b-rt"></span></div>
   <div class="c-body">
     <div class="c-top">
       <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
-      <span class="s-bx"><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i></span>
+      <span class="s-bx"></span>
     </div>
     <h3 class="c-title"><a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-longitude-t270-1-3-tb-4x2-flex-aut-4p-2023-1539976690" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade Longitude T270 1.3 TB 4X2 Flex Aut. 4P 2023</a></h3>
     <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 MC Veículos Teresina • Ilhotas (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
@@ -1093,10 +1049,596 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
     </div>
   </div>
   <div class="c-foot">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=MC%20Ve%C3%ADculos%20Teresina%2C%20Ilhotas%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
-    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-longitude-t270-1-3-tb-4x2-flex-aut-4p-2023-1539976690" target="_blank" rel="noopener">Ver Anúncio (OLX PI) →</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=MC%20Ve%C3%ADculos%20Teresina%2C%20Ilhotas%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://pi.olx.com.br/regiao-de-teresina-e-parnaiba/autos-e-pecas/carros-vans-e-utilitarios/jeep-renegade-longitude-t270-1-3-tb-4x2-flex-aut-4p-2023-1539976690" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
   </div>
-</article></div>
+</article>
+      <article id="veic-19" class="prop-card card-odd" data-v="STONIC-JELTA22|Kia|Stonic SX 1.0 Hybrid|2022|6000|89950|Automático|4 portas|SUV|Teresina/PI|São Cristóvão|-5.0815|-42.7765|Jelta Seminovos" data-url="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188">
+  <div class="c-hdr"><span><b>#19</b> TERESINA/PI • STONIC-JELTA22</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Kia Stonic SX 1.0 Turbo Hybrid Aut. 4P 2022</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jelta Seminovos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">Jelta Seminovos</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2022</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>6,000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 89,950</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo Híbrido 120cv</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Jelta Seminovos Teresina • (86) 99947-1902</span>
+      <a href="https://wa.me/5586999471902?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Kia%20Stonic%20SX%201.0%20Turbo%20Hybrid%20Aut.%204P%202022%20%28Teresina/PI%20-%20R%24%2089%2C950%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 6.000 km</i><i>Híbrido Leve MHEV</i><i>Câmbio DCT 7M</i><i>Garantia de Fábrica</i><i>Concessionária Jelta</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-19">📝 Observações (Sincronizado na Nuvem)</label>
+        <span class="c-obs-status" id="obs-st-veic-19"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-19" data-obs-input="veic-19" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-19" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Jelta%20Seminovos%20Teresina%2C%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://jeltaseminovos.com.br/seminovos/stonic-sx-1-0-hybrid-aut-1188" target="_blank" rel="noopener">Ver Anúncio (Jelta Seminovos) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-20" class="prop-card card-even" data-v="NIVUS-THE24|Volkswagen|Nivus Comfortline|2024|33980|99900|Automático|4 portas|SUV|Teresina/PI|São Cristóvão|-5.0815|-42.7765|OLX PI" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina">
+  <div class="c-hdr"><span><b>#20</b> TERESINA/PI • NIVUS-THE24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Volkswagen Nivus Comfortline 1.0 200 TSI Flex AUT 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Aliança Veículos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>33.980 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 99.900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 200 TSI Flex</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Aliança Veículos Teresina • (86) 3232-2024</span>
+      <a href="https://wa.me/5586994112024?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Volkswagen%20Nivus%20Comfortline%201.0%20200%20TSI%20Flex%20AUT%204P%202024%20%28Teresina/PI%20-%20R%24%2099.900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>33.980 km</i><i>Motor 200 TSI Turbo</i><i>Câmbio Automático 6M</i><i>Painel Digital</i><i>Câmera de Ré</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-20">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-20"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-20" data-obs-input="veic-20" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-20" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Alian%C3%A7a%20Ve%C3%ADculos%20Teresina%2C%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-21" class="prop-card card-odd" data-v="ARGO-TREK24|Fiat|Argo Trekking 1.3 CVT|2024|15000|89990|Automático|4 portas|Hatch|Fortaleza/CE|Presidente Kennedy|-3.7385|-38.568|OLX CE" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/fiat/argo/2024/estado-ce/fortaleza-e-regiao/fortaleza">
+  <div class="c-hdr"><span><b>#21</b> FORTALEZA/CE • ARGO-TREK24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/fiat/argo/2024/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Fiat Argo Trekking 1.3 8V Flex Aut. (CVT) 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Kennedy Veículos Fortaleza • Presidente Kennedy (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>15.000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 89.990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.3 Firefly Flex</b><b>🎨 Vermelho</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Kennedy Veículos Fortaleza • (85) 3287-1300</span>
+      <a href="https://wa.me/5585987654321?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Fiat%20Argo%20Trekking%201.3%208V%20Flex%20Aut.%20%28CVT%29%204P%202024%20%28Fortaleza/CE%20-%20R%24%2089.990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 15.000 km</i><i>Câmbio CVT 7 Marchas</i><i>Suspensão Elevada Trekking</i><i>Central Uconnect 7 pol</i><i>Câmera de Ré</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-21">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-21"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-21" data-obs-input="veic-21" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-21" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Kennedy%20Ve%C3%ADculos%20Fortaleza%2C%20Presidente%20Kennedy%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/fiat/argo/2024/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-22" class="prop-card card-even" data-v="P208-STY23|Peugeot|208 Style Turbo|2023|28000|79900|Automático|4 portas|Hatch|Teresina/PI|Nossa Senhora das Graças|-5.076|-42.801|OLX PI" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/peugeot/208/2023/estado-pi/regiao-de-teresina-e-parnaiba/teresina">
+  <div class="c-hdr"><span><b>#22</b> TERESINA/PI • P208-STY23</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/peugeot/208/2023/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Peugeot 208 Style 1.0 Turbo Flex 5P Aut. 2023</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Graças Motors Teresina • Nossa Senhora das Graças (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2023</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>28.000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 79.900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo T200 130cv</b><b>🎨 Preto</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Graças Motors Teresina • (86) 3225-7900</span>
+      <a href="https://wa.me/5586988227900?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Peugeot%20208%20Style%201.0%20Turbo%20Flex%205P%20Aut.%202023%20%28Teresina/PI%20-%20R%24%2079.900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>28.000 km</i><i>Motor Turbo T200</i><i>Teto Panorâmico</i><i>Faróis Full LED DRL Garra de Leão</i><i>Multimídia 10 pol</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-22">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-22"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-22" data-obs-input="veic-22" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-22" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Gra%C3%A7as%20Motors%20Teresina%2C%20Nossa%20Senhora%20das%20Gra%C3%A7as%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/peugeot/208/2023/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-23" class="prop-card card-odd" data-v="NIVUS-NOIVOS24|Volkswagen|Nivus Comfortline|2024|29900|99990|Automático|4 portas|SUV|Teresina/PI|Noivos|-5.085|-42.782|OLX PI" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina">
+  <div class="c-hdr"><span><b>#23</b> TERESINA/PI • NIVUS-NOIVOS24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Volkswagen Nivus Comfortline 1.0 200 TSI Flex AUT 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Leste Seminovos Teresina • Noivos (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>29.900 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 99.990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 200 TSI Flex</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Leste Seminovos Teresina • (86) 3230-1000</span>
+      <a href="https://wa.me/5586994119990?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Volkswagen%20Nivus%20Comfortline%201.0%20200%20TSI%20Flex%20AUT%204P%202024%20%28Teresina/PI%20-%20R%24%2099.990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 29.900 km</i><i>Vistoriado Cautelar Aprovado</i><i>Controle de Cruzeiro Adaptativo (ACC)</i><i>Frenagem Autônoma</i><i>6 Airbags</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-23">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-23"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-23" data-obs-input="veic-23" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-23" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Leste%20Seminovos%20Teresina%2C%20Noivos%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/vw-volkswagen/nivus/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-24" class="prop-card card-even" data-v="TRACKER-LT24|Chevrolet|Tracker LT Turbo|2024|29900|89900|Automático|4 portas|SUV|Fortaleza/CE|Manuel Dias Branco|-3.738|-38.468|OLX CE" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza">
+  <div class="c-hdr"><span><b>#24</b> FORTALEZA/CE • TRACKER-LT24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Tracker LT 1.0 Turbo 12V Flex Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Dias Branco Veículos Fortaleza • Manuel Dias Branco (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>29.900 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 89.900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 Turbo 116cv</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Dias Branco Veículos Fortaleza • (85) 3265-8990</span>
+      <a href="https://wa.me/5585991118990?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Tracker%20LT%201.0%20Turbo%2012V%20Flex%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2089.900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 29.900 km</i><i>Motor 1.0 Turbo</i><i>Câmbio Automático 6M</i><i>6 Airbags</i><i>Central MyLink 8 pol</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-24">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-24"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-24" data-obs-input="veic-24" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-24" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Dias%20Branco%20Ve%C3%ADculos%20Fortaleza%2C%20Manuel%20Dias%20Branco%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-25" class="prop-card card-odd" data-v="KARDIAN-PED25|Renault|Kardian Evolution|2025|31122|99090|Automático|4 portas|SUV|Fortaleza/CE|Pedras|-3.834|-38.512|OLX CE / Localiza" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza">
+  <div class="c-hdr"><span><b>#25</b> FORTALEZA/CE • KARDIAN-PED25</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Renault Kardian Evolution 1.0 TB Flex 12V 5P Aut. 2025</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Localiza Seminovos Fortaleza • Pedras (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE / Localiza</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2025</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>31.122 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 99.090</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.0 TCe Turbo 125cv</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Localiza Seminovos Fortaleza • (85) 99960-0366</span>
+      <a href="https://wa.me/5585999600366?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Renault%20Kardian%20Evolution%201.0%20TB%20Flex%2012V%205P%20Aut.%202025%20%28Fortaleza/CE%20-%20R%24%2099.090%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Ano 2025</i><i>31.122 km</i><i>Loja Oficial Localiza</i><i>Câmbio EDC Dupla Embreagem</i><i>Faróis LED</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-25">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-25"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-25" data-obs-input="veic-25" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-25" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Localiza%20Seminovos%20Fortaleza%2C%20Pedras%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener">Ver Anúncio (OLX CE / Localiza) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-26" class="prop-card card-even" data-v="ONIX-FAT25|Chevrolet|Onix Plus Turbo|2025|39715|85990|Automático|4 portas|Sedã|Fortaleza/CE|Fátima|-3.756|-38.524|OLX CE" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza">
+  <div class="c-hdr"><span><b>#26</b> FORTALEZA/CE • ONIX-FAT25</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix Plus 1.0 12V TB Flex Aut. 4P 2025</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Fátima Motors Fortaleza • Fátima (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2025</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>39.715 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 85.990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.0 Turbo 116cv</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Fátima Motors Fortaleza • (85) 3227-8590</span>
+      <a href="https://wa.me/5585988228590?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%20Plus%201.0%2012V%20TB%20Flex%20Aut.%204P%202025%20%28Fortaleza/CE%20-%20R%24%2085.990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Ano 2025</i><i>39.715 km</i><i>Sedã Automático 6M</i><i>Central MyLink</i><i>Controle de Estabilidade</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-26">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-26"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-26" data-obs-input="veic-26" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-26" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=F%C3%A1tima%20Motors%20Fortaleza%2C%20F%C3%A1tima%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-ce/fortaleza-e-regiao/fortaleza" target="_blank" rel="noopener">Ver Anúncio (OLX CE) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-27" class="prop-card card-odd" data-v="RENEG-JOQ24|Jeep|Renegade T270|2024|33000|96990|Automático|4 portas|SUV|Teresina/PI|Jóquei|-5.068|-42.788|OLX PI" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-pi/regiao-de-teresina-e-parnaiba/teresina">
+  <div class="c-hdr"><span><b>#27</b> TERESINA/PI • RENEG-JOQ24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Jeep Renegade T270 1.3 TB 4X2 Flex Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jóquei Prime Veículos Teresina • Jóquei (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>33.000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 96.990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.3 Turbo T270 185cv</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Jóquei Prime Veículos Teresina • (86) 3232-9699</span>
+      <a href="https://wa.me/5586994119699?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Jeep%20Renegade%20T270%201.3%20TB%204X2%20Flex%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2096.990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Ano 2024</i><i>33.000 km</i><i>Motor T270 185cv</i><i>Câmbio Automático 6M</i><i>Frenagem Autônoma</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-27">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-27"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-27" data-obs-input="veic-27" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-27" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=J%C3%B3quei%20Prime%20Ve%C3%ADculos%20Teresina%2C%20J%C3%B3quei%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-28" class="prop-card card-even" data-v="ONIX-LTZ-CAR24|Chevrolet|Onix LTZ Turbo|2024|23479|79790|Automático|4 portas|Hatch|Fortaleza/CE|Aldeota|-3.738|-38.502|Carmais Seminovos" data-url="https://www.carmaisseminovos.com.br/seminovos">
+  <div class="c-hdr"><span><b>#28</b> FORTALEZA/CE • ONIX-LTZ-CAR24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.carmaisseminovos.com.br/seminovos" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Chevrolet Onix 1.0 Turbo Flex LTZ Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Carmais Seminovos Matriz • Aldeota (Fortaleza/CE) • <span class="font-bold text-slate-800">Carmais Seminovos</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>23.479 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 79.790</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.0 Turbo Flex</b><b>🎨 Cinza</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Carmais Matriz • (85) 3306-8889</span>
+      <a href="https://wa.me/558520284340?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Chevrolet%20Onix%201.0%20Turbo%20Flex%20LTZ%20Aut.%204P%202024%20%28Fortaleza/CE%20-%20R%24%2079.790%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 23.479 km</i><i>Versão LTZ Turbo</i><i>Câmbio Automático 6M</i><i>6 Airbags</i><i>Central MyLink 8 pol</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-28">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-28"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-28" data-obs-input="veic-28" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-28" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Carmais%20Seminovos%20Matriz%2C%20Av.%20Bar%C3%A3o%20de%20Studart%2C%201846%20-%20Aldeota%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.carmaisseminovos.com.br/seminovos" target="_blank" rel="noopener">Ver Anúncio (Carmais) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-29" class="prop-card card-odd" data-v="KICKS-SENSE24|Nissan|Kicks Sense 1.6|2024|9604|92950|Automático|4 portas|SUV|Teresina/PI|São Cristóvão|-5.0815|-42.7765|Jelta Seminovos" data-url="https://jeltaseminovos.com.br/">
+  <div class="c-hdr"><span><b>#29</b> TERESINA/PI • KICKS-SENSE24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://jeltaseminovos.com.br/" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Nissan Kicks Sense 1.6 16V Flex Aut. (CVT) 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Jelta Seminovos Teresina • São Cristóvão (Teresina/PI) • <span class="font-bold text-slate-800">Jelta Seminovos</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>9.604 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 92.950</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 SUV</b><b>⚡ 1.6 16V Flex</b><b>🎨 Branco</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Jelta Seminovos Teresina • (86) 3194-7600</span>
+      <a href="https://wa.me/558699471902?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Nissan%20Kicks%20Sense%201.6%2016V%20Flex%20Aut.%20%28CVT%29%204P%202024%20%28Teresina/PI%20-%20R%24%2092.950%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 9.604 km</i><i>Ano 2024</i><i>Câmbio CVT XTRONIC</i><i>SUV Compacto</i><i>Multimídia com Câmera</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-29">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-29"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-29" data-obs-input="veic-29" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-29" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Jelta%20Seminovos%20Teresina%2C%20Av.%20Jo%C3%A3o%20XXIII%2C%203565%20-%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://jeltaseminovos.com.br/" target="_blank" rel="noopener">Ver Anúncio (Jelta) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-30" class="prop-card card-even" data-v="YARIS-XS24|Toyota|Yaris XS 1.5|2024|36000|89900|Automático|4 portas|Hatch|Fortaleza/CE|Guararapes|-3.7680|-38.4820|OLX CE / Newselect" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/toyota/yaris/2024/estado-ce/fortaleza-e-regiao">
+  <div class="c-hdr"><span><b>#30</b> FORTALEZA/CE • YARIS-XS24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-for">📍 Fortaleza/CE</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/toyota/yaris/2024/estado-ce/fortaleza-e-regiao" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Toyota Yaris Hatch XS 1.5 Flex 16V 5P Aut. 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Newselect Seminovos Fortaleza • Guararapes (Fortaleza/CE) • <span class="font-bold text-slate-800">OLX CE / Newselect</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>36.000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 89.900</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Hatch</b><b>⚡ 1.5 Dual VVT-i</b><b>🎨 Vermelho</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Newselect Fortaleza • (85) 4011-7100</span>
+      <a href="https://wa.me/558540117100?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Toyota%20Yaris%20Hatch%20XS%201.5%20Flex%2016V%205P%20Aut.%202024%20%28Fortaleza/CE%20-%20R%24%2089.900%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>36.000 km</i><i>Versão XS Completa</i><i>Câmbio CVT 7M</i><i>Bancos em Couro</i><i>Faróis LED & Multimídia</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-30">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-30"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-30" data-obs-input="veic-30" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-30" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Newselect%20Seminovos%20Fortaleza%2C%20Av.%20Washington%20Soares%2C%20Guararapes%2C%20Fortaleza/CE" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/toyota/yaris/2024/estado-ce/fortaleza-e-regiao" target="_blank" rel="noopener">Ver Anúncio (Newselect) &rarr;</a>
+  </div>
+</article>
+      <article id="veic-31" class="prop-card card-odd" data-v="HB20S-PLAT24|Hyundai|HB20S Platinum Turbo|2024|30000|94990|Automático|4 portas|Sedã|Teresina/PI|Centro|-5.0892|-42.8016|OLX PI" data-url="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/hyundai/hb20s/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina">
+  <div class="c-hdr"><span><b>#31</b> TERESINA/PI • HB20S-PLAT24</span><span class="b-rt"></span></div>
+  <div class="c-body">
+    <div class="c-top">
+      <span class="flex flex-wrap gap-1 items-center"><b class="b-the">📍 Teresina/PI</b> <b class="b-aut">⚙️ Automático</b> <b class="b-prt">🚪 4 portas</b></span>
+      <span class="s-bx"></span>
+    </div>
+    <h3 class="c-title"><a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/hyundai/hb20s/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener" class="hover:underline hover:text-amber-700 transition">Hyundai HB20S Platinum 1.0 TB Flex 12V Aut. 4P 2024</a></h3>
+    <div class="text-[11px] text-slate-600 font-medium c-addr">🏪 Prime Veículos Teresina • Centro (Teresina/PI) • <span class="font-bold text-slate-800">OLX PI</span></div>
+    <div class="v-hi-grid">
+      <div class="v-hi-box v-hi-ano">
+        <span>📅 ANO</span>
+        <b>2024</b>
+      </div>
+      <div class="v-hi-box v-hi-km">
+        <span>🛣️ QUILOMETRAGEM</span>
+        <b>30.000 km</b>
+      </div>
+      <div class="v-hi-box v-hi-preco">
+        <span>💰 PREÇO À VISTA</span>
+        <b>R$ 94.990</b>
+      </div>
+    </div>
+    <div class="c-specs"><b>🚘 Sedã</b><b>⚡ 1.0 Turbo TGDI</b><b>🎨 Prata</b><b>🚪 4 portas</b></div>
+    <div class="c-wa">
+      <span class="truncate">📞 Prime Veículos Teresina • (86) 3221-9490</span>
+      <a href="https://wa.me/5586994119490?text=Ol%C3%A1%21%20Vi%20o%20an%C3%BAncio%20do%20Hyundai%20HB20S%20Platinum%201.0%20TB%20Flex%2012V%20Aut.%204P%202024%20%28Teresina/PI%20-%20R%24%2094.990%29%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <div class="c-tags"><i>Apenas 30.000 km</i><i>Topo Platinum Turbo</i><i>Chave Presencial Smart Key</i><i>Painel Digital Cluster</i><i>Garantia até 2029</i></div>
+    <div class="c-obs">
+      <div class="c-obs-hdr">
+        <label class="c-obs-lbl" for="obs-veic-31">📝 Observações</label>
+        <span class="c-obs-status" id="obs-st-veic-31"></span>
+      </div>
+      <div class="c-obs-row">
+        <textarea id="obs-veic-31" data-obs-input="veic-31" class="c-obs-ta" rows="2" placeholder="Anote estado dos pneus, laudo cautelar, proposta à vista..."></textarea>
+        <button type="button" data-save-obs="veic-31" class="btn-save-obs">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="c-foot">
+    <a href="https://www.google.com/maps/search/?api=1&query=Prime%20Ve%C3%ADculos%20Teresina%2C%20Centro%2C%20Teresina/PI" target="_blank" rel="noopener" class="btn-map">📍 Mapa da Loja</a>
+    <a href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/hyundai/hb20s/2024/estado-pi/regiao-de-teresina-e-parnaiba/teresina" target="_blank" rel="noopener">Ver Anúncio (OLX PI) &rarr;</a>
+  </div>
+</article>
+    </div>
   </section>
 </main>
 
@@ -1584,7 +2126,7 @@ document.addEventListener("click", e => {
   }
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer="" onload="try{initMap();}catch(e){}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer="" onload="try{applyFiltersAndRender();}catch(e){}"></script>
-
-</body></html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try{initMap();}catch(e){}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer onload="try{applyFiltersAndRender();}catch(e){}"></script>
+</body>
+</html>
