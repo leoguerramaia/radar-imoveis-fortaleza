@@ -2504,6 +2504,7 @@ loadInitialConfig();
 loadConsultationBadge();
 applyFiltersAndRender();
 pullSupabase();
+window.addEventListener("radar:auth-changed", () => pullSupabase());
 fetchAndMergeGoogleSheets(false).then(newCount => {
   if (newCount > 0) {
     applyFiltersAndRender();
