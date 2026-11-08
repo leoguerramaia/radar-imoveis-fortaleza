@@ -2,7 +2,7 @@
 (() => {
   "use strict";
   const SUPABASE_URL = "https://kpvhfjthmkgiddfcsslw.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInJlZiI6ImtwdmhmanRobWtnaWRkZmNzc2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODMyOTgsImV4cCI6MjEwNzY1OTI5OH0.VMQxO0SA8vfpDqfOn2W1_XEhprvzAhvwnOi43veyU5E";
+  const SUPABASE_ANON_KEY = "sb_publishable_qqeTKGU8m_vbdV-IvPy4SQ_vh13JZ2d";
   if (!window.supabase?.createClient) {
     console.error("[Radar Auth] Biblioteca Supabase não carregada.");
     return;
