@@ -1074,6 +1074,7 @@ loadInitialConfig();
 loadConsultationBadge();
 applyFiltersAndRender();
 pullSupabase();
+window.addEventListener("radar:auth-changed", () => pullSupabase());
 
 ["filterRating","filterType","filterNeighborhood","filterMaxPrice","filterMaxDrive","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
 $("btnResetFilters").addEventListener("click", resetAllFilters);
