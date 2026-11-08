@@ -57,7 +57,7 @@
         <button id="radar-auth-signout" type="button" style="margin-top:12px;background:#fee2e2;color:#991b1b;width:100%">Sair da conta</button>
       </div>
       <p id="radar-auth-status" role="status" aria-live="polite"></p>
-      <p style="font-size:11px;color:#94a3b8;line-height:1.45">As preferências pessoais e os dados compartilhados serão habilitados gradualmente nesta versão. A autenticação, por si só, ainda não migra as avaliações e observações antigas.</p>
+      <p style="font-size:11px;color:#94a3b8;line-height:1.45">As avaliações e observações pessoais usam uma estrutura privada por usuário. A sincronização depende da ativação da migração Radar 2.0 no Supabase; os registros antigos ainda não foram migrados.</p>
     </section>`;
   document.body.appendChild(layer);
 
