@@ -189,13 +189,15 @@ revoke all on public.family_spaces from anon, authenticated;
 revoke all on public.family_members from anon, authenticated;
 revoke all on public.user_listing_preferences from anon, authenticated;
 
-grant select, update on public.family_spaces to authenticated;
+grant select on public.family_spaces to authenticated;
+grant update (name) on public.family_spaces to authenticated;
 grant select on public.family_members to authenticated;
 grant select, insert, update, delete on public.user_listing_preferences to authenticated;
 
 revoke all on function public.is_family_member(uuid) from public, anon;
 revoke all on function public.is_family_admin(uuid) from public, anon;
 revoke all on function public.create_family_space(text) from public, anon;
+revoke all on function public.set_updated_at() from public, anon, authenticated;
 grant execute on function public.is_family_member(uuid) to authenticated;
 grant execute on function public.is_family_admin(uuid) to authenticated;
 grant execute on function public.create_family_space(text) to authenticated;
