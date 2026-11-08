@@ -403,28 +403,57 @@
       return Number(val || 0).toLocaleString("pt-BR") + " milhas";
     }
 
+    const flightPreferences = { ratings: {}, notes: {} };
+
     function getStars(id) {
-      return parseInt(localStorage.getItem("flight_stars_" + id) || "0", 10);
+      return Number(flightPreferences.ratings[id] || 0);
     }
 
-    function setStars(id, val) {
+    async function setStars(id, val) {
       const current = getStars(id);
       const next = current === val ? 0 : val;
-      localStorage.setItem("flight_stars_" + id, String(next));
+      flightPreferences.ratings[id] = next;
       renderAll();
+      try {
+        await window.RadarAuth.preferences.save("flight", id, { rating: next || null });
+      } catch (error) {
+        console.error("Falha ao salvar avaliação privada:", error);
+        const status = document.getElementById("note_status_" + id);
+        if (status) status.textContent = "Entre na conta e no espaço familiar para sincronizar";
+      }
     }
 
     function getNote(id, fallback) {
-      const saved = localStorage.getItem("flight_note_" + id);
-      return saved !== null ? saved : (fallback || "");
+      return Object.prototype.hasOwnProperty.call(flightPreferences.notes, id)
+        ? flightPreferences.notes[id]
+        : (fallback || "");
     }
 
-    function saveNote(id, text) {
-      localStorage.setItem("flight_note_" + id, text);
+    async function saveNote(id, text) {
+      flightPreferences.notes[id] = text;
       const statusEl = document.getElementById("note_status_" + id);
-      if (statusEl) {
-        statusEl.textContent = "✓ Salvo";
-        setTimeout(() => { statusEl.textContent = ""; }, 2000);
+      if (statusEl) statusEl.textContent = "⏳ Salvando...";
+      try {
+        await window.RadarAuth.preferences.save("flight", id, { notes: text });
+        if (statusEl) statusEl.textContent = "✓ Salvo na sua conta";
+      } catch (error) {
+        console.error("Falha ao salvar observação privada:", error);
+        if (statusEl) statusEl.textContent = "Não foi possível sincronizar";
+      }
+    }
+
+    async function loadFlightPreferences() {
+      try {
+        const result = await window.RadarAuth.preferences.load("flight");
+        flightPreferences.ratings = {};
+        flightPreferences.notes = {};
+        Object.entries(result.preferences || {}).forEach(([id, pref]) => {
+          if (pref.rating !== null && pref.rating !== undefined) flightPreferences.ratings[id] = Number(pref.rating);
+          if (pref.notes) flightPreferences.notes[id] = pref.notes;
+        });
+        renderAll();
+      } catch (error) {
+        console.error("Falha ao carregar preferências dos voos:", error);
       }
     }
 
@@ -898,6 +927,7 @@
     // Initialize
     populateSearchDateFilter();
     renderAll();
+    loadFlightPreferences();
   </script>
 </body>
 </html>
