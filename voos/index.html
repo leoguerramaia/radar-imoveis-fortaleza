@@ -928,6 +928,7 @@
     populateSearchDateFilter();
     renderAll();
     loadFlightPreferences();
+    window.addEventListener("radar:auth-changed", () => loadFlightPreferences());
   </script>
 </body>
 </html>
