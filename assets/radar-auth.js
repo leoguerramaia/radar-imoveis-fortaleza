@@ -106,7 +106,7 @@
         setStatus("Não foi possível consultar o espaço familiar: " + memberError.message);
       } else if (memberships?.length) {
         familyArea.hidden = true;
-        setStatus("Você já participa de um espaço familiar. A integração de preferências será ativada na próxima etapa.");
+        setStatus("Espaço familiar ativo. Suas avaliações e observações pessoais podem ser sincronizadas nesta versão.");
       } else {
         familyArea.hidden = false;
         setStatus("Sua conta está autenticada. Crie o espaço familiar para começar.");
@@ -159,7 +159,11 @@
 
   client.auth.onAuthStateChange(() => {
     // Evita chamadas Supabase aninhadas dentro do callback de auth (lock interno).
-    queueMicrotask(() => refresh());
+    queueMicrotask(async () => {
+      await window.RadarAuth.preferences?.clearContext?.();
+      await refresh();
+      window.dispatchEvent(new CustomEvent("radar:auth-changed"));
+    });
   });
   refresh();
 })();
