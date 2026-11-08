@@ -157,9 +157,9 @@
     await refresh();
   });
 
-  client.auth.onAuthStateChange((_event, session) => {
-    if (session?.user) refresh();
-    else refresh();
+  client.auth.onAuthStateChange(() => {
+    // Evita chamadas Supabase aninhadas dentro do callback de auth (lock interno).
+    queueMicrotask(() => refresh());
   });
   refresh();
 })();
