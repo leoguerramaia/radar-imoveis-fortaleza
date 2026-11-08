@@ -200,9 +200,9 @@ using (
 );
 
 -- Privilégios explícitos: usuários anônimos não acessam estas tabelas.
-revoke all on public.family_spaces from anon, authenticated;
-revoke all on public.family_members from anon, authenticated;
-revoke all on public.user_listing_preferences from anon, authenticated;
+revoke all on public.family_spaces from public, anon, authenticated;
+revoke all on public.family_members from public, anon, authenticated;
+revoke all on public.user_listing_preferences from public, anon, authenticated;
 
 grant select on public.family_spaces to authenticated;
 grant update (name) on public.family_spaces to authenticated;
