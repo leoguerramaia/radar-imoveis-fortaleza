@@ -744,6 +744,9 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 
 <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/radar-auth.js"></script>
+<script src="../assets/radar-preferences.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const STORAGE_CFG_KEY = "fortaleza_search_buy_cfg";
@@ -771,45 +774,14 @@ function syncNoteUI(pid) {
 }
 
 async function syncNoteSupabase(pid, noteText) {
-  const h = {
-    apikey: SB_KEY,
-    Authorization: "Bearer " + SB_KEY,
-    "Content-Type": "application/json",
-    Prefer: "resolution=merge-duplicates,return=minimal"
-  };
-  if (noteText) {
-    try {
-      const res1 = await fetch(SB_NOTES_URL, {
-        method: "POST", headers: h,
-        body: JSON.stringify({ property_id: pid, notes: noteText, updated_at: new Date().toISOString() })
-      });
-      if (res1.ok) return true;
-    } catch(e) {}
-    try {
-      const res2 = await fetch(SB_RATINGS_URL, {
-        method: "POST", headers: h,
-        body: JSON.stringify({ property_id: pid, notes: noteText, updated_at: new Date().toISOString() })
-      });
-      if (res2.ok) return true;
-    } catch(e) {}
-    try {
-      const res3 = await fetch(SB_RATINGS_URL, {
-        method: "POST", headers: h,
-        body: JSON.stringify({ property_id: pid, observacoes: noteText, updated_at: new Date().toISOString() })
-      });
-      if (res3.ok) return true;
-    } catch(e) {}
-  } else {
-    try { await fetch(`${SB_NOTES_URL}?property_id=eq.${encodeURIComponent(pid)}`, { method: "DELETE", headers: h }); } catch(e) {}
-    try {
-      await fetch(`${SB_RATINGS_URL}?property_id=eq.${encodeURIComponent(pid)}`, {
-        method: "PATCH", headers: h,
-        body: JSON.stringify({ notes: "", observacoes: "", updated_at: new Date().toISOString() })
-      });
-    } catch(e) {}
+  try {
+    await window.RadarAuth.preferences.save("purchase", pid, { notes: noteText });
     return true;
+  } catch (error) {
+    console.error("Falha ao salvar observação privada:", error);
+    showToast(error.message || "Entre na conta e no espaço familiar para salvar.");
+    return false;
   }
-  return false;
 }
 
 async function saveNote(pid) {
@@ -818,44 +790,21 @@ async function saveNote(pid) {
   const btn = document.querySelector(`[data-save-obs="${pid}"]`);
   if (!ta) return;
   const val = ta.value.trim();
-
-  if (st) {
-    st.textContent = "⏳ Salvando no Supabase...";
-    st.style.color = "#d97706";
-  }
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = "⏳...";
-  }
-
-  if (val) userNotes[pid] = val; else delete userNotes[pid];
-  try { localStorage.removeItem("fortaleza_buy_notes_v1"); } catch(e) {}
-
+  if (st) { st.textContent = "⏳ Salvando preferência privada..."; st.style.color = "#d97706"; }
+  if (btn) { btn.disabled = true; btn.textContent = "⏳..."; }
+  userNotes[pid] = val;
   const ok = await syncNoteSupabase(pid, val);
-
   if (btn) {
     btn.disabled = false;
-    btn.textContent = "💾 Salvar";
-    if (ok) {
-      btn.innerHTML = "✅ Salvo!";
-      btn.classList.add("saved");
-      setTimeout(() => { btn.innerHTML = "💾 Salvar"; btn.classList.remove("saved"); }, 1400);
-    }
+    btn.textContent = ok ? "✅ Salvo!" : "💾 Tentar novamente";
+    if (ok) setTimeout(() => { btn.textContent = "💾 Salvar"; }, 1400);
   }
-
   if (st) {
-    if (val) {
-      st.textContent = ok ? "✓ Salvo no Supabase" : "✓ Salvo na Nuvem";
-      st.style.color = "#059669";
-    } else {
-      st.textContent = "";
-    }
+    st.textContent = ok ? "✓ Salvo na sua conta" : "Não foi possível salvar";
+    st.style.color = ok ? "#059669" : "#dc2626";
   }
-
-  showToast(val ? (ok ? "☁️ Observação salva no Supabase com sucesso!" : "☁️ Observação enviada ao Supabase!") : "📝 Observação removida.");
+  if (!ok) showToast("Observação mantida apenas nesta tela. Verifique sua conta e o espaço familiar.");
 }
-let mapInstance = null, markerGroup = null, refMarker = null, markersById = {}, chartInstance = null;
-const fmtBRL = v => "R$ " + Number(v).toLocaleString("pt-BR");
 
 function showToast(m) {
   const t = $("toast");
@@ -972,50 +921,27 @@ function applyFiltersAndRender() {
 
 async function syncSupabase(pid, rating) {
   try {
-    const h = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" };
-    if (rating > 0) await fetch(SB_URL, { method: "POST", headers: h, body: JSON.stringify({ property_id: pid, rating, updated_at: new Date().toISOString() }) });
-    else await fetch(`${SB_URL}?property_id=eq.${encodeURIComponent(pid)}`, { method: "DELETE", headers: h });
-  } catch(e) {}
+    await window.RadarAuth.preferences.save("purchase", pid, { rating: rating > 0 ? rating : null });
+    return true;
+  } catch (error) {
+    console.error("Falha ao salvar avaliação privada:", error);
+    showToast(error.message || "Entre na conta e no espaço familiar para salvar.");
+    return false;
+  }
 }
 
 async function pullSupabase() {
-  const h = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY };
   try {
-    const res = await fetch(`${SB_RATINGS_URL}?select=property_id,rating,notes,observacoes`, { headers: h });
-    if (res.ok) {
-      const rows = await res.json();
-      if (Array.isArray(rows)) {
-        rows.forEach(r => {
-          if (r.property_id && r.rating) userRatings[r.property_id] = Number(r.rating);
-          const n = r.notes || r.observacoes;
-          if (r.property_id && n) userNotes[r.property_id] = n;
-        });
-        try { localStorage.setItem(RATINGS_KEY, JSON.stringify(userRatings)); } catch(e) {}
-      }
-    } else {
-      const resOld = await fetch(`${SB_RATINGS_URL}?select=property_id,rating`, { headers: h });
-      if (resOld.ok) {
-        const rows = await resOld.json();
-        if (Array.isArray(rows)) {
-          rows.forEach(r => { if (r.property_id && r.rating) userRatings[r.property_id] = Number(r.rating); });
-          try { localStorage.setItem(RATINGS_KEY, JSON.stringify(userRatings)); } catch(e) {}
-        }
-      }
-    }
-  } catch(e) {}
-
-  try {
-    const resNotes = await fetch(`${SB_NOTES_URL}?select=property_id,notes`, { headers: h });
-    if (resNotes.ok) {
-      const rows = await resNotes.json();
-      if (Array.isArray(rows)) {
-        rows.forEach(r => {
-          if (r.property_id && r.notes) userNotes[r.property_id] = r.notes;
-        });
-      }
-    }
-  } catch(e) {}
-
+    const result = await window.RadarAuth.preferences.load("purchase");
+    userRatings = {};
+    userNotes = {};
+    Object.entries(result.preferences || {}).forEach(([id, pref]) => {
+      if (pref.rating !== null && pref.rating !== undefined) userRatings[id] = Number(pref.rating);
+      if (pref.notes) userNotes[id] = pref.notes;
+    });
+  } catch (error) {
+    console.error("Falha ao carregar preferências privadas:", error);
+  }
   applyFiltersAndRender();
 }
 
@@ -1148,6 +1074,7 @@ loadInitialConfig();
 loadConsultationBadge();
 applyFiltersAndRender();
 pullSupabase();
+window.addEventListener("radar:auth-changed", () => pullSupabase());
 
 ["filterRating","filterType","filterNeighborhood","filterMaxPrice","filterMaxDrive","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
 $("btnResetFilters").addEventListener("click", resetAllFilters);
