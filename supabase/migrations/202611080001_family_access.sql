@@ -4,6 +4,11 @@
 
 begin;
 
+-- Funções privilegiadas ficam fora do schema exposto pela Data API.
+create schema if not exists private;
+revoke all on schema private from public, anon;
+grant usage on schema private to authenticated;
+
 create table if not exists public.family_spaces (
   id uuid primary key default gen_random_uuid(),
   name text not null check (char_length(btrim(name)) between 2 and 80),
@@ -43,13 +48,13 @@ create index if not exists user_listing_preferences_user_idx
   on public.user_listing_preferences(user_id);
 
 -- Funções auxiliares SECURITY DEFINER para evitar recursão de RLS ao consultar membros.
-create or replace function public.is_family_member(p_family_id uuid)
+create or replace function private.is_family_member(p_family_id uuid)
 returns boolean
 language sql
 stable
 security definer
-set search_path = public, pg_temp
-as $$
+set search_path = ''
+as $
   select exists (
     select 1
     from public.family_members fm
@@ -58,13 +63,13 @@ as $$
   );
 $$;
 
-create or replace function public.is_family_admin(p_family_id uuid)
+create or replace function private.is_family_admin(p_family_id uuid)
 returns boolean
 language sql
 stable
 security definer
-set search_path = public, pg_temp
-as $$
+set search_path = ''
+as $
   select exists (
     select 1
     from public.family_members fm
@@ -75,12 +80,12 @@ as $$
 $$;
 
 -- Criação atômica do espaço e do primeiro administrador autenticado.
-create or replace function public.create_family_space(p_name text)
+create or replace function private.create_family_space(p_name text)
 returns uuid
 language plpgsql
 security definer
-set search_path = public, pg_temp
-as $$
+set search_path = ''
+as $
 declare
   v_user_id uuid := auth.uid();
   v_family_id uuid;
@@ -106,11 +111,21 @@ begin
 end;
 $$;
 
-create or replace function public.set_updated_at()
+-- Wrapper exposto para RPC: SECURITY INVOKER (não eleva privilégios).
+create or replace function public.create_family_space(p_name text)
+returns uuid
+language sql
+security invoker
+set search_path = ''
+as $
+  select private.create_family_space(p_name);
+$;
+
+create or replace function private.set_updated_at()
 returns trigger
 language plpgsql
-set search_path = public, pg_temp
-as $$
+set search_path = ''
+as $
 begin
   new.updated_at := now();
   return new;
@@ -121,7 +136,7 @@ drop trigger if exists user_listing_preferences_set_updated_at
   on public.user_listing_preferences;
 create trigger user_listing_preferences_set_updated_at
 before update on public.user_listing_preferences
-for each row execute function public.set_updated_at();
+for each row execute function private.set_updated_at();
 
 alter table public.family_spaces enable row level security;
 alter table public.family_members enable row level security;
@@ -131,18 +146,18 @@ alter table public.user_listing_preferences enable row level security;
 drop policy if exists family_spaces_select_member on public.family_spaces;
 create policy family_spaces_select_member
 on public.family_spaces for select to authenticated
-using (public.is_family_member(id));
+using (private.is_family_member(id));
 
 drop policy if exists family_spaces_update_admin on public.family_spaces;
 create policy family_spaces_update_admin
 on public.family_spaces for update to authenticated
-using (public.is_family_admin(id))
-with check (public.is_family_admin(id));
+using (private.is_family_admin(id))
+with check (private.is_family_admin(id));
 
 drop policy if exists family_members_select_same_family on public.family_members;
 create policy family_members_select_same_family
 on public.family_members for select to authenticated
-using (public.is_family_member(family_id));
+using (private.is_family_member(family_id));
 
 -- Não há INSERT/UPDATE/DELETE direto em family_members nesta primeira migração.
 -- Convites e inclusão de novos membros serão adicionados via fluxo autenticado
@@ -153,7 +168,7 @@ create policy preferences_select_own
 on public.user_listing_preferences for select to authenticated
 using (
   user_id = (select auth.uid())
-  and public.is_family_member(family_id)
+  and private.is_family_member(family_id)
 );
 
 drop policy if exists preferences_insert_own on public.user_listing_preferences;
@@ -161,7 +176,7 @@ create policy preferences_insert_own
 on public.user_listing_preferences for insert to authenticated
 with check (
   user_id = (select auth.uid())
-  and public.is_family_member(family_id)
+  and private.is_family_member(family_id)
 );
 
 drop policy if exists preferences_update_own on public.user_listing_preferences;
@@ -169,11 +184,11 @@ create policy preferences_update_own
 on public.user_listing_preferences for update to authenticated
 using (
   user_id = (select auth.uid())
-  and public.is_family_member(family_id)
+  and private.is_family_member(family_id)
 )
 with check (
   user_id = (select auth.uid())
-  and public.is_family_member(family_id)
+  and private.is_family_member(family_id)
 );
 
 drop policy if exists preferences_delete_own on public.user_listing_preferences;
@@ -181,7 +196,7 @@ create policy preferences_delete_own
 on public.user_listing_preferences for delete to authenticated
 using (
   user_id = (select auth.uid())
-  and public.is_family_member(family_id)
+  and private.is_family_member(family_id)
 );
 
 -- Privilégios explícitos: usuários anônimos não acessam estas tabelas.
@@ -194,12 +209,14 @@ grant update (name) on public.family_spaces to authenticated;
 grant select on public.family_members to authenticated;
 grant select, insert, update, delete on public.user_listing_preferences to authenticated;
 
-revoke all on function public.is_family_member(uuid) from public, anon;
-revoke all on function public.is_family_admin(uuid) from public, anon;
+revoke all on function private.is_family_member(uuid) from public, anon;
+revoke all on function private.is_family_admin(uuid) from public, anon;
+revoke all on function private.create_family_space(text) from public, anon;
+revoke all on function private.set_updated_at() from public, anon, authenticated;
 revoke all on function public.create_family_space(text) from public, anon;
-revoke all on function public.set_updated_at() from public, anon, authenticated;
-grant execute on function public.is_family_member(uuid) to authenticated;
-grant execute on function public.is_family_admin(uuid) to authenticated;
+grant execute on function private.is_family_member(uuid) to authenticated;
+grant execute on function private.is_family_admin(uuid) to authenticated;
+grant execute on function private.create_family_space(text) to authenticated;
 grant execute on function public.create_family_space(text) to authenticated;
 
 commit;
