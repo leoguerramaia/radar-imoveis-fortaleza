@@ -1644,6 +1644,9 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
 
 <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/radar-auth.js"></script>
+<script src="../assets/radar-preferences.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const STORAGE_CFG_KEY = "fortaleza_teresina_veh_cfg";
@@ -2128,8 +2131,5 @@ document.addEventListener("click", e => {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer onload="try{initMap();}catch(e){}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer onload="try{applyFiltersAndRender();}catch(e){}"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../assets/radar-auth.js"></script>
-<script src="../assets/radar-preferences.js"></script>
 </body>
 </html>
