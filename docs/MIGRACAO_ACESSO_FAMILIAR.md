@@ -46,3 +46,18 @@
 
 ## Observação de segurança
 A chave pública/anon pode existir no frontend, desde que RLS esteja corretamente configurado. A chave `service_role` nunca deve ser enviada ao navegador. Esta migração é uma base inicial e precisa ser testada no projeto Supabase real antes de produção.
+
+
+## Etapa de interface — autenticação inicial
+
+Implementado na branch `feature/radar-2.0-family-modernization`:
+
+- Novo módulo compartilhado `assets/radar-auth.js`, carregado nos painéis de aluguel, compra, veículos e voos.
+- Login por link enviado ao e-mail (Supabase Auth OTP), persistência/renovação de sessão pelo cliente oficial Supabase JS.
+- Exibição da conta autenticada e opção de sair.
+- Criação do espaço familiar pelo RPC `public.create_family_space(p_name)`.
+- Consulta da participação em `public.family_members` para identificar se a conta já pertence a um espaço.
+
+**Limitação importante desta etapa:** a autenticação está disponível, mas ainda não substitui as rotinas antigas de avaliações e observações. As páginas continuam com os caminhos de sincronização legados e as policies públicas de `property_ratings` e `property_notes` permanecem ativas para evitar indisponibilidade. Portanto, não considerar os dados antigos privados ainda. A próxima etapa deve migrar as quatro telas para `user_listing_preferences`, associando cada registro ao usuário e ao espaço familiar, validar os dados legados e só então remover as policies abertas.
+
+A criação de convites/entrada de outros membros ainda depende de um fluxo de convite seguro no servidor; não há inserção direta em `family_members` pelo navegador.
