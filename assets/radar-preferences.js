@@ -52,15 +52,28 @@
       if (notes.length > 10000) throw new Error("A observação ultrapassa 10.000 caracteres.");
       safePatch.notes = notes;
     }
-    const payload = {
+    const keys = ["family_id", "user_id", "domain", "listing_id"];
+    const identity = {
       family_id: context.familyId,
       user_id: context.user.id,
       domain,
-      listing_id: String(listingId),
+      listing_id: String(listingId)
+    };
+    // Preserve fields not included in this partial update.
+    const { data: existing, error: readError } = await client.from("user_listing_preferences")
+      .select("rating,is_favorite,notes")
+      .match(identity)
+      .maybeSingle();
+    if (readError) throw readError;
+    const payload = {
+      ...identity,
+      rating: existing?.rating ?? null,
+      is_favorite: existing?.is_favorite ?? false,
+      notes: existing?.notes ?? "",
       ...safePatch
     };
     const { error } = await client.from("user_listing_preferences")
-      .upsert(payload, { onConflict: "family_id,user_id,domain,listing_id" });
+      .upsert(payload, { onConflict: keys.join(",") });
     if (error) throw error;
     return true;
   }
