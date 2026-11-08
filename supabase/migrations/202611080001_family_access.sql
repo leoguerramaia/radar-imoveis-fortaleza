@@ -54,14 +54,14 @@ language sql
 stable
 security definer
 set search_path = ''
-as $
+as $fn$
   select exists (
     select 1
     from public.family_members fm
     where fm.family_id = p_family_id
       and fm.user_id = (select auth.uid())
   );
-$$;
+$fn$;
 
 create or replace function private.is_family_admin(p_family_id uuid)
 returns boolean
@@ -69,7 +69,7 @@ language sql
 stable
 security definer
 set search_path = ''
-as $
+as $fn$
   select exists (
     select 1
     from public.family_members fm
@@ -77,7 +77,7 @@ as $
       and fm.user_id = (select auth.uid())
       and fm.role = 'admin'
   );
-$$;
+$fn$;
 
 -- Criação atômica do espaço e do primeiro administrador autenticado.
 create or replace function private.create_family_space(p_name text)
@@ -85,7 +85,7 @@ returns uuid
 language plpgsql
 security definer
 set search_path = ''
-as $
+as $fn$
 declare
   v_user_id uuid := auth.uid();
   v_family_id uuid;
@@ -109,7 +109,7 @@ begin
 
   return v_family_id;
 end;
-$$;
+$fn$;
 
 -- Wrapper exposto para RPC: SECURITY INVOKER (não eleva privilégios).
 create or replace function public.create_family_space(p_name text)
@@ -117,20 +117,20 @@ returns uuid
 language sql
 security invoker
 set search_path = ''
-as $
+as $fn$
   select private.create_family_space(p_name);
-$;
+$fn$;
 
 create or replace function private.set_updated_at()
 returns trigger
 language plpgsql
 set search_path = ''
-as $
+as $fn$
 begin
   new.updated_at := now();
   return new;
 end;
-$$;
+$fn$;
 
 drop trigger if exists user_listing_preferences_set_updated_at
   on public.user_listing_preferences;
