@@ -31,6 +31,18 @@ Este pacote contém todas as atualizações implementadas no ecossistema multi-p
 - Novo veículo qualificado adicionado hoje: **Kia Stonic SX 1.0 Turbo Hybrid Aut. 2022** (Apenas 6.000 km, R$ 89.950, Jelta Seminovos Teresina).
 - Planilha do Google Sheets sincronizada em tempo real (ID: `1-7I96TOnlGdCgqb7DOf1w_Il11ZPUG6yMnbAofRjjik`).
 
+### 6. Painel de aluguel — revisão visual
+- Busca e favoritos ficam sempre visíveis; filtros avançados ficam recolhidos.
+- Mapa e gráfico foram movidos para uma área expansível.
+- Cartões de anúncios usam hierarquia visual mais leve e anotações ficam recolhidas até serem solicitadas.
+- A ação de atualização consulta a planilha existente; não representa varredura dos portais.
+- Controles que sugeriam agendamento de buscas no próprio painel foram ocultados porque a configuração local não cria um agendador real.
+
+### 7. Coleta autorizada de imóveis
+- Arquitetura e requisitos documentados em `docs/PLANO_COLETA_AUTOMATICA_IMOVEIS.md`.
+- A API OLX documentada gerencia anúncios da conta autorizada; não é uma API pública de descoberta de anúncios de terceiros.
+- A coleta multiorigem só será ativada quando houver feeds/APIs e autorização de imobiliárias ou provedores. Nenhuma fonte está conectada ainda.
+
 ### Como Publicar no GitHub Pages:
 1. Descompacte o arquivo `painel_imoveis_fortaleza.zip` na raiz do seu repositório local.
 2. Faça commit e push para o branch principal do repositório `radar-imoveis-fortaleza`:
