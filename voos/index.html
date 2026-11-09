@@ -882,11 +882,12 @@
     });
 
     // Filter changes
-    ["fltSearchDate", "fltOutbound", "fltReturn", "fltAirline", "fltPlatform", "fltStops", "fltSort"].forEach(id => {
+    ["fltFavorites", "fltSearchDate", "fltOutbound", "fltReturn", "fltAirline", "fltPlatform", "fltStops", "fltSort"].forEach(id => {
       document.getElementById(id).addEventListener("change", renderCardsAndTable);
     });
 
     document.getElementById("btnResetFilters").addEventListener("click", () => {
+      document.getElementById("fltFavorites").value = "ALL";
       document.getElementById("fltSearchDate").value = "ALL";
       document.getElementById("fltOutbound").value = "ALL";
       document.getElementById("fltReturn").value = "ALL";
