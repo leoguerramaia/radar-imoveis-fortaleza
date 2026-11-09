@@ -137,7 +137,8 @@ summary::-webkit-details-marker{display:none}
         <p class="text-xs text-slate-300">Ponto de Referência: <strong id="refPointLabel">Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807)</strong> • Varredura: <strong id="lastScanLabel">Coleta automática em configuração</strong></p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <button id="btnSearchNow" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow cursor-pointer transition">↻ ATUALIZAR BASE</button>
+        <button id="btnChatGPTSearch" type="button" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-black text-xs sm:text-sm shadow cursor-pointer transition">🔎 PESQUISAR AGORA COM CHATGPT</button>
+        <button id="btnSearchNow" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow cursor-pointer transition">↻ LER PLANILHA AGORA</button>
         <button id="btnOpenScheduleModal" type="button" class="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow cursor-pointer transition">⏰ Horários de Busca</button>
         <button id="btnSyncCloud" type="button" class="px-3 py-2 rounded-xl bg-slate-800 text-white border border-slate-700 font-semibold text-xs cursor-pointer hover:bg-slate-700 transition">☁️ Supabase</button>
       </div>
@@ -2637,16 +2638,33 @@ $("btnSyncCloud").addEventListener("click", () => {
   pullSupabase().then(() => showToast("☁️ Classificações sincronizadas com Supabase!"));
 });
 
+const CHATGPT_RENTAL_SEARCH_PROMPT = `Faça uma pesquisa complementar de imóveis para aluguel residencial no OLX em Fortaleza-CE, seguindo estes critérios do Radar Imóveis Fortaleza:
+- Valor total mensal (aluguel + condomínio + IPTU): até R$ 3.500.
+- Pelo menos 3 quartos e 70 m².
+- Preferir os bairros: Aldeota, Meireles, Varjota, Cocó, Dionísio Torres, Joaquim Távora, Papicu, Fátima, Montese, Tauape, Jacarecanga, Praia do Futuro, Cidade 2000, Benfica, Eng. Luciano Cavalcante, Cambeba, Sapiranga e José de Alencar. Também considerar casas em condomínio em Edson Queiroz, Cidade dos Funcionários e Lagoa Redonda.
+- Referência de deslocamento: Edifício Etevaldo Nogueira Business, Av. Dom Luís, 807, Meireles. Priorizar até 20 minutos de carro, sem inventar estimativas.
+- Pesquisar anúncios reais e ativos no OLX. Não inventar dados. Se algum campo não estiver disponível, deixar vazio. Incluir URL direta do anúncio e código quando disponível.
+- Não repetir anúncios. Se não for possível consultar a planilha atual, informe essa limitação e não afirme que a deduplicação foi feita.
+Entregue somente os novos resultados em CSV compatível com Google Sheets, com exatamente estas 28 colunas nesta ordem:
+id,codigo,titulo,tipo,bairro,endereco,area_m2,quartos,suites,banheiros,vagas,aluguel,condominio,iptu,total,drive_minutos,drive_km,rota,lat,lng,imobiliaria,contato_nome,telefone,whatsapp_numero,url_anuncio,data_grupo,destaques,observacoes
+Use uma linha por imóvel. Não inclua cabeçalho explicativo, comentários ou imóveis sem URL verificável. Para id, use um identificador estável como olx-CODIGO; se não houver código, use um identificador derivado da URL. Valores monetários devem ser numéricos sem R$ e sem separador de milhar. Campos com vírgulas ou quebras de linha devem seguir o padrão de escape CSV. Ao final, informe separadamente quantos anúncios foram encontrados e quantos passaram pelos critérios.`;
+$("btnChatGPTSearch").addEventListener("click", () => {
+  const url = "https://chatgpt.com/?q=" + encodeURIComponent(CHATGPT_RENTAL_SEARCH_PROMPT);
+  const opened = window.open(url, "_blank", "noopener,noreferrer");
+  if (!opened) showToast("O navegador bloqueou a nova aba. Permita pop-ups para abrir a pesquisa no ChatGPT.");
+  else showToast("Pesquisa preparada no ChatGPT. Revise os resultados e peça o CSV com as 28 colunas.");
+});
+
 $("btnSearchNow").addEventListener("click", () => {
   const btn = $("btnSearchNow");
-  btn.textContent = "⏳ Consultando...";
+  btn.textContent = "⏳ Lendo planilha...";
   btn.disabled = true;
   Promise.all([fetchAndMergeGoogleSheets(true), pullSupabase()]).finally(() => {
     setTimeout(() => {
-      btn.textContent = "↻ ATUALIZAR BASE";
+      btn.textContent = "↻ LER PLANILHA AGORA";
       btn.disabled = false;
       applyFiltersAndRender();
-      showToast("Base consultada. Esta ação atualiza os anúncios já cadastrados; ainda não faz novas buscas nos portais.");
+      showToast("Planilha relida. Novos anúncios foram incorporados ao Radar, sem duplicar os cards já carregados.");
     }, 400);
   });
 });
