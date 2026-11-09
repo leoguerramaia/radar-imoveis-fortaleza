@@ -20,7 +20,12 @@ Este pacote contém todas as atualizações implementadas no ecossistema multi-p
 ### 3. Campo "Observações" Salvo Diretamente no Supabase (Sem localStorage)
 - Em todos os cards de **Aluguel**, **Compra** e **Veículos**, as anotações feitas no campo **"📝 Observações"** são salvas na nuvem (**Supabase** via tabela `property_notes`), sem depender do `localStorage` do navegador, permitindo visualização sincronizada em múltiplos dispositivos.
 
-### 4. Varredura Diária de Veículos (Fortaleza/CE & Teresina/PI)
+### 4. Automação atual: veículos e imóveis (status verificado)
+- **Aluguel:** a rotina diária atual apenas confere a planilha legada; não coleta anúncios novos de portais nem de imobiliárias. A coleta multiorigem ainda precisa ser integrada por fontes autorizadas.
+- **Veículos:** existe uma tentativa de consulta à OLX via página pública, sujeita a mudanças do site e às regras de acesso da plataforma; não deve ser tratada como integração oficial ou garantia de atualização.
+- **Voos:** a rotina atual apenas registra a data no log; não consulta tarifas nem atualiza resultados.
+
+### 5. Base histórica de veículos (dados existentes)
 - Total de veículos monitorados: **19 veículos qualificados** (10 em Fortaleza/CE e 9 em Teresina/PI).
 - Critérios estritos: Câmbio Automático / CVT, 4 portas, Ano Mínimo 2022, KM Máximo 40.000 km, Preço Máximo R$ 100.000.
 - Novo veículo qualificado adicionado hoje: **Kia Stonic SX 1.0 Turbo Hybrid Aut. 2022** (Apenas 6.000 km, R$ 89.950, Jelta Seminovos Teresina).
