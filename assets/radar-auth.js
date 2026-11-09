@@ -151,7 +151,7 @@
   $("radar-auth-submit").addEventListener("click", async () => {
     const email = $("radar-auth-email").value.trim();
     const password = $("radar-auth-password").value;
-    if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { setStatus("Informe um e-mail válido."); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("Informe um e-mail válido."); return; }
     if (password.length < 8) { setStatus("A senha deve ter pelo menos 8 caracteres."); return; }
     if (authMode === "signup" && password !== $("radar-auth-password-confirm").value) { setStatus("As senhas não conferem."); return; }
     const button = $("radar-auth-submit");
@@ -173,7 +173,7 @@
 
   $("radar-auth-forgot").addEventListener("click", async () => {
     const email = $("radar-auth-email").value.trim();
-    if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { setStatus("Informe seu e-mail para receber o link de redefinição."); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("Informe seu e-mail para receber o link de redefinição."); return; }
     const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
     setStatus(error ? "Não foi possível enviar a redefinição: " + error.message : "Enviamos um link para redefinir sua senha. Use-o apenas para criar uma nova senha.");
   });
