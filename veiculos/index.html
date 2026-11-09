@@ -191,7 +191,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="DISCARDED_ONLY">🗑️ Descartados (1-2 ⭐)</option>
           <option value="SHOW_EVERYTHING">Todos</option>
         </select>
-<div><label class="block text-xs font-bold mb-1">Favoritos</label><select id="filterFavorites" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select></div>
+
               <select id="filterBody" class="rounded-lg border px-2.5 py-1.5 text-xs bg-slate-50 font-semibold">
           <option value="ALL">Todas Carrocerias (Hatch/Sedã/SUV)</option>
           <option value="Hatch">Hatch</option>
@@ -199,6 +199,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="SUV">SUV</option>
         </select>
       </div>
+      <select id="filterFavorites" aria-label="Filtrar favoritos" class="w-full sm:w-48 rounded-lg border px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-800"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select>
       <input id="searchInput" type="text" placeholder="Buscar por marca, modelo, loja, portal ou observação..." class="w-full rounded-lg border px-3 py-1.5 text-xs" />
       <div class="text-right">
         <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 31 de 31 veículos cadastrados</span>
