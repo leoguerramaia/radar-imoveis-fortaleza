@@ -261,6 +261,7 @@
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs">
+        <div><label class="block text-[11px] font-bold text-slate-600 mb-1">Favoritos</label><select id="fltFavorites" class="w-full rounded-lg border border-slate-300 bg-rose-50 px-2.5 py-1.5 font-semibold text-rose-800"><option value="ALL">Todos os voos</option><option value="FAVORITES">♥ Somente favoritos</option></select></div>
         <div>
           <label class="block text-[11px] font-bold text-slate-600 mb-1">Data da Pesquisa</label>
           <select id="fltSearchDate" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-1.5 font-semibold">
@@ -403,8 +404,16 @@
       return Number(val || 0).toLocaleString("pt-BR") + " milhas";
     }
 
-    const flightPreferences = { ratings: {}, notes: {} };
+    const flightPreferences = { ratings: {}, notes: {}, favorites: {} };
 
+    function isFlightFavorite(id) { return !!flightPreferences.favorites[id]; }
+    async function toggleFlightFavorite(id) {
+      const previous = isFlightFavorite(id);
+      flightPreferences.favorites[id] = !previous;
+      renderAll();
+      try { await window.RadarAuth.preferences.save("flight", id, { is_favorite: !previous }); }
+      catch (error) { flightPreferences.favorites[id] = previous; renderAll(); console.error("Falha ao sincronizar favorito:", error); }
+    }
     function getStars(id) {
       return Number(flightPreferences.ratings[id] || 0);
     }
@@ -447,9 +456,11 @@
         const result = await window.RadarAuth.preferences.load("flight");
         flightPreferences.ratings = {};
         flightPreferences.notes = {};
+        flightPreferences.favorites = {};
         Object.entries(result.preferences || {}).forEach(([id, pref]) => {
           if (pref.rating !== null && pref.rating !== undefined) flightPreferences.ratings[id] = Number(pref.rating);
           if (pref.notes) flightPreferences.notes[id] = pref.notes;
+          if (pref.is_favorite) flightPreferences.favorites[id] = true;
         });
         renderAll();
       } catch (error) {
@@ -694,6 +705,7 @@
       const sort = document.getElementById("fltSort").value;
 
       let list = allFlights.filter(f => {
+        if (document.getElementById("fltFavorites").value === "FAVORITES" && !isFlightFavorite(f.id)) return false;
         if (selectedRoute !== "ALL" && f.rota !== selectedRoute) return false;
         if (sDate !== "ALL" && f.data_pesquisa !== sDate) return false;
         if (outDate !== "ALL" && f.data_ida !== outDate) return false;
@@ -731,6 +743,7 @@
         const isRecord = String(f.menor_valor_historico || "").startsWith("SIM");
         const isBsb = f.rota.includes("Brasília");
         const stars = getStars(f.id);
+        const isFavorite = isFlightFavorite(f.id);
         const noteVal = getNote(f.id, f.observacoes);
 
         let starsHtml = "";
@@ -754,6 +767,8 @@
                   ✈️ ${f.rota}
                 </span>
                 <div class="flex items-center gap-1">
+                  <button type="button" data-flight-favorite="${f.id}" aria-pressed="${isFavorite}" class="px-2 py-0.5 rounded border text-[11px] font-extrabold">${isFavorite ? '♥ Favorito' : '♡ Favoritar'}</button>
+
                   ${isRecord ? `<span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-extrabold">🏆 ${f.menor_valor_historico.replace('SIM ', '')}</span>` : ''}
                   <span class="px-2 py-0.5 rounded border text-[11px] font-bold ${airlineBadgeColor}">${f.companhia}</span>
                 </div>
@@ -843,6 +858,12 @@
       tableBody.innerHTML = tableHtml;
     }
 
+    document.addEventListener("click", event => {
+      const button = event.target.closest("[data-flight-favorite]");
+      if (!button) return;
+      event.preventDefault();
+      toggleFlightFavorite(button.dataset.flightFavorite);
+    });
     function renderAll() {
       updateHistoricalKPIs();
       renderSearchDateHistoryTable();
