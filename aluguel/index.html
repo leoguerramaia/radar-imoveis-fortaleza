@@ -102,6 +102,15 @@ main{padding-top:1.25rem!important;gap:1.25rem!important}
 #advancedFilters[open] summary{margin-bottom:4px}
 summary::-webkit-details-marker{display:none}
 @media(max-width:640px){header .grid.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}header .grid.grid-cols-2>div:nth-child(3){display:none}main{padding-left:12px!important;padding-right:12px!important}.c-foot{gap:8px;flex-wrap:wrap}}
+
+/* Cartões compactos: anotações só aparecem quando solicitadas */
+.c-obs{display:block!important;padding:0!important;border:0!important;background:transparent!important;margin-top:2px}
+.c-obs-summary{cursor:pointer;list-style:none;padding:8px 10px;border:1px solid #e2e8f0;border-radius:9px;background:#f8fafc;color:#64748b;font-size:11px;font-weight:700}
+.c-obs-summary::-webkit-details-marker{display:none}
+.c-obs[open] .c-obs-summary{border-radius:9px 9px 0 0;background:#f1f5f9;color:#334155}
+.c-obs[open] .c-obs-hdr,.c-obs[open] .c-obs-row{padding:8px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;background:#fff}
+.c-obs[open] .c-obs-row{border-bottom:1px solid #e2e8f0;border-radius:0 0 9px 9px}
+#btnOpenScheduleModal{display:none!important}
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -318,7 +327,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Padre%20Ant%C3%B4nio%20Tom%C3%A1s%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060140-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/3-quartos-em-aldeota-fortaleza-ce-1543801457" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-2" class="prop-card card-even" data-p="EDSAFIRA|Apartamento|Papicu|1400|1540|80|3020|6|136|3|-3.7395|-38.4785" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869">
@@ -353,7 +362,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluga-apartamento-3-quartos-papicu-proximo-ao-riomar-fortaleza-1543895869" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-3" class="prop-card card-odd" data-p="38/1|Apartamento|Fátima|2000|1050|0|3050|14|130|3|-3.7568|-38.5245" data-addr="Rua General Silva Júnior. Fátima. Fortaleza - CE. 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230">
@@ -388,7 +397,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-com-130-metros-quadrados-com-3-quartos-em-fatima-fortaleza-ce-1543804230" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-4" class="prop-card card-even" data-p="14079|Apartamento|Dionísio Torres|2280|920|120|3320|3|120|3|-3.7388|-38.4975" data-addr="Rua Coronel Linhares. Dionísio Torres. Fortaleza - CE. 60170-241" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765">
@@ -423,7 +432,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Coronel%20Linhares%2C%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060170-241%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-aldeota-3-quartos-1536344765" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-5" class="prop-card card-odd" data-p="1537349666|Apartamento|Dionísio Torres|2227|700|0|2927|9|74|3|-3.7525|-38.5015" data-addr="Av. Pontes Vieira. 1234 - Dionísio Torres. Fortaleza - CE. 60135-237" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666">
@@ -458,7 +467,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Pontes%20Vieira%2C%201234%20-%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060135-237%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-na-av-pontes-vieira-1-vaga-muito-ventilado-1537349666" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-6" class="prop-card card-even" data-p="18SLHJ6|Apartamento|Fátima|1500|585|0|2085|14|105|3|-3.7595|-38.528" data-addr="Rua General Silva Júnior. 700 - Fátima. Fortaleza - CE. 60411-200" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696">
@@ -493,7 +502,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20General%20Silva%20J%C3%BAnior%2C%20700%20-%20F%C3%A1tima%2C%20Fortaleza%20-%20CE%2C%2060411-200%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-no-condominio-jardim-antares-bairro-fatima-fortaleza-ce-1542171696" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-7" class="prop-card card-odd" data-p="VALDEVINO|Apartamento|Aldeota|2500|604|89|3193|8|87|3|-3.741|-38.5105" data-addr="Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320">
@@ -528,7 +537,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201515%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-na-aldeota-edificio-luiz-linhares-rua-pe-valdevino-1535689320" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-8" class="prop-card card-even" data-p="9940|Apartamento|Aldeota|2500|0|0|2500|7|152|3|-3.7445|-38.5082" data-addr="Av. Antônio Sales. Aldeota. Fortaleza - CE. 60115-191" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234">
@@ -563,7 +572,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Ant%C3%B4nio%20Sales%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060115-191%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-aldeota-em-fortaleza-ce-1521094234" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-9" class="prop-card card-odd" data-p="L8803|Casa em Condomínio|Sapiranga|2200|707|88|2995|14|151|5|-3.7895|-38.472" data-addr="Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194">
@@ -598,7 +607,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/excelente-casa-em-condominio-na-sapiranga-1526109194" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-10" class="prop-card card-even" data-p="CA0059|Casa em Condomínio|José de Alencar|2600|685|92|3377|15|105|3|-3.798|-38.481" data-addr="Rua Professor Glauco Lobo. José de Alencar. Fortaleza - CE. 60830-465" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311">
@@ -633,7 +642,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Professor%20Glauco%20Lobo%2C%20Jos%C3%A9%20de%20Alencar%2C%20Fortaleza%20-%20CE%2C%2060830-465%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-105-m-por-r-2-600-mes-jose-de-alencar-fortaleza-ce-1529832311" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-11" class="prop-card card-odd" data-p="BD385|Casa em Condomínio|Edson Queiroz|1900|600|0|2500|13|90|3|-3.772|-38.484" data-addr="Av. Washington Soares. Edson Queiroz. Fortaleza - CE. 60834-255" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793">
@@ -668,7 +677,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Washington%20Soares%2C%20Edson%20Queiroz%2C%20Fortaleza%20-%20CE%2C%2060834-255%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-em-condominio-para-alugar-edson-queiroz-1544268793" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-12" class="prop-card card-even" data-p="CF110|Casa em Condomínio|Cidade dos Funcionários|2250|550|90|2890|15|110|3|-3.784|-38.498" data-addr="Av. Oliveira Paiva. Cidade dos Funcionários. Fortaleza - CE. 60822-630" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785">
@@ -703,7 +712,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Oliveira%20Paiva%2C%20Cidade%20dos%20Funcion%C3%A1rios%2C%20Fortaleza%20-%20CE%2C%2060822-630%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-para-alugar-na-cidade-de-fortaleza-ce-1526678785" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-13" class="prop-card card-odd" data-p="RP95|Casa em Condomínio|Lagoa Redonda|2950|410|69|3429|20|95|3|-3.8185|-38.462" data-addr="Rua Luiza Guimarães. Lagoa Redonda. Fortaleza - CE. 60831-490" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275">
@@ -738,7 +747,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Luiza%20Guimar%C3%A3es%2C%20Lagoa%20Redonda%2C%20Fortaleza%20-%20CE%2C%2060831-490%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-aluguel-casa-condominio-1542048275" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-14" class="prop-card card-even" data-p="223-C3|Apartamento|Varjota|1200|422|367|1989|5|80|3|-3.733|-38.486" data-addr="Rua Silva Paulet. Varjota. Fortaleza - CE. 60175-210" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572">
@@ -773,7 +782,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Silva%20Paulet%2C%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060175-210%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-80-metros-quadrados-com-3-quartos-em-varjota-fortaleza-ce-1525796572" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-15" class="prop-card card-odd" data-p="SOLANGE|Apartamento|Joaquim Távora|1700|720|135|2555|7|130|3|-3.748|-38.514" data-addr="Av. Barão de Studart. 2445 - Joaquim Távora. Fortaleza - CE. 60120-002" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098">
@@ -808,7 +817,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Bar%C3%A3o%20de%20Studart%2C%202445%20-%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060120-002%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/alugo-apartamento-av-barao-de-studart-130m-duas-salas-3-quartos-1-suite-2-vagas-1526989098" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-16" class="prop-card card-even" data-p="L8817|Apartamento|Engenheiro Luciano Cavalcante|2500|356|0|2856|11|70|3|-3.768|-38.491" data-addr="Rua Engenheiro Luciano Cavalcante. Engenheiro Luciano Cavalcante. Fortaleza - CE. 60813-765" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333">
@@ -843,7 +852,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Engenheiro%20Luciano%20Cavalcante%2C%20Engenheiro%20Luciano%20Cavalcante%2C%20Fortaleza%20-%20CE%2C%2060813-765%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-para-alugar-na-cidade-de-fortaleza-ce-1540681333" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-17" class="prop-card card-odd" data-p="351|Apartamento|Cocó|2000|900|0|2900|7|70|3|-3.746|-38.482" data-addr="Praça Engenheiro Pedro Felipe Borges. Cocó. Fortaleza - CE. 60192-115" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675">
@@ -878,7 +887,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Pra%C3%A7a%20Engenheiro%20Pedro%20Felipe%20Borges%2C%20Coc%C3%B3%2C%20Fortaleza%20-%20CE%2C%2060192-115%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-no-coco-1522933675" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-18" class="prop-card card-even" data-p="AP72858|Apartamento|Cambeba|2300|634|126|3060|16|70|3|-3.805|-38.489" data-addr="Rua dos Amigos. 355 - Cambeba. Fortaleza - CE. 60822-168" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464">
@@ -913,7 +922,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20dos%20Amigos%2C%20355%20-%20Cambeba%2C%20Fortaleza%20-%20CE%2C%2060822-168%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-condominio-fortune-residence-club-1544031464" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-19" class="prop-card card-odd" data-p="8088|Apartamento|Meireles|1900|0|0|1900|5|106|3|-3.7315|-38.511" data-addr="Rua Pereira Filgueiras. Meireles. Fortaleza - CE. 60160-150" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422">
@@ -948,7 +957,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Pereira%20Filgueiras%2C%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-150%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-em-duplex-no-meireles-com-3-quartos-e-suies-por-r-1-900-00-1520699422" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-20" class="prop-card card-even" data-p="3827|Apartamento|Jacarecanga|2000|1000|88|3088|18|148|3|-3.722|-38.542" data-addr="Av. Filomeno Gomes. Jacarecanga. Fortaleza - CE. 60010-280" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895">
@@ -983,7 +992,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Filomeno%20Gomes%2C%20Jacarecanga%2C%20Fortaleza%20-%20CE%2C%2060010-280%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-jacarecanga-1540711895" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-21" class="prop-card card-odd" data-p="L198|Casa|Montese|1700|0|0|1700|15|80|3|-3.765|-38.546" data-addr="Rua Alberto Magno. Montese. Fortaleza - CE. 60420-670" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386">
@@ -1018,7 +1027,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Alberto%20Magno%2C%20Montese%2C%20Fortaleza%20-%20CE%2C%2060420-670%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/otima-casa-no-montese-proximo-av-joao-pessoa-80m-com-garagem-sala-varanda-3-quartos-1540140386" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-22" class="prop-card card-even" data-p="UB-2328|Casa|Aldeota|2100|0|0|2100|5|240|3|-3.731|-38.502" data-addr="Rua Ubajara. Aldeota. Fortaleza - CE. 60150-020" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699">
@@ -1053,7 +1062,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Ubajara%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060150-020%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/oportunidade-casa-aldeota-1544343699" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-23" class="prop-card card-odd" data-p="AP0346|Apartamento|Papicu|1700|600|106|2406|6|110|3|-3.738|-38.479" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-782" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923">
@@ -1088,7 +1097,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-782%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-para-alugar-110-m-por-r-1700-00-mes-papicu-fortaleza-ce-1544577923" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-24" class="prop-card card-even" data-p="CA0013|Casa em Condomínio|Sapiranga|1800|600|92|2492|14|100|3|-3.791|-38.474" data-addr="Rua Olegário Memória. Sapiranga. Fortaleza - CE. 60833-351" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910">
@@ -1123,7 +1132,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Oleg%C3%A1rio%20Mem%C3%B3ria%2C%20Sapiranga%2C%20Fortaleza%20-%20CE%2C%2060833-351%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-com-3-quartos-para-alugar-por-r-1-800-00-mes-sapiranga-fortaleza-ce-1544577910" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-25" class="prop-card card-odd" data-p="BNB95|Apartamento|Aldeota|1700|550|100|2350|4|95|3|-3.737|-38.504" data-addr="Rua Tibúrcio Cavalcante. Aldeota. Fortaleza - CE. 60125-100" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008">
@@ -1158,7 +1167,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Tib%C3%BArcio%20Cavalcante%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060125-100%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apto-3-quartos-2-suites-aldeota-sem-elevador-uma-garagem-coberta-prox-ao-bnb-1544270008" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-26" class="prop-card card-even" data-p="JT115|Casa|Joaquim Távora|2500|0|0|2500|7|115|3|-3.746|-38.512" data-addr="Rua Padre Valdevino. Joaquim Távora. Fortaleza - CE. 60135-040" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973">
@@ -1193,7 +1202,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%20Joaquim%20T%C3%A1vora%2C%20Fortaleza%20-%20CE%2C%2060135-040%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-b-joaquim-tavora-1542773973" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-27" class="prop-card card-odd" data-p="11213|Apartamento|Benfica|1600|700|94|2394|13|107|3|-3.7435|-38.5385" data-addr="Av. Domingos Olímpio. Benfica. Fortaleza - CE. 60040-082" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085">
@@ -1228,7 +1237,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Domingos%20Ol%C3%ADmpio%2C%20Benfica%2C%20Fortaleza%20-%20CE%2C%2060040-082%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-quartos-no-bairro-benfica-em-fortaleza-ce-1545023085" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-28" class="prop-card card-even" data-p="RAP814|Apartamento|Papicu|2000|450|87|2537|6|111|3|-3.738|-38.482" data-addr="Av. Engenheiro Alberto Sá. 120 - Papicu. Fortaleza - CE. 60175-395" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724">
@@ -1263,7 +1272,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Engenheiro%20Alberto%20S%C3%A1%2C%20120%20-%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-395%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-111-m-3-quartos-1-suite-2-vagas-papicu-1544857724" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-29" class="prop-card card-odd" data-p="049|Apartamento|Papicu|1750|400|87|2237|6|110|3|-3.7385|-38.4795" data-addr="Rua Júlio Azevedo. Papicu. Fortaleza - CE. 60175-395" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950">
@@ -1298,7 +1307,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20J%C3%BAlio%20Azevedo%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-395%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-papicu-1544949950" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-30" class="prop-card card-even" data-p="7135|Apartamento|Aldeota|2400|604|84|3088|8|141|3|-3.741|-38.5105" data-addr="Rua Padre Valdevino. 1515 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135">
@@ -1333,7 +1342,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201515%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://megaimoveis.com/imovel/locacao/apartamentos/fortaleza/aldeota/7135" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-31" class="prop-card card-odd" data-p="AP5206-499|Apartamento|Aldeota|2000|780|248|3028|4|187|3|-3.743|-38.4988" data-addr="Av. Desembargador Moreira. 2059 - Aldeota. Fortaleza - CE. 60170-002" data-url="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza">
@@ -1368,7 +1377,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Desembargador%20Moreira%2C%202059%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060170-002%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://www.marcelinofreitas.com.br/imoveis/para-alugar/fortaleza" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-32" class="prop-card card-even" data-p="1388865464|Apartamento|Aldeota|1993|643|83|2719|5|90|3|-3.742|-38.506" data-addr="Rua Padre Valdevino. 1913 - Aldeota. Fortaleza - CE. 60135-041" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464">
@@ -1403,7 +1412,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Padre%20Valdevino%2C%201913%20-%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060135-041%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-de-03-quartos-na-padre-valdevino-proximo-a-av-barao-de-studart-1388865464" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-33" class="prop-card card-odd" data-p="1545836576|Apartamento|Dionísio Torres|1700|500|190|2390|4|110|3|-3.7465|-38.502" data-addr="Av. Desembargador Moreira. 2613 - Dionísio Torres. Fortaleza - CE. 60170-173" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-e-arejado-dionisio-torres-1545836576">
@@ -1438,7 +1447,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Av.%20Desembargador%20Moreira%2C%202613%20-%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%2060170-173%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-e-arejado-dionisio-torres-1545836576" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-e-arejado-dionisio-torres-1545836576" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-34" class="prop-card card-even" data-p="1545136136|Casa em Condomínio|Lagoa Redonda|2600|500|89|3189|20|160|3|-3.8185|-38.462" data-addr="Rua Recreio. Lagoa Redonda - Condomínio Monte Verde. Fortaleza - CE. 60831-370" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-160-metros-quadrados-com-3-quartos-em-lagoa-redonda-fortaleza-1545136136">
@@ -1473,7 +1482,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Recreio%2C%20Lagoa%20Redonda%2C%20Fortaleza%20-%20CE%2C%2060831-370%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-160-metros-quadrados-com-3-quartos-em-lagoa-redonda-fortaleza-1545136136" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/imovel-para-aluguel-possui-160-metros-quadrados-com-3-quartos-em-lagoa-redonda-fortaleza-1545136136" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-35" class="prop-card card-odd" data-p="1541651015|Apartamento|Papicu|2100|1400|0|3500|6|133|3|-3.738|-38.4795" data-addr="Rua André Dall'Olio. Papicu. Fortaleza - CE. 60175-395" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-3-quarto-s-papicu-fortaleza-1541651015">
@@ -1508,7 +1517,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Andr%C3%A9%20Dall'Olio%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-395%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-3-quarto-s-papicu-fortaleza-1541651015" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-aluguel-3-quarto-s-papicu-fortaleza-1541651015" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-36" class="prop-card card-even" data-p="1539732104|Apartamento|Papicu|1750|880|110|2740|6|131|3|-3.739|-38.478" data-addr="Rua Pereira de Miranda. Papicu. Fortaleza - CE. 60175-045" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-ao-lado-do-riomar-fortaleza-1539732104">
@@ -1543,7 +1552,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Pereira%20de%20Miranda%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060175-045%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-ao-lado-do-riomar-fortaleza-1539732104" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/aluguel-apartamento-ao-lado-do-riomar-fortaleza-1539732104" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-37" class="prop-card card-odd" data-p="1546215567|Apartamento|Fátima|1400|580|0|1980|11|80|3|-3.7380|-38.5300" data-addr="Rua Jaime Benévolo. José Bonifácio / Fátima. Fortaleza - CE. 60050-081" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-bairro-de-fatima-1546215567">
@@ -1578,7 +1587,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Jaime%20Ben%C3%A9volo%2C%20Jos%C3%A9%20Bonif%C3%A1cio%2C%20Fortaleza%20-%20CE%2C%2060050-081%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-bairro-de-fatima-1546215567" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-bairro-de-fatima-1546215567" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-38" class="prop-card card-even" data-p="1537491449|Apartamento|Montese|1600|506|0|2106|15|100|4|-3.7650|-38.5460" data-addr="Avenida João Pessoa. Montese. Fortaleza - CE. 60425-682" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-100-m-condominio-parque-jatahy-sul-1537491449">
@@ -1613,7 +1622,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Avenida%20Jo%C3%A3o%20Pessoa%2C%20Montese%2C%20Fortaleza%20-%20CE%2C%2060425-682%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-100-m-condominio-parque-jatahy-sul-1537491449" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-amplo-100-m-condominio-parque-jatahy-sul-1537491449" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-39" class="prop-card card-odd" data-p="1538074043|Apartamento|Aldeota|1600|550|131|2281|4|80|3|-3.7432|-38.4912" data-addr="Rua Pereira Valente. Aldeota. Fortaleza - CE. 60120-001" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-em-fortaleza-aldeota-3-dormitorios-2-banheiros-1538074043">
@@ -1648,7 +1657,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20Pereira%20Valente%2C%20Aldeota%2C%20Fortaleza%20-%20CE%2C%2060120-001%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-em-fortaleza-aldeota-3-dormitorios-2-banheiros-1538074043" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-para-locacao-em-fortaleza-aldeota-3-dormitorios-2-banheiros-1538074043" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-40" class="prop-card card-even" data-p="1546125616|Apartamento|Papicu|2500|0|0|2500|8|129|3|-3.7420|-38.4820" data-addr="Rua César Fonseca, 60, Papicu, Fortaleza - CE, 60176-115" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-129m-a-1-quarteirao-do-shopping-riomar-1546125616">
@@ -1683,7 +1692,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20C%C3%A9sar%20Fonseca%2C%2060%2C%20Papicu%2C%20Fortaleza%20-%20CE%2C%2060176-115%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-129m-a-1-quarteirao-do-shopping-riomar-1546125616" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-129m-a-1-quarteirao-do-shopping-riomar-1546125616" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-41" class="prop-card card-odd" data-p="1546702084|Apartamento|Cambeba|2200|720|85|3005|17|90|3|-3.8050|-38.4900" data-addr="Rua Francisco Paracampos / Região Lago Jacarey. Cambeba. Fortaleza - CE. 60822-180" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-duplex-para-aluguel-3-quarto-s-cambeba-fortaleza-1546702084">
@@ -1718,7 +1727,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Cambeba%2C%20Fortaleza%20-%20CE%2C%2060822-180%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-duplex-para-aluguel-3-quarto-s-cambeba-fortaleza-1546702084" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-duplex-para-aluguel-3-quarto-s-cambeba-fortaleza-1546702084" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-42" class="prop-card card-even" data-p="1547074045|Apartamento|Dionísio Torres|2200|638|140|2978|7|119|3|-3.7508|-38.5089" data-addr="Av. Barão de Studart, Dionísio Torres / Aldeota, Fortaleza - CE, 60120-375" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-dormitorios-para-alugar-119-m-por-r-2-978-mes-aldeota-fortaleza-c-1547074045">
@@ -1753,7 +1762,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Avenida%20Bar%C3%A3o%20de%20Studart%2C%20Dion%C3%ADsio%20Torres%2C%20Fortaleza%20-%20CE%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-dormitorios-para-alugar-119-m-por-r-2-978-mes-aldeota-fortaleza-c-1547074045" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/apartamento-com-3-dormitorios-para-alugar-119-m-por-r-2-978-mes-aldeota-fortaleza-c-1547074045" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-43" class="prop-card card-odd" data-p="1547141265|Casa em Condomínio|Lagoa Redonda|2300|800|0|3100|19|90|3|-3.8290|-38.4720" data-addr="Rua Bárbara de Sousa Costa, Condomínio Andaluzia, Lagoa Redonda, Fortaleza - CE, 60831-083" data-url="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-em-cond-fechado-para-aluguel-tem-90-m-com-3-quartos-em-lagoa-redonda-fortal-1547141265">
@@ -1788,7 +1797,7 @@ summary::-webkit-details-marker{display:none}
   </div>
   <div class="c-foot">
     <a href="https://www.google.com/maps/dir/?api=1&origin=Rua%20B%C3%A1rbara%20de%20Sousa%20Costa%2C%20Lagoa%20Redonda%2C%20Fortaleza%20-%20CE%2C%2060831-083%2C%20Brasil&destination=Edif%C3%ADcio%20Etevaldo%20Nogueira%20Business%2C%20Av.%20Dom%20Lu%C3%ADs%2C%20807%20-%20Meireles%2C%20Fortaleza%20-%20CE%2C%2060160-230%2C%20Brasil&travelmode=driving" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-em-cond-fechado-para-aluguel-tem-90-m-com-3-quartos-em-lagoa-redonda-fortal-1547141265" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+    <a href="https://ce.olx.com.br/fortaleza-e-regiao/imoveis/casa-duplex-em-cond-fechado-para-aluguel-tem-90-m-com-3-quartos-em-lagoa-redonda-fortal-1547141265" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
   </div>
 </article>
       <article id="imv-44" class="prop-card card-even" data-p="VR-JA72|Apartamento|Meireles|2000|766|0|2766|6|72|3|-3.7225|-38.5140" data-addr="Rua Joaquim Alves, Meireles, Fortaleza - CE, 60160-030" data-url="https://www.vivareal.com.br/aluguel/ceara/fortaleza/bairros/meireles/rua-joaquim-alves/apartamento_residencial/">
@@ -2145,6 +2154,19 @@ function loadConsultationBadge() {
   }
 }
 
+function compactCardNotes(root = document) {
+  root.querySelectorAll(".c-obs:not(details)").forEach(block => {
+    const details = document.createElement("details");
+    details.className = "c-obs";
+    const summary = document.createElement("summary");
+    summary.className = "c-obs-summary";
+    summary.textContent = "📝 Anotações e visita";
+    details.appendChild(summary);
+    while (block.firstChild) details.appendChild(block.firstChild);
+    block.replaceWith(details);
+  });
+}
+
 async function fetchAndMergeGoogleSheets(isManual = false) {
   try {
     const res = await fetch(`${SHEET_CSV_URL}&_t=${Date.now()}`);
@@ -2227,7 +2249,7 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
           </div>
           <div class="c-foot">
             <a href="${routeHref}" target="_blank" rel="noopener" class="btn-map">📍 Rota Google Maps</a>
-            <a href="${url}" target="_blank" rel="noopener">Ver Anúncio OLX &rarr;</a>
+            <a href="${url}" target="_blank" rel="noopener">Ver anúncio &rarr;</a>
           </div>
         `;
         grid.appendChild(card);
@@ -2245,6 +2267,7 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
       if (titleLink) titleLink.href = url;
     });
 
+    compactCardNotes(grid);
     const now = new Date();
     const timeStr = `${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
     updateConsultationBadge(timeStr, "Atualização da planilha", newlyAdded);
@@ -2588,6 +2611,7 @@ function loadInitialConfig() {
 document.querySelectorAll(".s-bx").forEach(el => el.innerHTML = "<i>★</i>".repeat(5));
 loadInitialConfig();
 loadConsultationBadge();
+compactCardNotes(document.getElementById("cardsGrid"));
 applyFiltersAndRender();
 pullSupabase();
 window.addEventListener("radar:auth-changed", () => pullSupabase());
