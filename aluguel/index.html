@@ -82,18 +82,18 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <div id="consultationBadge" class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700 text-xs font-semibold text-slate-200">
             <span class="flex items-center gap-1.5 text-emerald-400">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase text-[10px]">Consulta Automática</span>
+              <span id="badgeScanTypeTag" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase text-[10px]">Base legada</span>
             </span>
-            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">26/10/2026 às 06:00</strong></span>
+            <span class="text-slate-300">Última consulta: <strong id="badgeLastScanTime" class="text-white">Sem coleta automática ativa</strong></span>
             <span class="text-slate-500 hidden sm:inline">•</span>
-            <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-[11px] shadow-sm">+1 novo imóvel adicionado</span>
+            <span id="badgeNewListingsTag" class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold text-[11px] shadow-sm">44 anúncios na base</span>
           </div>
         </div>
         <h1 class="text-xl sm:text-2xl font-extrabold">Radar Imóveis Fortaleza • Aluguel Residencial</h1>
         <p class="text-xs text-slate-300">Ponto de Referência: <strong id="refPointLabel">Edf. Etevaldo Nogueira Business (Av. Dom Luís, 807)</strong> • Varredura: <strong id="lastScanLabel">26/10/2026 às 06:00</strong></p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <button id="btnSearchNow" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow cursor-pointer transition">⚡ BUSCAR AGORA</button>
+        <button id="btnSearchNow" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow cursor-pointer transition">↻ ATUALIZAR BASE</button>
         <button id="btnOpenScheduleModal" type="button" class="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow cursor-pointer transition">⏰ Horários de Busca</button>
         <button id="btnSyncCloud" type="button" class="px-3 py-2 rounded-xl bg-slate-800 text-white border border-slate-700 font-semibold text-xs cursor-pointer hover:bg-slate-700 transition">☁️ Supabase</button>
       </div>
@@ -2560,7 +2560,7 @@ window.addEventListener("radar:auth-changed", () => pullSupabase());
 fetchAndMergeGoogleSheets(false).then(newCount => {
   if (newCount > 0) {
     applyFiltersAndRender();
-    showToast(`🔔 ${newCount} novos imóveis carregados da pesquisa diária!`);
+    showToast(`🔔 ${newCount} anúncios novos encontrados na planilha conectada.`);
   }
 });
 
@@ -2588,7 +2588,7 @@ $("btnSearchNow").addEventListener("click", () => {
       btn.textContent = "⚡ BUSCAR AGORA";
       btn.disabled = false;
       applyFiltersAndRender();
-      showToast("✅ Varredura manual concluída com sucesso!");
+      showToast("Base consultada. Esta ação atualiza os anúncios já cadastrados; ainda não faz novas buscas nos portais.");
     }, 400);
   });
 });
