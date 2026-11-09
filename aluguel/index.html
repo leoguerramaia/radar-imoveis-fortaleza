@@ -1839,7 +1839,6 @@ let refPoint = {
 let activeCfg = { bairros: [], details: [], minVal: 0, maxVal: 0, condo: 0, iptu: 0, rooms: 0, minArea: 0, maxArea: 0, schedMode: "fixed", times: ["06:00","14:00"], freqX: 4 };
 let userRatings = {};
 let userNotes = {};
-    userFavorites = {};
 let userFavorites = {};
 let mapInstance = null, markerGroup = null, refMarker = null, markersById = {}, chartInstance = null;
 const fmtBRL = v => "R$ " + Number(v).toLocaleString("pt-BR");
@@ -2409,6 +2408,7 @@ async function pullSupabase() {
     const result = await window.RadarAuth.preferences.load("rent");
     userRatings = {};
     userNotes = {};
+    userFavorites = {};
     Object.entries(result.preferences || {}).forEach(([id, pref]) => {
       if (pref.rating !== null && pref.rating !== undefined) userRatings[id] = Number(pref.rating);
       if (pref.notes) userNotes[id] = pref.notes;
