@@ -2650,9 +2650,9 @@ id,codigo,titulo,tipo,bairro,endereco,area_m2,quartos,suites,banheiros,vagas,alu
 Use uma linha por imóvel. Não inclua cabeçalho explicativo, comentários ou imóveis sem URL verificável. Para id, use um identificador estável como olx-CODIGO; se não houver código, use um identificador derivado da URL. Valores monetários devem ser numéricos sem R$ e sem separador de milhar. Campos com vírgulas ou quebras de linha devem seguir o padrão de escape CSV. Ao final, informe separadamente quantos anúncios foram encontrados e quantos passaram pelos critérios.`;
 $("btnChatGPTSearch").addEventListener("click", () => {
   const url = "https://chatgpt.com/?q=" + encodeURIComponent(CHATGPT_RENTAL_SEARCH_PROMPT);
-  const opened = window.open(url, "_blank", "noopener,noreferrer");
+  const opened = window.open(url, "_blank");
   if (!opened) showToast("O navegador bloqueou a nova aba. Permita pop-ups para abrir a pesquisa no ChatGPT.");
-  else showToast("Pesquisa preparada no ChatGPT. Revise os resultados e peça o CSV com as 28 colunas.");
+  else { opened.opener = null; showToast("Pesquisa preparada no ChatGPT. Revise os resultados e peça o CSV com as 28 colunas."); }
 });
 
 $("btnSearchNow").addEventListener("click", () => {
