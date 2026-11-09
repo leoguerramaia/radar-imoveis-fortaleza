@@ -1839,6 +1839,8 @@ let refPoint = {
 let activeCfg = { bairros: [], details: [], minVal: 0, maxVal: 0, condo: 0, iptu: 0, rooms: 0, minArea: 0, maxArea: 0, schedMode: "fixed", times: ["06:00","14:00"], freqX: 4 };
 let userRatings = {};
 let userNotes = {};
+    userFavorites = {};
+let userFavorites = {};
 let mapInstance = null, markerGroup = null, refMarker = null, markersById = {}, chartInstance = null;
 const fmtBRL = v => "R$ " + Number(v).toLocaleString("pt-BR");
 
@@ -2218,6 +2220,49 @@ async function fetchAndMergeGoogleSheets(isManual = false) {
   }
 }
 
+
+function ensureFavoriteButton(card, pid) {
+  const header = card && card.querySelector(".c-hdr");
+  if (!header) return;
+  let button = header.querySelector("[data-radar-favorite]");
+  if (!button) {
+    button = document.createElement("button");
+    button.type = "button";
+    button.dataset.radarFavorite = pid;
+    button.style.cssText = "border:1px solid #cbd5e1;border-radius:999px;padding:4px 9px;font-weight:800;font-size:12px;background:#fff;cursor:pointer;white-space:nowrap";
+    header.appendChild(button);
+  }
+  const active = !!userFavorites[pid];
+  button.textContent = active ? "♥ Favorito" : "♡ Favoritar";
+  button.style.color = active ? "#be123c" : "#475569";
+  button.style.background = active ? "#fff1f2" : "#fff";
+  button.setAttribute("aria-pressed", String(active));
+  button.setAttribute("aria-label", active ? "Remover dos favoritos" : "Adicionar aos favoritos");
+}
+
+async function toggleFavorite(pid) {
+  const previous = !!userFavorites[pid];
+  userFavorites[pid] = !previous;
+  applyFiltersAndRender();
+  try {
+    await window.RadarAuth.preferences.save("rent", pid, { is_favorite: userFavorites[pid] });
+    showToast(userFavorites[pid] ? "Adicionado aos favoritos." : "Removido dos favoritos.");
+  } catch (error) {
+    userFavorites[pid] = previous;
+    applyFiltersAndRender();
+    console.error("Falha ao sincronizar favorito:", error);
+    showToast(error.message || "Não foi possível sincronizar o favorito. Verifique sua conta e o espaço familiar.");
+  }
+}
+
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-radar-favorite]");
+  if (!button) return;
+  event.preventDefault();
+  event.stopPropagation();
+  toggleFavorite(button.dataset.radarFavorite);
+});
+
 function syncNoteUI(pid) {
   const ta = document.getElementById("obs-" + pid);
   const st = document.getElementById("obs-st-" + pid);
@@ -2325,6 +2370,7 @@ function applyFiltersAndRender() {
 
   const grid = $("cardsGrid");
   visible.forEach((m, i) => {
+    ensureFavoriteButton(m.el, m.id);
     const r = userRatings[m.id] || 0, b = m.el.querySelector(".b-rt");
     m.el.className = "prop-card " + (r >= 4 ? "card-green" : r === 3 ? "card-yellow" : r >= 1 ? "card-red" : (i % 2 === 0 ? "card-odd" : "card-even"));
     if (b) b.textContent = r >= 3 ? `⭐ ${r}` : r >= 1 ? `🗑️ ${r}⭐` : "";
@@ -2366,6 +2412,7 @@ async function pullSupabase() {
     Object.entries(result.preferences || {}).forEach(([id, pref]) => {
       if (pref.rating !== null && pref.rating !== undefined) userRatings[id] = Number(pref.rating);
       if (pref.notes) userNotes[id] = pref.notes;
+      if (pref.is_favorite) userFavorites[id] = true;
     });
   } catch (error) {
     console.error("Falha ao carregar preferências privadas:", error);
