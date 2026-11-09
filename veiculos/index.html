@@ -191,7 +191,8 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="DISCARDED_ONLY">🗑️ Descartados (1-2 ⭐)</option>
           <option value="SHOW_EVERYTHING">Todos</option>
         </select>
-        <select id="filterBody" class="rounded-lg border px-2.5 py-1.5 text-xs bg-slate-50 font-semibold">
+<div><label class="block text-xs font-bold mb-1">Favoritos</label><select id="filterFavorites" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select></div>
+              <select id="filterBody" class="rounded-lg border px-2.5 py-1.5 text-xs bg-slate-50 font-semibold">
           <option value="ALL">Todas Carrocerias (Hatch/Sedã/SUV)</option>
           <option value="Hatch">Hatch</option>
           <option value="Sedã">Sedã</option>
@@ -1915,6 +1916,7 @@ function applyFiltersAndRender() {
   const minKm = Number($("filterMinKm").value) || 0;
   const maxKm = Number($("filterMaxKm").value) || 0;
   const rf = $("filterRating").value;
+  const ff = $("filterFavorites").value;
   const body = $("filterBody").value;
   const sb = $("sortBy").value;
   const q = $("searchInput").value.trim().toLowerCase();
@@ -1922,6 +1924,7 @@ function applyFiltersAndRender() {
   const visible = models.filter(m => {
     const r = userRatings[m.id] || 0;
     if ((rf === "ACTIVE_ALL" && (r === 1 || r === 2)) || (rf === "GREEN_ONLY" && r < 4) || (rf === "YELLOW_ONLY" && r !== 3) || (rf === "UNRATED_ONLY" && r !== 0) || (rf === "DISCARDED_ONLY" && r !== 1 && r !== 2)) return false;
+    if (ff === "FAVORITES" && !userFavorites[m.id]) return false;
     if (city !== "ALL" && m.cidade !== city) return false;
     if (body !== "ALL" && m.carroceria !== body) return false;
     if (minYear > 0 && m.ano < minYear) return false;
@@ -2062,6 +2065,7 @@ function applyPresetFilters() {
   $("filterMinKm").value = "";
   $("filterMaxKm").value = "40000";
   $("filterRating").value = "ACTIVE_ALL";
+  if ($("filterFavorites")) $("filterFavorites").value = "ALL";
   $("filterBody").value = "ALL";
   $("searchInput").value = "";
   applyFiltersAndRender();
@@ -2113,7 +2117,7 @@ pullSupabase();
 window.addEventListener("radar:auth-changed", () => pullSupabase());
 fetchAndMergeVehicleSheet(false).then(n => { if (n > 0) applyFiltersAndRender(); });
 
-["filterCity","filterMinYear","filterMaxYear","filterMinPrice","filterMaxPrice","filterMinKm","filterMaxKm","filterRating","filterBody","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
+["filterFavorites","filterCity","filterMinYear","filterMaxYear","filterMinPrice","filterMaxPrice","filterMinKm","filterMaxKm","filterRating","filterBody","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
 $("btnApplyPreset").addEventListener("click", applyPresetFilters);
 $("btnResetFilters").addEventListener("click", resetAllFilters);
 $("btnShowAllEmpty").addEventListener("click", applyPresetFilters);
