@@ -2585,7 +2585,7 @@ $("btnSearchNow").addEventListener("click", () => {
   btn.disabled = true;
   Promise.all([fetchAndMergeGoogleSheets(true), pullSupabase()]).finally(() => {
     setTimeout(() => {
-      btn.textContent = "⚡ BUSCAR AGORA";
+      btn.textContent = "↻ ATUALIZAR BASE";
       btn.disabled = false;
       applyFiltersAndRender();
       showToast("Base consultada. Esta ação atualiza os anúncios já cadastrados; ainda não faz novas buscas nos portais.");
