@@ -27,6 +27,13 @@ Referências oficiais:
 | Imovelweb | Feed/API fornecido por anunciante ou parceiro | Acesso a validar |
 | Anúncios avulsos sem feed | Link informado manualmente ou canal de alerta autorizado | Complementar, sem scraping |
 
+## Sites próprios identificados para prospecção
+Estes são exemplos de empresas com presença digital e oferta/atuação de locação em Fortaleza. A inclusão nesta lista não significa que já exista autorização ou feed disponível:
+- RFC Imobiliária — https://www.imobiliariarfc.com.br/
+- 7Cantos — https://www.7cantos.com/
+
+A próxima validação com cada empresa é solicitar um feed VRSync/XML ou API documentada e autorização para leitura, armazenamento e exibição dos anúncios. Não será feita coleta automatizada de páginas sem permissão.
+
 ## Fluxo técnico proposto
 1. Agendador executa a coleta em horário configurável.
 2. Cada conector busca apenas a fonte autorizada que lhe foi configurada.
