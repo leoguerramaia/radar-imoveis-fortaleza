@@ -761,7 +761,6 @@ let refPoint = { lat: -3.7351, lng: -38.4969, name: "Edf. Etevaldo Nogueira Busi
 let activeCfg = { bairros: [], details: [], minVal: 0, maxVal: 0, condo: 0, iptu: 0, rooms: 0, minArea: 0, maxArea: 0, schedMode: "fixed", times: ["07:00","19:00"], freqX: 4 };
 let userRatings = {};
 let userNotes = {};
-    userFavorites = {};
 let userFavorites = {};
 
 
@@ -981,6 +980,7 @@ async function pullSupabase() {
     const result = await window.RadarAuth.preferences.load("purchase");
     userRatings = {};
     userNotes = {};
+    userFavorites = {};
     Object.entries(result.preferences || {}).forEach(([id, pref]) => {
       if (pref.rating !== null && pref.rating !== undefined) userRatings[id] = Number(pref.rating);
       if (pref.notes) userNotes[id] = pref.notes;
