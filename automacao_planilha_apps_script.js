@@ -1,14 +1,14 @@
 /**
  * ============================================================================
  * RADAR IMÓVEIS & VEÍCULOS (FORTALEZA/CE & TERESINA/PI) — GOOGLE APPS SCRIPT
- * 1) Planilha Aluguel: 12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk
+ * 1) Planilha Aluguel (base legada; coleta de novos anúncios ainda não ativa): 12QlgMdgKfsU7_UZ7cBM3bZ-wlGweXREzc1xmRn5sXFk
  * 2) Planilha Veículos: 1-7I96TOnlGdCgqb7DOf1w_Il11ZPUG6yMnbAofRjjik
  * ============================================================================
  *
  * COMO ESTE SCRIPT FUNCIONA:
- * 1. Roda automaticamente todos os dias entre 06h e 07h nos servidores do Google
- *    (via Acionador de Tempo), atualizando tanto a planilha de Imóveis (Aluguel)
- *    quanto a planilha de Veículos (Fortaleza/CE e Teresina/PI).
+ * 1. O acionador diário executa rotinas de conferência/atualização existentes.
+ *    ATENÇÃO: a rotina de aluguel ainda não coleta novos anúncios de portais.
+ *    Não anunciar esta rotina como busca automática de imóveis.
  * 2. Verifica os critérios pré-definidos de Veículos:
  *    - Câmbio Automático
  *    - 4 portas
@@ -204,29 +204,17 @@ function buscarVeiculosOLXFortalezaTeresina_() {
 }
 
 /**
- * 3. VARREDURA DIÁRIA DE IMÓVEIS (ALUGUEL FORTALEZA)
+ * 3. CONFERÊNCIA DA BASE LEGADA DE ALUGUEL.
+ *
+ * IMPORTANTE: esta rotina NÃO pesquisa portais nem imobiliárias.
+ * Ela apenas confere os anúncios já existentes na planilha.
+ * A coleta automática multiorigem será ativada quando forem cadastrados
+ * feeds/APIs autorizados em FONTES_IMOVEIS_AUTORIZADAS.
  */
 function executarVarreduraDiaria() {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
-  const dadosAtuais = sheet.getDataRange().getValues();
-  const codigosExistentes = new Set();
-  const urlsExistentes = new Set();
-  let maiorNumeroId = 0;
-
-  for (let i = 1; i < dadosAtuais.length; i++) {
-    const idStr = String(dadosAtuais[i][0] || "").trim();
-    const codStr = String(dadosAtuais[i][1] || "").trim().toUpperCase();
-    const urlStr = String(dadosAtuais[i][24] || "").trim();
-    if (codStr) codigosExistentes.add(codStr);
-    if (urlStr) urlsExistentes.add(urlStr);
-
-    const match = idStr.match(/^imv-(\d+)$/i);
-    if (match) {
-      const num = parseInt(match[1], 10);
-      if (num > maiorNumeroId) maiorNumeroId = num;
-    }
-  }
-  Logger.log("Verificação de imóveis concluída. Total atual: " + maiorNumeroId);
+  const total = Math.max(0, sheet.getLastRow() - 1);
+  Logger.log("Conferência da base legada de aluguel concluída. Anúncios existentes: " + total + ". Novos anúncios coletados: 0. Coleta de portais/imobiliárias ainda não configurada.");
 }
 
 /**
