@@ -144,7 +144,8 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="SHOW_EVERYTHING">Todos</option>
         </select>
       </div>
-      <div>
+<div><label class="block text-xs font-bold mb-1">Favoritos</label><select id="filterFavorites" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select></div>
+            <div>
         <label class="block text-xs font-bold mb-1">Tipo de Imóvel</label>
         <select id="filterType" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
           <option value="ALL">Todos os Tipos</option>
@@ -2340,6 +2341,7 @@ function getModels() {
 function applyFiltersAndRender() {
   const models = getModels();
   const rf = $("filterRating").value;
+  const ff = $("filterFavorites").value;
   const pt = $("filterType").value;
   const nb = $("filterNeighborhood").value;
   const mp = Number($("filterMaxPrice").value) || 0;
@@ -2350,6 +2352,7 @@ function applyFiltersAndRender() {
   const visible = models.filter(m => {
     const r = userRatings[m.id] || 0;
     if ((rf === "ACTIVE_ALL" && (r === 1 || r === 2)) || (rf === "GREEN_ONLY" && r < 4) || (rf === "YELLOW_ONLY" && r !== 3) || (rf === "UNRATED_ONLY" && r !== 0) || (rf === "DISCARDED_ONLY" && r !== 1 && r !== 2)) return false;
+    if (ff === "FAVORITES" && !userFavorites[m.id]) return false;
     if ((pt !== "ALL" && m.type !== pt) || (nb !== "ALL" && m.neighborhood !== nb) || (activeCfg.bairros?.length && nb === "ALL" && !activeCfg.bairros.includes(m.neighborhood))) return false;
     if ((mp > 0 && m.total > mp) || (Number(activeCfg.minVal) > 0 && m.total < Number(activeCfg.minVal)) || (Number(activeCfg.condo) > 0 && m.condo > Number(activeCfg.condo)) || (Number(activeCfg.iptu) > 0 && m.iptu > Number(activeCfg.iptu)) || (Number(activeCfg.rooms) > 0 && m.rooms < Number(activeCfg.rooms)) || (Number(activeCfg.minArea) > 0 && m.area < Number(activeCfg.minArea)) || (Number(activeCfg.maxArea) > 0 && m.area > Number(activeCfg.maxArea))) return false;
     if (activeCfg.details?.length && !activeCfg.details.every(d => m.text.includes(d.toLowerCase()))) return false;
@@ -2500,6 +2503,7 @@ function updateChart(visible) {
 
 function resetAllFilters() {
   $("filterRating").value = "ACTIVE_ALL";
+  if ($("filterFavorites")) $("filterFavorites").value = "ALL";
   $("filterType").value = "ALL";
   $("filterNeighborhood").value = "ALL";
   $("filterMaxPrice").value = "";
@@ -2559,7 +2563,7 @@ fetchAndMergeGoogleSheets(false).then(newCount => {
   }
 });
 
-["filterRating","filterType","filterNeighborhood","filterMaxPrice","filterMaxDrive","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
+["filterFavorites","filterRating","filterType","filterNeighborhood","filterMaxPrice","filterMaxDrive","sortBy","searchInput"].forEach(id => $(id).addEventListener("input", applyFiltersAndRender));
 $("btnResetFilters").addEventListener("click", resetAllFilters);
 $("btnShowAllEmpty").addEventListener("click", resetAllFilters);
 $("btnClearBuscador").addEventListener("click", () => {
