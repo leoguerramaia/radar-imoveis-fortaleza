@@ -5,7 +5,7 @@ Consolidar anúncios de aluguel residencial em Fortaleza a partir de fontes leg�
 
 ## O que a documentação oficial permite concluir
 - O Grupo OLX (OLX, ZAP e Viva Real) documenta feeds XML no padrão **VRSync** para que imobiliárias e anunciantes enviem o próprio inventário aos portais. O processamento descrito é periódico, normalmente duas vezes ao dia. Isso não equivale a uma API pública para pesquisar todo o inventário de terceiros.
-- A OLX documenta integrações de anúncios e APIs para anunciantes/integradores autorizados. O acesso exige credenciais/permissões e escopo compatível.
+- A API pública de integração da OLX documentada é voltada à gestão do inventário do próprio anunciante (inserção/edição/exclusão e consulta dos anúncios publicados da conta autorizada), não a uma busca aberta pelo inventário de todos os anunciantes. A documentação exige OAuth e autorização do titular da conta. Portanto, não serve sozinha como mecanismo de descoberta de anúncios de terceiros.
 - Imovelweb também trabalha com integração de anúncios via XML a partir do sistema/CRM do anunciante.
 - Portanto, o Radar não deve depender de scraping de páginas, contornar bloqueios ou usar credenciais de terceiros.
 
@@ -14,6 +14,9 @@ Referências oficiais:
 - Grupo OLX — Formatos XML / VRSync: https://developers.grupozap.com/feeds/xml-formats/
 - Grupo OLX — Listing VRSync: https://developers.grupozap.com/feeds/vrsync/elements/listing.html
 - OLX — Portal de integração: https://developers.olx.com.br/
+- OLX — API de anúncios (gestão do inventário autorizado): https://developers.olx.com.br/anuncio/api/home.html
+- OLX — Importação via XML de imóveis: https://developers.olx.com.br/anuncio/xml/real_estate/home.html
+- OLX — Como funciona para imobiliárias: https://ajuda.olx.com.br/s/article/integradores-e-importacao-de-anuncios
 - OLX — Como importar anúncios: https://ajuda.olx.com.br/s/article/como-importar-anuncios
 - Imovelweb — Integração de anúncios: https://help.imovelweb.com.br/s/article/Como-habilitar-uma-integra%C3%A7%C3%A3o-de-an%C3%BAncios
 
@@ -33,6 +36,9 @@ Estes são exemplos de empresas com presença digital e oferta/atuação de loca
 - 7Cantos — https://www.7cantos.com/
 
 A próxima validação com cada empresa é solicitar um feed VRSync/XML ou API documentada e autorização para leitura, armazenamento e exibição dos anúncios. Não será feita coleta automatizada de páginas sem permissão.
+
+## Limite importante das APIs dos portais
+A documentação da OLX distingue integração de publicação/gestão de anúncios e descoberta de anúncios. A API de integração permite ao anunciante ou integrador autorizado administrar o inventário daquela conta; não fornece uma busca pública geral pelo inventário de todos os anunciantes. O XML de imóveis também é descrito pela OLX como arquivo que o cliente disponibiliza para importar os próprios anúncios no portal. Assim, o Radar só poderá consumir esse tipo de feed quando a imobiliária/CRM fornecer o arquivo e autorizar o uso. A coleta de inventário de terceiros precisa de uma fonte que efetivamente ofereça consulta autorizada.
 
 ## Fluxo técnico proposto
 1. Agendador executa a coleta em horário configurável.
