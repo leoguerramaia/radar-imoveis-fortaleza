@@ -1658,7 +1658,6 @@ const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 let userRatings = {};
 let userNotes = {};
-    userFavorites = {};
 let userFavorites = {};
 let mapInstance = null, markerGroup = null, chartInstance = null;
 const fmtBRL = v => "R$ " + Number(v).toLocaleString("pt-BR");
@@ -1986,6 +1985,7 @@ async function pullSupabase() {
     const result = await window.RadarAuth.preferences.load("vehicle");
     userRatings = {};
     userNotes = {};
+    userFavorites = {};
     Object.entries(result.preferences || {}).forEach(([id, pref]) => {
       if (pref.rating !== null && pref.rating !== undefined) userRatings[id] = Number(pref.rating);
       if (pref.notes) userNotes[id] = pref.notes;
