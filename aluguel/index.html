@@ -77,8 +77,8 @@ header .border-slate-800{border-color:#e2e8f0!important}
 header .bg-slate-800{background:#f1f5f9!important;color:#475569!important;border-color:#e2e8f0!important}
 header #consultationBadge{display:none!important}
 header #lastScanLabel{font-weight:600;color:#64748b}
-header .grid.grid-cols-2.sm\\:grid-cols-4{grid-template-columns:repeat(3,minmax(0,1fr))}
-header .grid.grid-cols-2.sm\\:grid-cols-4>div:last-child{display:none}
+header .grid.grid-cols-2{grid-template-columns:repeat(3,minmax(0,1fr))}
+header .grid.grid-cols-2>div:last-child{display:none}
 header h1{color:#0f172a!important;letter-spacing:-.04em}
 header .bg-slate-950\/70 p{color:#64748b!important}
 header .bg-slate-950\/70 span{color:#0f172a!important}
@@ -101,7 +101,7 @@ main{padding-top:1.25rem!important;gap:1.25rem!important}
 #map{height:320px}
 #advancedFilters[open] summary{margin-bottom:4px}
 summary::-webkit-details-marker{display:none}
-@media(max-width:640px){header .grid.grid-cols-2.sm\\:grid-cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}header .grid.grid-cols-2.sm\\:grid-cols-4>div:nth-child(3){display:none}main{padding-left:12px!important;padding-right:12px!important}.c-foot{gap:8px;flex-wrap:wrap}}
+@media(max-width:640px){header .grid.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}header .grid.grid-cols-2>div:nth-child(3){display:none}main{padding-left:12px!important;padding-right:12px!important}.c-foot{gap:8px;flex-wrap:wrap}}
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -242,7 +242,6 @@ summary::-webkit-details-marker{display:none}
         <button id="btnResetFilters" type="button" class="px-2.5 py-2 rounded-lg border bg-slate-100 hover:bg-slate-200 text-xs font-bold cursor-pointer transition">Limpar</button>
       </div>
     </div>
-        </div>
       </details>
     </div>
   </section>
