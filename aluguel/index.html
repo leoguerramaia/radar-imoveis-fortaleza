@@ -144,7 +144,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
           <option value="SHOW_EVERYTHING">Todos</option>
         </select>
       </div>
-<div><label class="block text-xs font-bold mb-1">Favoritos</label><select id="filterFavorites" class="w-full rounded-lg border p-2 text-xs font-semibold bg-slate-50"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select></div>
+
             <div>
         <label class="block text-xs font-bold mb-1">Tipo de Imóvel</label>
         <select id="filterType" class="w-full rounded-lg border p-2 text-xs bg-slate-50">
@@ -198,6 +198,7 @@ body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
       </div>
     </div>
     <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+      <select id="filterFavorites" aria-label="Filtrar favoritos" class="w-full sm:w-48 rounded-lg border px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-800"><option value="ALL">Todos os anúncios</option><option value="FAVORITES">♥ Somente favoritos</option></select>
       <input id="searchInput" type="text" placeholder="Buscar por código, rua, imobiliária, bairro, tag ou observação..." class="w-full sm:w-96 rounded-lg border px-3 py-1.5 text-xs" />
       <span id="resultsCounter" class="text-xs font-bold text-slate-600">Exibindo 44 de 44 imóveis cadastrados</span>
     </div>
